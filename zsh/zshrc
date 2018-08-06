@@ -1,0 +1,196 @@
+# Path to your oh-my-zsh installation.
+  export ZSH=/home/carl/.oh-my-zsh
+
+# Set name of the theme to load.
+# Look in ~/.oh-my-zsh/themes/
+# Optionally, if you set this to "random", it'll load a random theme each
+# time that oh-my-zsh is loaded.
+ZSH_THEME="rkj-repos"
+
+# Uncomment the frandom" line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion. Case
+# sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment the following line to disable bi-weekly auto-update checks.
+# DISABLE_AUTO_UPDATE="true"
+
+# Uncomment the following line to change how often to auto-update (in days).
+# export UPDATE_ZSH_DAYS=13
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git heroku archlinux autojump)
+
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+source $ZSH/oh-my-zsh.sh
+
+# You may need to manually set your language environment
+#export LANG=en_US.UTF-8
+#export LANG=zh_CN.UTF-8
+#export LANGUAGE=zh_CN:en_US
+#export LC_CTYPE=en_US.UTF-8
+
+
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# ssh
+# export SSH_KEY_PATH="~/.ssh/dsa_id"
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+
+#zsh-completions
+fpath=(/usr/local/share/zsh-completions $fpath)
+man() {
+    env LESS_TERMCAP_mb=$'\E[01;31m' \
+    LESS_TERMCAP_md=$'\E[01;38;5;74m' \
+    LESS_TERMCAP_me=$'\E[0m' \
+    LESS_TERMCAP_se=$'\E[0m' \
+    LESS_TERMCAP_so=$'\E[38;5;246m' \
+    LESS_TERMCAP_ue=$'\E[0m' \
+    LESS_TERMCAP_us=$'\E[04;38;5;146m' \
+    man "$@"
+}
+
+source $HOME/kit/tools.sh
+alias ssloca1="nohup sslocal -s ru1.zoujinkx.cf -p 4GnhWc -k 38839  -m aes-128-cfb &"
+#alias ssr="wine /home/carl/local/SSR/ShadowsocksR-dotnet4.0.exe"
+alias lan="nohup lantern &"
+alias anaconda='export PATH="/opt/anaconda/bin:$PATH"'
+
+EDITOR="vim"
+#export GTK_IM_MODULE=ibus
+#export XMODIFIERS=@im=ibus
+#export QT_IM_MODULE=ibus
+#
+export PATH="/home/carl/algs4/bin:$PATH"
+
+alias locat="locate -Abi"
+alias gali="cd /home/carl/mounts/galileo"
+#ibus-daemon -drx
+
+#function to set or unset proxy in terminal
+function setproxy() {
+    export {http,https,ftp}_proxy='socks5://127.0.0.1:1080'
+}
+
+function unsetproxy() {
+    unset {http,https,ftp}_proxy
+}
+#unsetproxy
+
+alias pcs=proxychains4
+alias sumatra="LC_ALL=zh_CN wine /home/carl/.wine/drive_c/Program\ Files/SumatraPDF/SumatraPDF.exe"
+
+alias a='fasd -a'        # any
+alias s='fasd -si'       # show / search / select
+alias d='fasd -d'        # directory
+alias f='fasd -f'        # file
+alias sd='fasd -sid'     # interactive directory selection
+alias sf='fasd -sif'     # interactive file selection
+alias z='fasd_cd -d'     # cd, same functionality as j in autojump
+alias zz='fasd_cd -d -i' # cd with interactive selection
+alias vv='fasd -e vim'
+
+
+alias ev='evince '
+plugins=(fasd)
+eval "$(fasd --init auto)"
+
+#reference https://apple.stackexchange.com/questions/100570/getting-files-all-at-once-from-a-web-page-using-curl
+# download all files in a page 
+alias wget_all='wget -r -np -k'
+
+export R_ENVIRON_USER='/home/carl/.config/r/.Renviron'
+
+alias lld='ls -d */'
+alias cl2c='setxkbmap -option caps:ctrl_modifier'
+alias ucl2c='setxkbmap -option'
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/carl/local/google-cloud-sdk/path.zsh.inc' ]; then source '/home/carl/local/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/carl/local/google-cloud-sdk/completion.zsh.inc' ]; then source '/home/carl/local/google-cloud-sdk/completion.zsh.inc'; fi
+
+alias gcloud='proxychains4 gcloud'
+alias gssh='gcloud compute --project "learntf-171217" ssh --zone "asia-east1-a" "ml"'
+alias pacsort='pacsize| sort -rhk 2| less'
+#alias gcz_east ="gcloud config set compute/zone asia-east1-a"
+#alias gcz_southeast="gcloud config set compute/zone asia-southest1-a" 
+export AURDEST='/var/cache/pacaur/pkg'
+
+alias weixin='google-chrome-stable -app=https://wx.qq.com'
+alias tianyi="google-chrome-stable -app=https://cloud.189.cn/main.action"
+alias baiduyun="google-chrome-stable -app=https://pan.baidu.com"
+
+#transfer.sh, to upload file and share with a link
+transfer() { if [ $# -eq 0 ]; then echo -e "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"; return 1; fi 
+tmpfile=$( mktemp -t transferXXX ); if tty -s; then basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g'); curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" >> $tmpfile; else curl --progress-bar --upload-file "-" "https://transfer.sh/$1" >> $tmpfile ; fi; cat $tmpfile; rm -f $tmpfile; } 
+
+
+# wang pan sync
+
+alias wsync='cd /home/carl/mounts/rainy'
+
+#source /home/carl/kit/env_proxy
+plugins+=(zsh-proxychains-ng)
+plugins+=(zsh-proxychains-ng)
+
+
+alias rsynccl='rsync -rv --delete /home/carl/mounts/galileo/main/  /home/carl/mounts/RACOON/Calibre_Library'
+alias cl2gd="rclone sync ~/mounts/galileo/Calibre_Library gd_alves:library -v --no-update-modtime"
+
+#ssh log in to server hosted on vultr 
+alias vultr="ssh -p 13272 wang@140.82.5.56"
+alias moshh="mosh wang@myvultr.wdh --ssh='ssh -p 13272'"
+
+export set github="https://github.com/"

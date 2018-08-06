@@ -1,6 +1,7 @@
 #! /bin/bash
 
-cp ../vim_runtime ~/.vim_runtime
+git clone https://github.com/amix/vimrc.git .vim_runtime
 sh ~/.vim_runtime/install_awesome_vimrc.sh
 
-rm -rf ../vim_runtime
+cp  ./my_configs.vim ~/.vim_runtime/ -f
+cp ./my_plugins ~/.vim_runtime -rf

@@ -1,8 +1,8 @@
 #! /bin/bash
 set -e
-set -x
 
 PRO_PATH=~/project/my-linux
+set -x
 cp ~/.vim_runtime/my_configs.vim ~/project/my-linux/vim/my_configs.vim
 cp ~/.tmux.conf.local ~/project/my-linux/tmux/tmux.conf.local
 cp ~/.tmux/.tmux.conf $PRO_PATH/tmux/tmux.conf

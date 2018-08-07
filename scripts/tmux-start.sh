@@ -2,7 +2,6 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 cd $DIR
-#git clone https://github.com/gpakosz/.tmux.git ~/
 if [ ! -n "$TMUX" ]; then
     TMUX=~/.tmux
 fi

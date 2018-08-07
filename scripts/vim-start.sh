@@ -13,8 +13,10 @@ if [[ ! -d ~/.vim_runtime ]]; then
 fi
 
 sh ~/.vim_runtime/install_awesome_vimrc.sh
+cp ../plug.vim ~/.vim_runtime/autoload/
 
 cp  ../vim/my_configs.vim ~/.vim_runtime/ -f
 echo "copying my_configs: ok!"
 cp ../vim/my_plugins ~/.vim_runtime -rf
 echo "copying my_plugins: ok!"
+vim -c ":PlugInstall"

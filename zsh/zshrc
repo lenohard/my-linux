@@ -101,9 +101,9 @@ man() {
 }
 
 source $HOME/kit/tools.sh
-alias ssloca1="nohup sslocal -s ru1.zoujinkx.cf -p 4GnhWc -k 38839  -m aes-128-cfb &"
+#alias ssloca1="nohup sslocal -s ru1.zoujinkx.cf -p 4GnhWc -k 38839  -m aes-128-cfb &"
 #alias ssr="wine /home/carl/local/SSR/ShadowsocksR-dotnet4.0.exe"
-alias lan="nohup lantern &"
+#alias lan="nohup lantern &"
 alias anaconda='export PATH="/opt/anaconda/bin:$PATH"'
 
 EDITOR="vim"
@@ -111,10 +111,9 @@ EDITOR="vim"
 #export XMODIFIERS=@im=ibus
 #export QT_IM_MODULE=ibus
 #
-export PATH="/home/carl/algs4/bin:$PATH"
+#export PATH="/home/carl/algs4/bin:$PATH"
 
 alias locat="locate -Abi"
-alias gali="cd /home/carl/mounts/galileo"
 #ibus-daemon -drx
 
 #function to set or unset proxy in terminal
@@ -128,7 +127,7 @@ function unsetproxy() {
 #unsetproxy
 
 alias pcs=proxychains4
-alias sumatra="LC_ALL=zh_CN wine /home/carl/.wine/drive_c/Program\ Files/SumatraPDF/SumatraPDF.exe"
+#alias sumatra="LC_ALL=zh_CN wine /home/carl/.wine/drive_c/Program\ Files/SumatraPDF/SumatraPDF.exe"
 
 alias a='fasd -a'        # any
 alias s='fasd -si'       # show / search / select
@@ -142,7 +141,7 @@ alias vv='fasd -e vim'
 
 
 alias ev='evince '
-plugins=(fasd)
+plugins+=(fasd)
 eval "$(fasd --init auto)"
 
 #reference https://apple.stackexchange.com/questions/100570/getting-files-all-at-once-from-a-web-page-using-curl
@@ -159,14 +158,20 @@ alias ucl2c='setxkbmap -option'
 if [ -f '/home/carl/local/google-cloud-sdk/path.zsh.inc' ]; then source '/home/carl/local/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/home/carl/local/google-cloud-sdk/completion.zsh.inc' ]; then source '/home/carl/local/google-cloud-sdk/completion.zsh.inc'; fi
+#if [ -f '/home/carl/local/google-cloud-sdk/completion.zsh.inc' ]; then source '/home/carl/local/google-cloud-sdk/completion.zsh.inc'; fi
 
-alias gcloud='proxychains4 gcloud'
-alias gssh='gcloud compute --project "learntf-171217" ssh --zone "asia-east1-a" "ml"'
+#alias gcloud='proxychains4 gcloud'
+#alias gssh='gcloud compute --project "learntf-171217" ssh --zone "asia-east1-a" "ml"'
 alias pacsort='pacsize| sort -rhk 2| less'
 #alias gcz_east ="gcloud config set compute/zone asia-east1-a"
 #alias gcz_southeast="gcloud config set compute/zone asia-southest1-a" 
+
+
+
+
 export AURDEST='/var/cache/pacaur/pkg'
+
+alias pacsort='pacsize| sort -rhk 2| less'
 
 alias weixin='google-chrome-stable -app=https://wx.qq.com'
 alias tianyi="google-chrome-stable -app=https://cloud.189.cn/main.action"
@@ -178,7 +183,6 @@ tmpfile=$( mktemp -t transferXXX ); if tty -s; then basefile=$(basename "$1" | s
 
 
 # wang pan sync
-
 alias wsync='cd /home/carl/mounts/rainy'
 
 #source /home/carl/kit/env_proxy

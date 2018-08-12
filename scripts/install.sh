@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-[[ -n $1 ]] || echo "Usage: install [vim] [tmux] [zsh]";exit
+[[ -n $1 ]] || ( echo "Usage: install [vim] [tmux] [zsh]";exit )
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 cd $DIR

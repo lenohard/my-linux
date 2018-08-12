@@ -6,3 +6,4 @@
 3. add git configs including global ignorefiles and private key 
 4. app_list:fasd(install from different repositoaries)
 5. mirror fron tsun
+6. hosts 

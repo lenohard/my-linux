@@ -9,4 +9,4 @@ cp ~/.tmux/.tmux.conf $PRO_PATH/tmux/tmux.conf
 cp ~/.tmux/plugins $PRO_PATH/tmux/ -r
 cp ~/.tmux/resurrect $PRO_PATH/tmux/ -r
 cp ~/.zshrc $PRO_PATH/zsh/zshrc
-
+sudo cp /etc/hosts $PRO_PATH/hosts/hosts

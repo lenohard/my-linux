@@ -13,5 +13,6 @@ cp $PRO_PATH/tmux/tmux.conf ~/.tmux/.tmux.conf
 cp $PRO_PATH/tmux/plugins ~/.tmux/ -r
 cp $PRO_PATH/tmux/resurrect ~/.tmux/ -r
 cp $PRO_PATH/zsh/zshrc ~/.zshrc
+cp $PRO_PATH/hosts/hosts /etc/hosts
 
 

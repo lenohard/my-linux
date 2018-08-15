@@ -1,0 +1,32 @@
+machline learning:
+	chatbot, go
+
+
+pick for locate
+run in the background
+
+music managment
+book managment
+
+##find count of files or dirs in a dir
+find DIRNAME -type f | wc -l (Default recursively see below)
+##find count of files matching a pattern 
+find . -maxdepth 1 -name "200*" | wc -l
+
+python pick / dialog
+
+implemnet select tools for shadowsocks-cli
+
+swithch file name
+
+machine learning :
+    1: find a dataset and tackle it 
+
+usage of tools
+    ranger, tmux, vim/sublime, zsh_linemode, 
+
+programming:
+	linux_programming, algorithms, python/c++/rust/
+
+new:
+	lisp, france, japanese, latin

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+root=${1%/}
+mount --bind /proc ${1%/}/proc
+mount --bind /dev ${1%/}/dev
+mount --bind /dev/pts ${1%/}/dev/pts 
+mount --bind /sys ${1%/}/sys
+mount --bind /etc/hosts  $root/etc/hosts
+mount --bind /etc/resolv.conf $root/etc/resolv.conf
+exit 0

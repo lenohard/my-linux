@@ -1,0 +1,1 @@
+java -cp $HOME/kit/javalib/stdlib.jar:$HOME/kit/javalib/algs4.jar:. $*

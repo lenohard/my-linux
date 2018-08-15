@@ -1,0 +1,1 @@
+sed  -ibkup '/^export.*PATH/a export PATH=\"$PATH:'$1\"  ~/.bashrc

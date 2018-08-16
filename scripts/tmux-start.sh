@@ -23,5 +23,10 @@ cp ../tmux/tmux.conf "$TMUX"/.tmux.conf && ln -s  "$TMUX"/.tmux.conf ~/.tmux.con
 echo "creating link ~/.tmux.conf: ok!"
 cp ../tmux/tmux.conf.local ~/.tmux.conf.local
 echo "copying tmux.conf.local: ok!"
-cp ../tmux/plugins ~/.tmux/ -r
-echo "copying tmux/plugins/: ok!"
+#cp ../tmux/plugins ~/.tmux/ -r
+#echo "copying tmux/plugins/: ok!"
+mkdir -p ~/.tmux/plugin
+cd ~/.tmux/plugin
+git clone https://github.com/tmux-plugins/tpm.git
+git clone https://github.com/tmux-plugins/tmux-resurrect.git
+cd ~

@@ -6,7 +6,7 @@ set -e
 #fi
 
 
-PRO_PATH="$( cd ../"$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+PRO_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )"; cd .. >/dev/null && pwd )"
 
 set -x
 cp $PRO_PATH/vim/my_configs.vim ~/.vim_runtime/my_configs.vim

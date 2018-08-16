@@ -1,5 +1,5 @@
 #!/bin/bash
-
+cwd="$(pwd)"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 cd $DIR
 if [ ! -n "$TMUX" ]; then
@@ -29,4 +29,4 @@ mkdir -p ~/.tmux/plugin
 cd ~/.tmux/plugin
 git clone https://github.com/tmux-plugins/tpm.git
 git clone https://github.com/tmux-plugins/tmux-resurrect.git
-cd ~
+cd $cwd

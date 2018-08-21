@@ -2,6 +2,7 @@ set number
 set nohlsearch
 
 set rtp+=/usr/share/powerline/bindings/vim/
+set t_Co=256
 
 inoremap jk <esc>l
 inoremap <esc> <nop>
@@ -51,6 +52,7 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 " On-demand loading
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+Plug 'vim-airline/vim-airline'
 
 " Using a non-master branch
 Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }

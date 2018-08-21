@@ -1,6 +1,21 @@
 set number
 set nohlsearch
 
+set rtp+=/usr/share/powerline/bindings/vim/
+
+inoremap jk <esc>l
+inoremap <esc> <nop>
+nnoremap <leader>q :q!<esc>
+
+iabbrev gml mathestics@gmail.com
+iabbrev unm carlleonhard
+iabbrev 1ml mathestics@163.com
+iabbrev pnb 15238723375
+
+let localleader=",,"
+"autocmd FileType python,bash nnoremap <buffer> <localleader>c I//<esc>
+"autocmd FileType vim nnoremap <buffer> <localleader>c I"<esc>
+"autocmd FileType c,cpp nnoremap <buffer> <localleader>c I//<esc>
 
 let g:syntastic_check_on_wq = 1
 let g:syntastic_error_symbol = "✗"

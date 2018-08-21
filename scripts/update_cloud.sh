@@ -5,7 +5,7 @@ if [[ -z $1 ]];then
     exit
 fi
 
-PRO_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}"; cd .. )" >/dev/null && pwd )"
+PRO_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}"; cd .. )" >/dev/null && cd .. && pwd )"
 
 if [[ $1 = "all" ]];then
     set -- "tmux" "vim" "hosts" "git" "zsh"

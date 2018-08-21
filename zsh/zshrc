@@ -198,3 +198,12 @@ alias vultr="ssh -p 13272 wang@140.82.5.56"
 alias moshh="mosh wang@myvultr.wdh --ssh='ssh -p 13272'"
 
 export set github="https://github.com/"
+
+#------------ POWERLINE ---------manually selected for your os ---------------------------------------------
+#
+#if [[ -r /usr/share/powerline/bindings/zsh/powerline.zsh ]]; then
+#    source /usr/share/powerline/bindings/zsh/powerline.zsh
+#
+#fi
+#-----------------------------------------------------------------------------------------------------------
+

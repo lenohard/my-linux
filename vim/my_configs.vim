@@ -6,7 +6,9 @@ set t_Co=256
 
 inoremap jk <esc>l
 inoremap <esc> <nop>
-nnoremap <leader>q :q!<esc>
+nnoremap <leader>q :wq<esc>
+nnoremap <leader>qq :q!<esc>
+nnoremap <leader>sp i//--------------------------------------------<esc>
 
 iabbrev gml mathestics@gmail.com
 iabbrev unm carlleonhard
@@ -42,6 +44,9 @@ call plug#begin('~/.vim_runtime/my_plugins')
 " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
 Plug 'junegunn/vim-easy-align'
 Plug 'vim-syntastic/syntastic'
+Plug 'mattn/emmet-vim'
+Plug 'vim-airline/vim-airline'
+Plug 'tpope/vim-unimpaired'
 
 " Any valid git URL is allowed
 Plug 'https://github.com/junegunn/vim-github-dashboard.git'
@@ -52,8 +57,6 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 " On-demand loading
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
-Plug 'vim-airline/vim-airline'
-
 " Using a non-master branch
 Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 
@@ -88,4 +91,4 @@ function! Z(...)
         exec 'cd' fnameescape(path)
     endif
 endfunction
-"-------------------------------------------------------------------
+

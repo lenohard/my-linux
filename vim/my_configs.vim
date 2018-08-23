@@ -47,6 +47,7 @@ Plug 'vim-syntastic/syntastic'
 Plug 'mattn/emmet-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-unimpaired'
+Plug 'vim-airline/vim-airline-themes'
 
 " Any valid git URL is allowed
 Plug 'https://github.com/junegunn/vim-github-dashboard.git'

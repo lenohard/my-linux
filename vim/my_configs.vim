@@ -6,9 +6,17 @@ set t_Co=256
 
 inoremap jk <esc>l
 inoremap <esc> <nop>
+
 nnoremap <leader>q :wq<esc>
 nnoremap <leader>qq :q!<esc>
+
 nnoremap <leader>sp i//--------------------------------------------<esc>
+nnoremap <leader>is o/*<cr>*/<esc>O
+nnoremap [c g0i//<esc>
+
+set ssop-=options    " do not store global and local values in a session
+set ssop-=folds      " do not store folds
+set ssop-=buffers
 
 iabbrev gml mathestics@gmail.com
 iabbrev unm carlleonhard
@@ -46,6 +54,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'vim-syntastic/syntastic'
 Plug 'mattn/emmet-vim'
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-unimpaired'
 
 " Any valid git URL is allowed
@@ -91,4 +100,13 @@ function! Z(...)
         exec 'cd' fnameescape(path)
     endif
 endfunction
+
+"------------------------------------------------------
+" airline config
+" -----------------------------------------------------
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#formatter = 'default'
+"=======================================================
 

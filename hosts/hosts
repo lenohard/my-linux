@@ -3,10 +3,6 @@
 127.0.0.1	localhost
 127.0.1.1	WDH.localdomain	WDH
 54.192.232.168	config.resilio.com
-192.172.12.236 geekbox.elementary
-192.172.12.243 geekbox.arch
-192.172.12.244 geekbox.win10
-192.172.12.250 geekbox.test
 
 # The following lines are desirable for IPv6 capable hosts
 ::1     ip6-localhost ip6-loopback

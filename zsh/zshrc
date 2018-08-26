@@ -101,6 +101,7 @@ man() {
 }
 
 source $HOME/kit/tools.sh
+PATH="/home/carl/kit:$PATH"
 #alias ssloca1="nohup sslocal -s ru1.zoujinkx.cf -p 4GnhWc -k 38839  -m aes-128-cfb &"
 #alias ssr="wine /home/carl/local/SSR/ShadowsocksR-dotnet4.0.exe"
 #alias lan="nohup lantern &"
@@ -207,3 +208,4 @@ export set github="https://github.com/"
 #fi
 #-----------------------------------------------------------------------------------------------------------
 
+alias mypublicip='drill +short myip.opendns.com @resolver1.opendns.com | grep IN | tac | cut -f5 -s'

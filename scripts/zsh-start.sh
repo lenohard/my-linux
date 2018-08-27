@@ -1,10 +1,12 @@
 #! /bin/bash
+CURT=$(dirname $(readlink -f $0))
+ROOT=$(readlink -f $(dirname "$CURT"))
+echo root dir is \"$ROOT\"
 
-../zsh/install.sh
+bash $ROOT/zsh/install.sh
 
-echo "start copying the zshrc file"
-if [[ -e ~/.zshrc ]]; then
+if [[ -e ~/.zshrc || -h ~/.zshrc ]]; then
     echo "the existing zshrc will be mv to .zshrc_bk"
     mv ~/.zshrc ~/.zshrc_bk
 fi
-cp ../zsh/zshrc ~/.zshrc
+ln -s $ROOT/zsh/zshrc ~/.zshrc

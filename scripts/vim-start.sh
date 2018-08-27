@@ -7,15 +7,16 @@
 set -e
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 cd $DIR
+ROOT="$(dirname $DIR)"
 
 if [[ ! -d ~/.vim_runtime ]]; then
     git clone https://github.com/amix/vimrc.git ~/.vim_runtime
 fi
 
 sh ~/.vim_runtime/install_awesome_vimrc.sh
-cp ../vim/plug.vim ~/.vim_runtime/autoload/
+[[  -e ~/.vim_runtime/autoload/plug.vim ]] || cp ../vim/plug.vim ~/.vim_runtime/autoload/
 
-cp  ../vim/my_configs.vim ~/.vim_runtime/ -f
+[[ -e ~/.vim_runtime/my_configs.vim || -h ~/.vim_runtime/my_configs.vim ]] && rm ~/.vim_runtime/my_configs.vim
+ln  $ROOT/vim/my_configs.vim ~/.vim_runtime/ -s
 echo "copying my_configs: ok!"
-echo "copying my_plugins: ok!"
 vim -c ":PlugInstall"

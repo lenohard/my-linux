@@ -24,9 +24,6 @@ iabbrev 1ml mathestics@163.com
 iabbrev pnb 15238723375
 
 let localleader=",,"
-"autocmd FileType python,bash nnoremap <buffer> <localleader>c I//<esc>
-"autocmd FileType vim nnoremap <buffer> <localleader>c I"<esc>
-"autocmd FileType c,cpp nnoremap <buffer> <localleader>c I//<esc>
 
 let g:syntastic_check_on_wq = 1
 let g:syntastic_error_symbol = "✗"
@@ -67,6 +64,7 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 " On-demand loading
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+Plug 'tpope/vim-sensible'
 " Using a non-master branch
 Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 
@@ -83,9 +81,6 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug '~/my-prototype-plugin'
 
 
-" Initialize plugin system
-call plug#end()
-"--------------------------------------------------------------------
 
 "Z - cd to recent / frequent directories
 "-------------------------------------------------------------------
@@ -102,7 +97,6 @@ function! Z(...)
     endif
 endfunction
 
-"------------------------------------------------------
 " airline config
 " -----------------------------------------------------
 let g:airline#extensions#tabline#enabled = 1
@@ -111,3 +105,5 @@ let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'default'
 "=======================================================
 
+" Initialize plugin system
+call plug#end()

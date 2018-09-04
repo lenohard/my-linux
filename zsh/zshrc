@@ -102,7 +102,7 @@ man() {
 
 source $HOME/kit/tools.sh
 PATH="/home/carl/kit:$PATH"
-#alias ssloca1="nohup sslocal -s ru1.zoujinkx.cf -p 4GnhWc -k 38839  -m aes-128-cfb &"
+alias sslocal="nohup  sslocal -s 140.82.5.56 -p 9265 -k vultr@_2018 &"
 #alias ssr="wine /home/carl/local/SSR/ShadowsocksR-dotnet4.0.exe"
 #alias lan="nohup lantern &"
 alias anaconda='export PATH="/opt/anaconda/bin:$PATH"'
@@ -118,8 +118,9 @@ alias locat="locate -Abi"
 #ibus-daemon -drx
 
 #function to set or unset proxy in terminal
+
 function setproxy() {
-    export {http,https,ftp}_proxy='socks5://127.0.0.1:1080'
+    export {http,https,ftp}_proxy="${1-socks5}://127.0.0.1:1080"
 }
 
 function unsetproxy() {

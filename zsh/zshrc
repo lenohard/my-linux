@@ -117,6 +117,7 @@ EDITOR="vim"
 alias locat="locate -Abi"
 #ibus-daemon -drx
 
+setopt extended_glob
 #function to set or unset proxy in terminal
 
 function setproxy() {

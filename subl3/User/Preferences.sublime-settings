@@ -1,0 +1,9 @@
+{
+	"color_scheme": "Packages/Color Scheme - Default/Celeste.sublime-color-scheme",
+	"ignored_packages":
+	[
+		"Vintag"
+	],
+	"soda_folder_icons": true,
+	"theme": "Default.sublime-theme"
+}

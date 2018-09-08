@@ -1,0 +1,35 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"Alignment",
+		"AngularJS",
+		"Autoprefixer",
+		"BracketHighlighter",
+		"C++ Snippets",
+		"C++ Starting Kit",
+		"ChineseLocalizations",
+		"ConvertToUTF8",
+		"CTags",
+		"DocBlockr",
+		"Emmet",
+		"FileBrowser",
+		"Git",
+		"Git Config",
+		"Gutter Color",
+		"Highlight",
+		"HTML-CSS-JS Prettify",
+		"Package Control",
+		"SFTP",
+		"SideBarEnhancements",
+		"SublimeLinter",
+		"SublimeREPL",
+		"Tagify",
+		"Terminal",
+		"Theme - Soda",
+		"Vintageous"
+	]
+}

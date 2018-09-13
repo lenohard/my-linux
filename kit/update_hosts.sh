@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 hosts=("arch" "wdh" "elementary")
 

@@ -5,7 +5,7 @@
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="rkj-repos"
+#ZSH_THEME="rkj-repos"
 
 # Uncomment the frandom" line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -110,7 +110,7 @@ alias sslocal="nohup  sslocal -s 140.82.5.56 -p 9265 -k vultr@_2018 &"
 case "$(hostname)" in
     "dream")
         alias anaconda='export PATH="/opt/anaconda/bin:$PATH"'
-        ZSH_THEME="crunch"
+        ZSH_THEME="rkj-repos"
         ;;
     "elementary")
         ZSH_THEME="frisk"

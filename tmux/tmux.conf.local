@@ -243,10 +243,10 @@ tmux_conf_theme_clock_style='24'
 # move status line to top
 #set -g status-position top
 
-tmux_conf_theme_left_separator_main='>'
-tmux_conf_theme_left_separator_sub='>'
-tmux_conf_theme_right_separator_main='<'
-tmux_conf_theme_right_separator_sub='<'
+tmux_conf_theme_left_separator_main=''
+tmux_conf_theme_left_separator_sub=''
+tmux_conf_theme_right_separator_main=''
+tmux_conf_theme_right_separator_sub=''
 
 # List of plugins
 set -g @plugin 'tmux-plugins/tpm'

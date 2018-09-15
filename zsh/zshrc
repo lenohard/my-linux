@@ -105,7 +105,22 @@ PATH="/home/carl/kit:$PATH"
 alias sslocal="nohup  sslocal -s 140.82.5.56 -p 9265 -k vultr@_2018 &"
 #alias ssr="wine /home/carl/local/SSR/ShadowsocksR-dotnet4.0.exe"
 #alias lan="nohup lantern &"
-alias anaconda='export PATH="/opt/anaconda/bin:$PATH"'
+
+#=====================per host=====================
+case "$(hostname)" in
+    "dream")
+        alias anaconda='export PATH="/opt/anaconda/bin:$PATH"'
+        ZSH_THEME="crunch"
+        ;;
+    "elementary")
+        ZSH_THEME="frisk"
+        ;;
+    "WDH")
+        alias anaconda='export "PATH=/home/carl/miniconda3/bin:$PATH"'
+        ZSH_THEME="ys"
+        ;;
+esac    
+
 
 EDITOR="vim"
 #export GTK_IM_MODULE=ibus
@@ -182,32 +197,23 @@ alias baiduyun="google-chrome-stable -app=https://pan.baidu.com"
 
 #transfer.sh, to upload file and share with a link
 transfer() { if [ $# -eq 0 ]; then echo -e "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"; return 1; fi 
-tmpfile=$( mktemp -t transferXXX ); if tty -s; then basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g'); curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" >> $tmpfile; else curl --progress-bar --upload-file "-" "https://transfer.sh/$1" >> $tmpfile ; fi; cat $tmpfile; rm -f $tmpfile; } 
+    tmpfile=$( mktemp -t transferXXX ); if tty -s; then basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g'); curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" >> $tmpfile; else curl --progress-bar --upload-file "-" "https://transfer.sh/$1" >> $tmpfile ; fi; cat $tmpfile; rm -f $tmpfile; } 
 
 
-# wang pan sync
-alias wsync='cd /home/carl/mounts/rainy'
 
-#source /home/carl/kit/env_proxy
-plugins+=(zsh-proxychains-ng)
-plugins+=(zsh-proxychains-ng)
+    #source /home/carl/kit/env_proxy
+    plugins+=(zsh-proxychains-ng)
+    plugins+=(zsh-proxychains-ng)
 
 
-alias rsynccl='rsync -rv --delete /home/carl/mounts/galileo/main/  /home/carl/mounts/RACOON/Calibre_Library'
-alias cl2gd="rclone sync ~/mounts/galileo/Calibre_Library gd_alves:library -v --no-update-modtime"
+    alias rsynccl='rsync -rv --delete /home/carl/mounts/galileo/main/  /home/carl/mounts/RACOON/Calibre_Library'
+    alias cl2gd="rclone sync ~/mounts/galileo/Calibre_Library gd_alves:library -v --no-update-modtime"
 
-#ssh log in to server hosted on vultr 
-alias vultr="ssh -p 13272 wang@140.82.5.56"
-alias moshh="mosh wang@myvultr.wdh --ssh='ssh -p 13272'"
+    #ssh log in to server hosted on vultr 
+    alias vultr="ssh -p 13272 wang@140.82.5.56"
+    alias moshh="mosh wang@myvultr.wdh --ssh='ssh -p 13272'"
 
-export set github="https://github.com/"
+    export set github="https://github.com/"
 
-#------------ POWERLINE ---------manually selected for your os ---------------------------------------------
-#
-#if [[ -r /usr/share/powerline/bindings/zsh/powerline.zsh ]]; then
-#    source /usr/share/powerline/bindings/zsh/powerline.zsh
-#
-#fi
-#-----------------------------------------------------------------------------------------------------------
 
-alias mypublicip='drill +short myip.opendns.com @resolver1.opendns.com | grep IN | tac | cut -f5 -s'
+    alias mypublicip='drill +short myip.opendns.com @resolver1.opendns.com | grep IN | tac | cut -f5 -s'

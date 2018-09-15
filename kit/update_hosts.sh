@@ -1,13 +1,24 @@
-#!/bin/sh
+#!/bin/bash
 
 hosts=("arch" "wdh" "elementary")
 
+iplookup() {
+    if nmblookup "$1" >/dev/null
+    then
+        nmblookup "$1" | awk '{print $1}'
+        return 0
+    else
+        return 1
+    fi
+}
 
 for host in "${hosts[@]}"
 do
     #awk -v hst=$host '$2!~/^hst&/ {print $0}' /etc/hosts  > /etc/hosts
     # grep -wiv $host
-    sed -in "/\b$host\b/d" /etc/hosts
-    echo $(nmblookup "$host" | awk '{print $1}') "$host" >> /etc/hosts
+    if nmblookup "$host" >/dev/null;then
+        sed -in "/\b$host\b/d" /etc/hosts
+        echo "$(iplookup $host)" "$host" >> /etc/hosts
+    fi
 done
 

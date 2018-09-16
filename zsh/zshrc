@@ -117,7 +117,7 @@ case "$(hostname)" in
         ;;
     "WDH")
         alias anaconda='export "PATH=/home/carl/miniconda3/bin:$PATH"'
-        ZSH_THEME="ys"
+        ZSH_THEME="jonathan"
         ;;
 esac    
 

@@ -12,31 +12,32 @@ iabbrev wyyx mathestics@163.com
 iabbrev pnb 15238723375
 iabbrev sperate -----------------------------------------
 
-au BufNewFile * :write
-au FileType vim 
+" au BufNewFile * :write
+" au FileType vim 
 
 inoremap jk <esc>l
 inoremap <esc> <nop>
+nnoremap <leader>h :help 
 nnoremap <leader>q :wq<esc>
 nnoremap <leader>qq :q!<esc>
 nnoremap <leader>bb :bd<esc>
 
-augroup cpp_group
-    autocmd!
-    au FileType c,cpp nnoremap <localleader>cc o/*<cr>*/<esc>O
-    au FileType c,cpp nnoremap <buffer> <localleader>sp I//seperate<esc>
-    au FileType c,cpp nnoremap <buffer> <localleader>c I//<esc>
-augroup END
-augroup shell_group
-    autocmd!
-    au FileType zsh,bash,sh nnoremap <buffer> <localleader>c I#<esc>
-    au FileType zsh,bash,sh nnoremap <buffer> <localleader>sp I#seperate<esc>
-augroup END
-augroup vim_group
-    autocmd!
-    au FileType vim nnoremap <buffer> <localleader>sp I''seperate<esc>
-    au FileType vim nnoremap <buffer> <localleader>c I''<esc>
-augroup END
+"augroup cpp_group
+"    autocmd!
+"    au FileType c,cpp nnoremap <localleader>cc o/*<cr>*/<esc>O
+"    au FileType c,cpp nnoremap <buffer> <localleader>sp I//seperate<esc>
+"    au FileType c,cpp nnoremap <buffer> <localleader>c I//<esc>
+"augroup END
+"augroup shell_group
+"    autocmd!
+"    au FileType zsh,bash,sh nnoremap <buffer> <localleader>c I#<esc>
+"    au FileType zsh,bash,sh nnoremap <buffer> <localleader>sp I#seperate<esc>
+"augroup END
+"augroup vim_group
+"    autocmd!
+"    au FileType vim nnoremap <buffer> <localleader>sp I"seperate<esc>
+"    au FileType vim nnoremap <buffer> <localleader>c I"<esc>
+"augroup END
 
 map <leader>E :e! ~/.vim_runtime/vimrcs/basic.vim <cr>
 map <leader>ee :e! ~/.vim_runtime/vimrcs/extended.vim <cr>
@@ -75,6 +76,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tomlion/vim-solidity'
 Plug 'Valloric/YouCompleteMe'
+Plug 'tpope/vim-commentary'
 
 " Any valid git URL is allowed
 Plug 'https://github.com/junegunn/vim-github-dashboard.git'

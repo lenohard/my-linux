@@ -19,5 +19,5 @@ if [ $(find /mnt/share/racoon -maxdepth 0 -type d -emtpy 2>/dev/null) ];then
 fi
 
 rsync -aPv --delete '/mnt/WDH/Front/' /mnt/share/racoon/Front
-#rsync -aPv --delete /mnt/WDH_Front/Calibre_Library/ /mnt/share/racoon/Calibre_Library
+rsync -aPv --delete /mnt/WDH_Front/Calibre_Library/ /mnt/share/racoon/Calibre_Library
 rsync -aPv '/mnt/WDH/music/' /mnt/share/racoon/music

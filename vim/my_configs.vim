@@ -17,7 +17,7 @@ iabbrev sperate -----------------------------------------
 
 inoremap jk <esc>l
 inoremap <esc> <nop>
-nnoremap <leader>h :help 
+nnoremap <leader>? :help 
 nnoremap <leader>q :wq<esc>
 nnoremap <leader>qq :q!<esc>
 nnoremap <leader>bb :bd<esc>
@@ -52,11 +52,28 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 let g:syntastic_auto_loc_list = 1
-"let g:syntastic_check_on_open = 1
 
 set tags=./tags,tags;
 
+"Z - cd to recent / frequent directories
+"-------------------------------------------------------------------
+command! -nargs=* Z :call Z(<f-args>)
+function! Z(...)
+    let cmd = 'fasd -d -e printf'
+    for arg in a:000
+        let cmd = cmd . ' ' . arg
+    endfor
+    let path = system(cmd)
+    if isdirectory(path)
+        echo path
+        exec 'cd' fnameescape(path)
+    endif
+endfunction
 set autochdir
+
+
+
+
 
 "--------------------------------------------------------------------
 " Specify a directory for plugins
@@ -104,21 +121,6 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug '~/my-prototype-plugin'
 
 
-
-"Z - cd to recent / frequent directories
-"-------------------------------------------------------------------
-command! -nargs=* Z :call Z(<f-args>)
-function! Z(...)
-    let cmd = 'fasd -d -e printf'
-    for arg in a:000
-        let cmd = cmd . ' ' . arg
-    endfor
-    let path = system(cmd)
-    if isdirectory(path)
-        echo path
-        exec 'cd' fnameescape(path)
-    endif
-endfunction
 
 " airline config
 " -----------------------------------------------------

@@ -171,7 +171,7 @@ plugins+=(zsh-proxychains-ng)
 #ssh log in to server hosted on vultr 
 export set github="https://github.com/"
 
-alias sslocal="nohup  sslocal -s  64.156.14.43 -p 9265 -k vultr@_2018 &"
+alias ssl="nohup  sslocal -s  64.156.14.43 -p 9265 -k vultr@_2018 &"
 alias locat="locate -Abi"
 alias pcs=proxychains4
 

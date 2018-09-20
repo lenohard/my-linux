@@ -119,8 +119,6 @@ man() {
 
 source $HOME/kit/tools.sh
 PATH="/home/carl/kit:$PATH"
-#alias ssr="wine /home/carl/local/SSR/ShadowsocksR-dotnet4.0.exe"
-#alias lan="nohup lantern &"
 
 
 EDITOR="vim"
@@ -146,12 +144,6 @@ eval "$(fasd --init auto)"
 
 export R_ENVIRON_USER='/home/carl/.config/r/.Renviron'
 
-# The next line updates PATH for the Google Cloud SDK.
-#if [ -f '/home/carl/local/google-cloud-sdk/path.zsh.inc' ]; then source '/home/carl/local/google-cloud-sdk/path.zsh.inc'; fi
-# The next line enables shell command completion for gcloud.
-#alias gssh='gcloud compute --project "learntf-171217" ssh --zone "asia-east1-a" "ml"'
-#alias gcz_east ="gcloud config set compute/zone asia-east1-a"
-#alias gcz_southeast="gcloud config set compute/zone asia-southest1-a" 
 
 export AURDEST='/var/cache/pacaur/pkg'
 
@@ -192,7 +184,5 @@ alias baiduyun="google-chrome-stable -app=https://pan.baidu.com"
 alias bdpcs="baidupcs-go"
 alias rsynccl='rsync -rv --delete /home/carl/mounts/galileo/main/  /home/carl/mounts/RACOON/Calibre_Library'
 alias cl2gd="rclone sync ~/mounts/galileo/Calibre_Library gd_alves:library -v --no-update-modtime"
-alias vultr="ssh -p 13272 wang@140.82.5.56"
-alias moshh="mosh wang@myvultr.wdh --ssh='ssh -p 13272'"
 alias mypublicip='drill +short myip.opendns.com @resolver1.opendns.com | grep IN | tac | cut -f5 -s'
 alias git-root='cd $(git rev-parse --show-toplevel)'

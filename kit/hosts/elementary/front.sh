@@ -18,6 +18,17 @@ if [ $(find /mnt/share/racoon -maxdepth 0 -type d -emtpy 2>/dev/null) ];then
     fi
 fi
 
-rsync -aPv --delete '/mnt/WDH/Front/' /mnt/share/racoon/Front
-#rsync -aPv --delete /mnt/WDH_Front/Calibre_Library/ /mnt/share/racoon/Calibre_Library
-rsync -aPv '/mnt/WDH/music/' /mnt/share/racoon/music
+for i in "$@"
+do
+    case "$i" in
+        "book")
+            sudo rsync -aPv --delete '/mnt/WDH/Front/' /mnt/share/racoon/Front
+            ;;
+        "library")
+            sudo rsync -aPv --delete /mnt/WDH_Front/Calibre_Library/ /mnt/share/racoon/Calibre_Library
+            ;;
+        "music")
+            sudo rsync -aPv '/mnt/WDH/music/' /mnt/share/racoon/music
+            ;;
+    esac
+done

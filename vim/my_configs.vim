@@ -52,6 +52,7 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 let g:syntastic_auto_loc_list = 1
+let g:ackprg = 'ag --vimgrep --smart-case'
 
 set tags=./tags,tags;
 

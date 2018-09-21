@@ -17,7 +17,7 @@ iabbrev sperate -----------------------------------------
 
 inoremap jk <esc>l
 inoremap <esc> <nop>
-nnoremap <leader>h :help 
+nnoremap <leader>? :help 
 nnoremap <leader>q :wq<esc>
 nnoremap <leader>qq :q!<esc>
 nnoremap <leader>bb :bd<esc>
@@ -55,6 +55,7 @@ let g:syntastic_auto_loc_list = 1
 "let g:syntastic_check_on_open = 1
 
 set tags=./tags,tags;
+GitGutterEnable
 
 set autochdir
 

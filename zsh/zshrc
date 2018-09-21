@@ -201,3 +201,5 @@ alias vultr="ssh -p 13272 wang@140.82.5.56"
 alias moshh="mosh wang@myvultr.wdh --ssh='ssh -p 13272'"
 alias mypublicip='drill +short myip.opendns.com @resolver1.opendns.com | grep IN | tac | cut -f5 -s'
 alias git-root='cd $(git rev-parse --show-toplevel)'
+alias syslog='less /var/log/syslog'
+alias logmonitor='tail -f /var/log/syslog'

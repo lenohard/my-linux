@@ -55,6 +55,7 @@ let g:syntastic_auto_loc_list = 1
 let g:ackprg = 'ag --vimgrep --smart-case'
 
 set tags=./tags,tags;
+GitGutterEnable
 
 "Z - cd to recent / frequent directories
 "-------------------------------------------------------------------

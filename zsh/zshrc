@@ -191,5 +191,5 @@ alias rsynccl='rsync -rv --delete /home/carl/mounts/galileo/main/  /home/carl/mo
 alias cl2gd="rclone sync ~/mounts/galileo/Calibre_Library gd_alves:library -v --no-update-modtime"
 alias mypublicip='drill +short myip.opendns.com @resolver1.opendns.com | grep IN | tac | cut -f5 -s'
 alias git-root='cd $(git rev-parse --show-toplevel)'
-alias syslog='less /var/log/syslog'
-alias logmonitor='tail -f /var/log/syslog'
+alias syslog='sudo less /var/log/syslog'
+alias logmonitor='sudo tail -f /var/log/syslog'

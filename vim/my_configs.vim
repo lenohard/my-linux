@@ -93,7 +93,6 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tomlion/vim-solidity'
-" Plug 'Valloric/YouCompleteMe'
 Plug 'tpope/vim-commentary'
 
 " Any valid git URL is allowed
@@ -117,6 +116,7 @@ Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
 
 " Plugin outside ~/.vim/plugged with post-update hook
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py ' }
 
 " Unmanaged plugin (manually installed and updated)
 Plug '~/my-prototype-plugin'

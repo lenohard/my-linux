@@ -1,81 +1,3 @@
-set number
-set nohlsearch
-
-set rtp+=/usr/share/powerline/bindings/vim/
-set t_Co=256
-
-let maplocalleader=",,"
-
-iabbrev gml mathestics@gmail.com
-iabbrev unm carlleonhard
-iabbrev wyyx mathestics@163.com
-iabbrev pnb 15238723375
-iabbrev sperate -----------------------------------------
-
-" au BufNewFile * :write
-" au FileType vim 
-
-inoremap jk <esc>l
-inoremap <esc> <nop>
-nnoremap <leader>? :help 
-nnoremap <leader>q :wq<esc>
-nnoremap <leader>qq :q!<esc>
-nnoremap <leader>bb :bd<esc>
-
-"augroup cpp_group
-"    autocmd!
-"    au FileType c,cpp nnoremap <localleader>cc o/*<cr>*/<esc>O
-"    au FileType c,cpp nnoremap <buffer> <localleader>sp I//seperate<esc>
-"    au FileType c,cpp nnoremap <buffer> <localleader>c I//<esc>
-"augroup END
-"augroup shell_group
-"    autocmd!
-"    au FileType zsh,bash,sh nnoremap <buffer> <localleader>c I#<esc>
-"    au FileType zsh,bash,sh nnoremap <buffer> <localleader>sp I#seperate<esc>
-"augroup END
-"augroup vim_group
-"    autocmd!
-"    au FileType vim nnoremap <buffer> <localleader>sp I"seperate<esc>
-"    au FileType vim nnoremap <buffer> <localleader>c I"<esc>
-"augroup END
-
-map <leader>E :e! ~/.vim_runtime/vimrcs/basic.vim <cr>
-map <leader>ee :e! ~/.vim_runtime/vimrcs/extended.vim <cr>
-set ssop-=options    " do not store global and local values in a session
-set ssop-=folds      " do not store folds
-set ssop-=buffers
-
-let g:syntastic_check_on_wq = 1
-let g:syntastic_error_symbol = "✗"
-let g:syntastic_always_populate_loc_list = 1
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_auto_loc_list = 1
-let g:ackprg = 'ag --vimgrep --smart-case'
-
-set tags=./tags,tags;
-GitGutterEnable
-
-"Z - cd to recent / frequent directories
-"-------------------------------------------------------------------
-command! -nargs=* Z :call Z(<f-args>)
-function! Z(...)
-    let cmd = 'fasd -d -e printf'
-    for arg in a:000
-        let cmd = cmd . ' ' . arg
-    endfor
-    let path = system(cmd)
-    if isdirectory(path)
-        echo path
-        exec 'cd' fnameescape(path)
-    endif
-endfunction
-
-
-
-
-
 "--------------------------------------------------------------------
 " Specify a directory for plugins
 " - For Neovim: ~/.local/share/nvim/plugged
@@ -121,15 +43,78 @@ Plug 'Valloric/YouCompleteMe', { 'do': './install.py ' }
 " Unmanaged plugin (manually installed and updated)
 Plug '~/my-prototype-plugin'
 
-
-
-" airline config
-" -----------------------------------------------------
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
-let g:airline#extensions#tabline#formatter = 'default'
-"=======================================================
-
 " Initialize plugin system
 call plug#end()
+"--------------------------------------------------------------------
+
+source /home/carl/.vim_runtime/my_plugins_configs.vim
+
+set number
+set nohlsearch
+
+set rtp+=/usr/share/powerline/bindings/vim/
+set t_Co=256
+
+let maplocalleader=",,"
+
+iabbrev gml mathestics@gmail.com
+iabbrev unm carlleonhard
+iabbrev wyyx mathestics@163.com
+iabbrev pnb 15238723375
+iabbrev sperate -----------------------------------------
+nmap <leader>se o-----------------------------------------<c-c>0gcc
+
+
+" au BufNewFile * :write
+" au FileType vim 
+
+inoremap jk <esc>l
+inoremap <esc> <nop>
+nnoremap <leader>? :help 
+nnoremap <leader>q :wq<esc>
+nnoremap <leader>qq :q!<esc>
+nnoremap <leader>bb :bd<esc>
+
+"augroup cpp_group
+"    autocmd!
+"    au FileType c,cpp nnoremap <localleader>cc o/*<cr>*/<esc>O
+"    au FileType c,cpp nnoremap <buffer> <localleader>sp I//seperate<esc>
+"    au FileType c,cpp nnoremap <buffer> <localleader>c I//<esc>
+"augroup END
+"augroup shell_group
+"    autocmd!
+"    au FileType zsh,bash,sh nnoremap <buffer> <localleader>c I#<esc>
+"    au FileType zsh,bash,sh nnoremap <buffer> <localleader>sp I#seperate<esc>
+"augroup END
+"augroup vim_group
+"    autocmd!
+"    au FileType vim nnoremap <buffer> <localleader>sp I"seperate<esc>
+"    au FileType vim nnoremap <buffer> <localleader>c I"<esc>
+"augroup END
+
+map <leader>E :e! ~/.vim_runtime/vimrcs/basic.vim <cr>
+map <leader>ee :e! ~/.vim_runtime/vimrcs/extended.vim <cr>
+set ssop-=options    " do not store global and local values in a session
+set ssop-=folds      " do not store folds
+set ssop-=buffers
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+set tags=./tags,tags;
+
+"Z - cd to recent / frequent directories
+"-------------------------------------------------------------------
+command! -nargs=* Z :call Z(<f-args>)
+function! Z(...)
+    let cmd = 'fasd -d -e printf'
+    for arg in a:000
+        let cmd = cmd . ' ' . arg
+    endfor
+    let path = system(cmd)
+    if isdirectory(path)
+        echo path
+        exec 'cd' fnameescape(path)
+    endif
+endfunction

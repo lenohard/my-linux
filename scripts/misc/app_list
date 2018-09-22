@@ -3,4 +3,4 @@ silver searcher:
 ack-grep
 ack
 beets(python)
-ycm:
+ycm:(build-essential camke python3 python-dev) ./install.py --clane-completer

@@ -71,7 +71,6 @@ function! Z(...)
         exec 'cd' fnameescape(path)
     endif
 endfunction
-set autochdir
 
 
 
@@ -94,7 +93,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tomlion/vim-solidity'
-Plug 'Valloric/YouCompleteMe'
+" Plug 'Valloric/YouCompleteMe'
 Plug 'tpope/vim-commentary'
 
 " Any valid git URL is allowed

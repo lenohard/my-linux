@@ -243,56 +243,22 @@ tmux_conf_theme_clock_style='24'
 # move status line to top
 #set -g status-position top
 
-tmux_conf_theme_left_separator_main=''
+tmux_conf_theme_left_separator_main='|'
 tmux_conf_theme_left_separator_sub=''
 tmux_conf_theme_right_separator_main=''
 tmux_conf_theme_right_separator_sub=''
 
-# List of plugins
+
+
+#list of plugins
 set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'tmux-plugins/tmux-sensible'
-set -g @plugin 'tmux-plugins/tmux-urlview'
-run-shell ~/.tmux/plugins/tmux-resurrect/resurrect.tmux
+set -g @plugin 'tmux-plugins/tmux-resurrect'
 
 # Other examples:
 # set -g @plugin 'github_username/plugin_name'
 # set -g @plugin 'git@github.com/user/plugin'
 # set -g @plugin 'git@bitbucket.com/user/plugin'
 
- # Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
+# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
 run '~/.tmux/plugins/tpm/tpm'
-
-
-# -------------------------------------------------------------------------------------------------
-#run-shell "~/.tmux/plugins/tundle/tundle"
-
-#let tundle manage tundle, required!
-#setenv -g @bundle "javier-lopez/tundle" #set -g can be used if tmux >= 1.8
-#
-##from GitHub, tundle-plugins
-#setenv -g @BUNDLE "gh:javier-lopez/tundle-plugins/tmux-sensible"
-#    #options
-#setenv -g @plugin "javier-lopez/tundle-plugins/tmux-pain-control"
-#setenv -g @pane_resize "10"
-#setenv -g @PLUGIN "github:javier-lopez/tundle-plugins/tmux-copycat:master"
-#setenv -g @bundle "https://github.com/javier-lopez/tundle-plugins/tmux-yank:3f821b0"
-
-#from GitHub, tmux-plugins
-#setenv -g @bundle "tmux-plugins/tmux-resurrect"
-
-#from non GitHub
-#setenv -g @bundle "git://git.domain.ltd/rep.git"
-
-#from web
-#setenv -g @bundle "http://domain.ltd/awesome-plugin"
-#setenv -g @bundle "ftp://domain.ltd/yet/another-awesome-plugin"
-
-#from file system
-#setenv -g @bundle "file://path/to/tmux-plugin"
-
-# Brief help
-# `prefix + I`       (I as in *I*nstall) to install configured bundles
-# `prefix + U`       (U as in *U*pdate) to update configured bundles
-# `prefix + alt + u` (u as in *u*ninstall) to remove unused bundles
-# `prefix + alt + l` (l as in *l*ist) to list installed bundles
-# -------------------------------------------------------------------------------------------------

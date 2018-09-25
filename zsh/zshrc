@@ -180,8 +180,9 @@ alias vv='fasd -e vim'
 alias ev='evince '
 alias wget_all='wget -r -np -k' #download all files in a page 
 alias lld='ls -d */'
-alias git-root='cd $(git rev-parse --show-toplevel)'alias cl2c='setxkbmap -option caps:ctrl_modifier'
-alias ucl2c='setxkbmap -option'
+alias git-root='cd $(git rev-parse --show-toplevel)'
+alias ucap='setxkbmap -option caps:ctrl_modifier'
+alias recap='setxkbmap -option'
 alias pacsort='pacsize| sort -rhk 2| less'
 alias weixin='google-chrome-stable -app=https://wx.qq.com'
 alias tianyi="google-chrome-stable -app=https://cloud.189.cn/main.action"

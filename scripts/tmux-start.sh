@@ -8,7 +8,13 @@ fi
 
 if [[ -d "$TMUX" ]]; then
     echo "You need to delete your previous ~/.tmux to go on"
-    exit
+    read -p "rm?[y|n]" -n 1 -r
+    if [[ $REPLY =~ ^[yY]$ || -z $REPLY ]]
+    then
+        rm -rf ~/.tmux
+    else
+        exit
+    fi
 fi
 
 if [ -h ~/.tmux.conf ]; then
@@ -21,13 +27,9 @@ echo "creating link ~/.tmux.conf: ok!"
 [[ -h ~/.tmux.conf.conf || -f ~/.tmux.conf.local ]] && mv ~/.tmux.conf.local ~/.tmux.conf.local.$RANDOM
 ln -s $(dirname $PWD)/tmux/tmux.conf.local ~/.tmux.conf.local
 echo "copying tmux.conf.local: ok!"
-#cp ../tmux/plugins ~/.tmux/ -r
-#echo "copying tmux/plugins/: ok!"
-if [ ! -d ~/.tmux/plugin ]; then
-    mkdir -p ~/.tmux/plugin
-    cd ~/.tmux/plugin
-    git clone https://github.com/tmux-plugins/tpm.git
-    git clone https://github.com/tmux-plugins/tmux-resurrect.git
+if [ ! -d ~/.tmux/plugins ]; then
+    mkdir ~/.tmux/plugins -p
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/
 fi
-ln -s $(dirname $DIR)/tmux/resurrect ~/.tmux/resurrect
+# ln -s $(dirname $DIR)/tmux/resurrect ~/.tmux/resurrect
 cd $cwd

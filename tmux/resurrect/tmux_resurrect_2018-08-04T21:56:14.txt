@@ -1,5 +1,0 @@
-pane	0	1	:zsh	1	:*	1	:/home/carl	1	zsh	:
-pane	0	2	:~/.tmux.conf.local	0	:-	1	:/home/carl	1	sh	:vim /home/carl/.tmux.conf.local
-window	0	1	1	:*	c4bd,118x55,0,0,0
-window	0	2	0	:-	c4be,118x55,0,0,1
-state	0	

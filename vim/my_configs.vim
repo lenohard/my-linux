@@ -75,7 +75,7 @@ inoremap jk <esc>l
 inoremap <esc> <nop>
 nnoremap <leader>? :help 
 nnoremap <leader>q :wq<esc>
-nnoremap <leader>x :q!<esc>
+nnoremap <leader>X :q!<esc>
 nnoremap <leader>bb :bd<esc>
 
 "augroup cpp_group

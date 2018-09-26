@@ -13,7 +13,7 @@ then
     echo -n "Commit Message: "
     read m
     git commit -m "$m"
-    eval $(ssh-agent)
+    git push
 fi
 
 cd "$cur_dir"

@@ -14,8 +14,6 @@ then
     read m
     git commit -m "$m"
     eval $(ssh-agent)
-    ssh-add
-    git push
 fi
 
 cd "$cur_dir"

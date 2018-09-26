@@ -28,8 +28,8 @@ echo "creating link ~/.tmux.conf: ok!"
 ln -s $(dirname $PWD)/tmux/tmux.conf.local ~/.tmux.conf.local
 echo "copying tmux.conf.local: ok!"
 if [ ! -d ~/.tmux/plugins ]; then
-    mkdir ~/.tmux/plugins -p
-    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/
+    mkdir ~/.tmux/plugins/tpm -p
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
 # ln -s $(dirname $DIR)/tmux/resurrect ~/.tmux/resurrect
 cd $cwd

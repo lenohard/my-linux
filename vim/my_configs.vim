@@ -17,6 +17,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'tomlion/vim-solidity'
 Plug 'tpope/vim-commentary'
 Plug 'chrisbra/Colorizer'
+Plug 'ivanov/vim-ipython'
 
 " Any valid git URL is allowed
 Plug 'https://github.com/junegunn/vim-github-dashboard.git'

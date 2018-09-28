@@ -67,9 +67,10 @@ iabbrev pnb 15238723375
 iabbrev sperate -----------------------------------------
 nmap <leader>Se o------------------BEGIN-----------------------<c-c>0gcc
 nmap <leader>SE o==================END=========================<c-c>0gcc
-nmap <leader>se ,Seojkdd,SEk
+nmap <leader>se ,Seojkx,SE2ko
 nnoremap nb /BEGIN<cr>
 nnoremap ne /END<cr>
+
 " au BufNewFile * :write
 " au FileType vim 
 inoremap jk <esc>

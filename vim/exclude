@@ -1,1 +1,2 @@
 autoload/plug.vim
+my_plugins_configs.vim

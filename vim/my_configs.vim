@@ -13,11 +13,11 @@ Plug 'mattn/emmet-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-unimpaired'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'tomlion/vim-solidity'
 Plug 'tpope/vim-commentary'
 Plug 'chrisbra/Colorizer'
 Plug 'wmvanvliet/jupyter-vim'
+Plug 'Shougo/unite.vim'
 
 " Any valid git URL is allowed
 Plug 'https://github.com/junegunn/vim-github-dashboard.git'
@@ -50,12 +50,14 @@ call plug#end()
 "--------------------------------------------------------------------
 
 source /home/carl/.vim_runtime/my_plugins_configs.vim
+map <leader>ep :e! ~/.vim_runtime/my_plugins_configs.vim<cr>
 
 set number
 set nohlsearch
 
 set rtp+=/usr/share/powerline/bindings/vim/
 set t_Co=256
+set autochdir
 
 let maplocalleader=",,"
 
@@ -64,9 +66,10 @@ iabbrev unm carlleonhard
 iabbrev wyyx mathestics@163.com
 iabbrev pnb 15238723375
 iabbrev sperate -----------------------------------------
-nmap <leader>Se o------------------BEGIN-----------------------<c-c>0gcc
-nmap <leader>SE o==================END=========================<c-c>0gcc
-nmap <leader>se ,Seojkx,SE2ko
+nmap <leader>Se o------------------BEGIN------------------------------<c-c>0gcc
+nmap <leader>SE o==================END================================<c-c>0gcc
+nmap <leader>se ojkx,Seojkx,SE2ko
+
 nnoremap nb /BEGIN<cr>
 nnoremap ne /END<cr>
 
@@ -78,6 +81,8 @@ nnoremap <leader>? :help
 nnoremap <leader>q :wq<esc>
 nnoremap <leader>X :q!<esc>
 nnoremap <leader>bb :bd<esc>
+
+" unmap space for / and c-space for ? in basic.vim
 
 "augroup cpp_group
 "    autocmd!

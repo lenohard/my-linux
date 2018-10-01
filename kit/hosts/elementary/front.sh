@@ -3,7 +3,7 @@
 set -e
 
 if [ "$(find /mnt/WDH_Front -maxdepth 0 -type d -empty 2>/dev/null)" ];then
-    if mount /mnt/WDH_Front;then
+    if mount /mnt/WDH;then
         :
     else
         exit 1
@@ -25,7 +25,7 @@ do
             sudo rsync -aPv --delete '/mnt/WDH/Front/' /mnt/share/racoon/Front
             ;;
         "library")
-            sudo rsync -aPv --delete /mnt/WDH_Front/Calibre_Library/ /mnt/share/racoon/Calibre_Library
+            sudo rsync -aPv --delete /mnt/WDH/Calibre_Library/ /mnt/share/racoon/Calibre_Library
             ;;
         "music")
             sudo rsync -aPv '/mnt/WDH/music/' /mnt/share/racoon/music

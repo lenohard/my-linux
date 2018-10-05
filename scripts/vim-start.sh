@@ -1,27 +1,22 @@
 #! /bin/bash
 
-#    if [[ -d ~/.vim_runtime ]]; then
-#        echo "Note: previous .vim_runtime will be mvd to .vim_runtime.bk"
-#        mv ~/.vim_runtime ~/.vim_runtime.bk$RANDOM
-#    fi
 set -e
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 cd $DIR
 ROOT="$(dirname $DIR)"
 
-if [[ ! -d ~/.vim_runtime ]]; then
-    git clone https://github.com/amix/vimrc.git ~/.vim_runtime
+if [ -d ~/.vim_runtime ] || [ -h ~/.vim_runtime ];then
+    read -p  ".vim_runtime existed, do you want to delete it for a fresh install?(y|n)" -n 1 -r
+    if [[ $REPLY =~ ^[Yy]$ || -z $REPLy ]]
+    then
+        rm -rf ~/.vim_runtime
+    else
+        exit
+    fi
 fi
+mkdir ~/.vim_runtime && ln -s $ROOT/vim/vim_runtime $HOME/.vim_runtime
 
-sh ~/.vim_runtime/install_awesome_vimrc.sh
-[[  -e ~/.vim_runtime/autoload/plug.vim ]] || cp ../vim/plug.vim ~/.vim_runtime/autoload/
-[[ -e ~/.vim_runtime/.git/info/exclude  || -h ~/.vim_runtime/.git/info/exclude ]] && rm ~/.vim_runtime/.git/info/exclude && ln $ROOT/vim/exclude ~/.vim_runtime/.git/info/exclude -s
-
-[[ -e ~/.vim_runtime/my_configs.vim || -h ~/.vim_runtime/my_configs.vim ]] && rm ~/.vim_runtime/my_configs.vim
-ln  $ROOT/vim/my_configs.vim ~/.vim_runtime/my_configs.vim -s
-[[ -e ~/.vim_runtime/my_plugins_configs.vim || -h ~/.vim_runtime/my_plugins_configs.vim ]] && rm ~/.vim_runtime/my_plugins_configs.vim
-ln  $ROOT/vim/my_plugins_configs.vim  ~/.vim_runtime/my_plugins_configs.vim  -s
-echo "copying my configs: ok!"
+sh ~/.vim_runtime/scripts/install_awesome_vimrc.sh
 
 read -p  "Continue PlugInstall? (y|n)" -n 1 -r
 echo

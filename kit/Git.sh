@@ -1,8 +1,9 @@
 #!/bin/bash
-
+set -e
 cur_dir="$(pwd)"
 cd $(git rev-parse --show-toplevel)
 
+git pull
 git status
 read -p  "Continue? (y|n)" -n 1 -r
 echo

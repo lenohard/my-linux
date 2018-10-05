@@ -1,2 +1,2 @@
-./subl3/User
-./.gitignore
+subl3/User
+vim/vim_runtime/my_plugins

@@ -13,7 +13,7 @@ then
     echo -n "Commit Message: "
     read m
     git commit -m "$m"
-    git push
+    git push origin ${1-master}
 fi
 
 cd "$cur_dir"

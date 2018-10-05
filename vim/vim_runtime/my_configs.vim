@@ -34,6 +34,7 @@ Plug 'maxbrunsfeld/vim-yankstack'
 Plug 'amix/vim-zenroom2'
 Plug 'scrooloose/snipmate-snippets'
 Plug 'terryma/vim-multiple-cursors'
+Plug 'nanotech/jellybeans.vim'
 
 " Any valid git URL is allowed
 Plug 'https://github.com/junegunn/vim-github-dashboard.git'
@@ -72,8 +73,22 @@ call plug#end()
 source /home/carl/.vim_runtime/my_plugins_configs.vim
 map <leader>ep :e! ~/.vim_runtime/my_plugins_configs.vim<cr>
 
-set number
+"---------------
+"UI
+"---------------
+set background=dark
+colorscheme jellybeans
 set nohlsearch
+set number
+set number relativenumber
+set nowrap
+augroup numbertoggle
+    autocmd!
+    autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+    autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber
+augroup END
+set cursorline
+
 
 set rtp+=/usr/share/powerline/bindings/vim/
 set t_Co=256
@@ -85,7 +100,7 @@ iabbrev gml mathestics@gmail.com
 iabbrev unm carlleonhard
 iabbrev wyyx mathestics@163.com
 iabbrev pnb 15238723375
-iabbrev sperate -----------------------------------------
+iabbrev seperate -----------------------------------------
 nmap <leader>Se o------------------BEGIN------------------------------<c-c>0gcc
 nmap <leader>SE o==================END================================<c-c>0gcc
 nmap <leader>se ojkx,Seojkx,SE2ko

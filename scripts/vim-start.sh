@@ -14,9 +14,9 @@ if [ -d ~/.vim_runtime ] || [ -h ~/.vim_runtime ];then
         exit
     fi
 fi
-mkdir ~/.vim_runtime && ln -s $ROOT/vim/vim_runtime $HOME/.vim_runtime
+ln -s $ROOT/vim/vim_runtime $HOME/.vim_runtime
 
-sh ~/.vim_runtime/scripts/install_awesome_vimrc.sh
+bash ~/.vim_runtime/scripts/install_awesome_vimrc.sh
 
 read -p  "Continue PlugInstall? (y|n)" -n 1 -r
 echo

@@ -18,6 +18,8 @@ case "$(hostname)" in
     "WDH")
         alias anaconda='export "PATH=/home/carl/miniconda3/bin:$PATH"'
         alias host='sudo ~/kit/update_hosts.sh'
+        export set  home='/mnt/c/Users/Administrator'
+        alias CD="cd $home"
         ZSH_THEME="ys"
         ;;
     "nuages")

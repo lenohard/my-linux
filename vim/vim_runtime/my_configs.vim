@@ -35,7 +35,7 @@ Plug 'amix/vim-zenroom2'
 Plug 'scrooloose/snipmate-snippets'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'nanotech/jellybeans.vim'
-
+Plug 'mhinz/vim-startify'
 " Any valid git URL is allowed
 Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 

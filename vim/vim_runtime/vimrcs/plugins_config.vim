@@ -45,13 +45,23 @@ nmap <c-n> <Plug>yankstack_substitute_newer_paste
 """"""""""""""""""""""""""""""
 let g:ctrlp_working_path_mode = 0
 
-let g:ctrlp_map = '<c-f>'
+let g:ctrlp_map = ''
 map <leader>j :CtrlP<cr>
-map <c-b> :CtrlPBuffer<cr>
+" map <c-b> :CtrlPBuffer<cr>
+nnoremap <leader>J :CtrlPMRUFiles<CR>
 
 let g:ctrlp_max_height = 20
 let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
 
+if executable('ag')
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  " HatTip: http://robots.thoughtbot.com/faster-grepping-in-vim and
+  " @ethanmuller
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
 
 """"""""""""""""""""""""""""""
 " => ZenCoding
@@ -83,7 +93,7 @@ let g:NERDTreeMinmalUI=1
 let g:NERDTreeHightCursorline=0
 let g:NERDTreeChDirMode=1
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
-let g:NERDTreeWinSize=35
+" let g:NERDTreeWinSize=35
 map <leader>nn :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark<Space>
 map <leader>nf :NERDTreeFind<cr>
@@ -181,3 +191,36 @@ let g:ale_lint_on_enter = 0
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:gitgutter_enabled=0
 nnoremap <silent> <leader>d :GitGutterToggle<cr>
+
+
+
+" ------------------BEGIN------------------------------
+"=> startify
+
+let g:startify_skiplist = [
+            \ 'COMMIT_EDITMSG',
+            \ $VIMRUNTIME .'/doc',
+            \ 'bundle/.*/doc',
+            \ ]
+let g:startify_files_number = 10
+let g:startify_custom_indices = ['a', 'd', 'f', 'g', 'h']
+let g:startify_change_to_dir = 0
+let g:startify_custom_header = []
+
+hi StartifyBracket ctermfg=240
+hi StartifyFooter  ctermfg=111
+hi StartifyHeader  ctermfg=203
+hi StartifyPath    ctermfg=245
+hi StartifySlash   ctermfg=240
+
+" Show Startify
+autocmd VimEnter *
+            \ if !argc() |
+            \   Startify |
+            \   execute "normal \<c-w>w" |
+            \ endif
+" Keep NERDTree from opening a split when startify is open
+autocmd FileType startify setlocal buftype=
+
+let g:startify_recursive_dir = 1
+" ==================END================================

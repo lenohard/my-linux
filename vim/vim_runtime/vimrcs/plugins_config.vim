@@ -175,6 +175,7 @@ let g:ale_linters = {
 \   'python': ['flake8'],
 \   'go': ['go', 'golint', 'errcheck']
 \}
+" let g:syntastic_python_flake8_args='--ignore=E501,E225'
 
 nmap <silent> <leader>a <Plug>(ale_next_wrap)
 
@@ -223,4 +224,10 @@ autocmd VimEnter *
 autocmd FileType startify setlocal buftype=
 
 let g:startify_recursive_dir = 1
+" ==================END================================
+
+" ------------------BEGIN------------------------------
+"  deoplete
+let g:deoplete#enable_at_startup = 1
+
 " ==================END================================

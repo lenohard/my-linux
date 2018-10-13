@@ -57,7 +57,15 @@ Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
 
 " Plugin outside ~/.vim/plugged with post-update hook
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py ' }
+" Plug 'Valloric/YouCompleteMe', { 'do': './install.py ' }
+
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
 
 " Unmanaged plugin (manually installed and updated)
 Plug '~/my-prototype-plugin'
@@ -104,6 +112,7 @@ iabbrev seperate -----------------------------------------
 nmap <leader>Se o------------------BEGIN------------------------------<c-c>0gcc
 nmap <leader>SE o==================END================================<c-c>0gcc
 nmap <leader>se ojkx,Seojkx,SE2ko
+nmap <leader>Si :SyntasticToggleMode<cr>
 
 nnoremap nb /BEGIN<cr>
 nnoremap ne /END<cr>

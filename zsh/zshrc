@@ -17,8 +17,7 @@ case "$(hostname)" in
         alias anaconda='export "PATH=/home/carl/anaconda/bin:$PATH"'
         ;;
     "WDH")
-        alias anaconda='export "PATH=/home/carl/miniconda3/bin:$PATH"'
-        alias ana='export "PATH=/mnt/e/.anaconda3/bin:$PATH"'
+        alias anaconda='export "PATH=/mnt/e/.anaconda3/bin:$PATH"'
         alias host='sudo ~/kit/update_hosts.sh'
         export set  home='/mnt/c/Users/Administrator'
         alias CD="cd $home"
@@ -159,8 +158,14 @@ EDITOR="vim"
 #ibus-daemon -drx
 
 setopt extended_glob
+function swap()         
+{
+    local TMPFILE=tmp.$$
+    mv "$1" $TMPFILE
+    mv "$2" "$1"
+    mv $TMPFILE "$2"
+}
 #function to set or unset proxy in terminal
-
 function setproxy() {
     export {http,https,ftp}_proxy="${1-socks5}://127.0.0.1:1080"
 }

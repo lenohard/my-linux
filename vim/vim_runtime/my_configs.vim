@@ -16,7 +16,6 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tomlion/vim-solidity'
 Plug 'tpope/vim-commentary'
 Plug 'chrisbra/Colorizer'
-Plug 'wmvanvliet/jupyter-vim'
 Plug 'Shougo/unite.vim'
 Plug 'mileszs/ack.vim'
 Plug 'corntrace/bufexplorer'
@@ -36,8 +35,13 @@ Plug 'scrooloose/snipmate-snippets'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'nanotech/jellybeans.vim'
 Plug 'mhinz/vim-startify'
+Plug 'Yggdroot/indentLine'
+Plug 'zchee/deoplete-zsh'
+Plug 'zchee/deoplete-jedi'
+Plug 'Shougo/neco-vim'
 " Any valid git URL is allowed
 Plug 'https://github.com/junegunn/vim-github-dashboard.git'
+
 
 " Multiple Plug commands can be written in a single line using | separators
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
@@ -80,6 +84,7 @@ call plug#end()
 
 source /home/carl/.vim_runtime/my_plugins_configs.vim
 map <leader>ep :e! ~/.vim_runtime/my_plugins_configs.vim<cr>
+map <leader>es :so ~/.vimrc
 
 "---------------
 "UI
@@ -100,7 +105,6 @@ set cursorline
 
 set rtp+=/usr/share/powerline/bindings/vim/
 set t_Co=256
-set autochdir
 
 let maplocalleader=",,"
 
@@ -125,6 +129,9 @@ nnoremap <leader>? :help
 nnoremap <leader>q :wq<esc>
 nnoremap <leader>X :q!<esc>
 nnoremap <leader>bb :bd<esc>
+nnoremap <leader>BB :bd!<esc>
+nnoremap <c-w>v :vsplit<cr>
+nnoremap <c-w>s :split<cr>
 
 " unmap space for / and c-space for ? in basic.vim
 

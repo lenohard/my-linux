@@ -16,12 +16,11 @@ case "$(hostname)" in
         ZSH_THEME="frisk"
         alias anaconda='export "PATH=/home/carl/anaconda/bin:$PATH"'
         function ml(){
-            if [ "$1" == "exit" ];then
+            if [ -n "$1" ] && [ "$1" = "exit" ];then
                 cd ~
                 export PS1="$PS_"
             else
-                if [ "$(ls -A ~/wdh)" ]; then
-                    echo "unmounted"
+                if [ -z "$(ls -A ~/wdh)" ]; then
                     echo "Trying"
                     if [ mount ~/wdh ]; then
                         echo "OK"

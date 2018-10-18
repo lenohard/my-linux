@@ -224,10 +224,18 @@ autocmd VimEnter *
 autocmd FileType startify setlocal buftype=
 
 let g:startify_recursive_dir = 1
+
+
 " ==================END================================
 
 " ------------------BEGIN------------------------------
 "  deoplete
 let g:deoplete#enable_at_startup = 1
 
+" ==================END================================
+
+
+" ------------------BEGIN------------------------------
+"  Airline
+" let g:airline#extensions#tabline#enabled = 1
 " ==================END================================

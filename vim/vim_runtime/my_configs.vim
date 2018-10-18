@@ -19,6 +19,7 @@ Plug 'chrisbra/Colorizer'
 Plug 'Shougo/unite.vim'
 Plug 'mileszs/ack.vim'
 Plug 'corntrace/bufexplorer'
+Plug 'ap/vim-buftabline'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'altercation/vim-colors-solarized'
 Plug 'tpope/vim-surround'
@@ -154,6 +155,7 @@ nnoremap <c-w>s :split<cr>
 
 map <leader>E :e! ~/.vim_runtime/vimrcs/basic.vim <cr>
 map <leader>ee :e! ~/.vim_runtime/vimrcs/extended.vim <cr>
+map <leader>ep :e! ~/.vim_runtime/vimrcs/plugins_config.vim<cr>
 set ssop-=options    " do not store global and local values in a session
 set ssop-=folds      " do not store folds
 set ssop-=buffers

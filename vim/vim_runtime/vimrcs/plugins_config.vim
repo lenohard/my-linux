@@ -222,20 +222,17 @@ autocmd VimEnter *
             \ endif
 " Keep NERDTree from opening a split when startify is open
 autocmd FileType startify setlocal buftype=
-
 let g:startify_recursive_dir = 1
-
-
 " ==================END================================
 
 " ------------------BEGIN------------------------------
-"  deoplete
+" ==> deoplete
 let g:deoplete#enable_at_startup = 1
 
 " ==================END================================
 
 
 " ------------------BEGIN------------------------------
-"  Airline
+" ==>  Airline
 " let g:airline#extensions#tabline#enabled = 1
 " ==================END================================

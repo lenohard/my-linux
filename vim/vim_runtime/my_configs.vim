@@ -84,7 +84,6 @@ call plug#end()
 "--------------------------------------------------------------------
 
 source /home/carl/.vim_runtime/my_plugins_configs.vim
-map <leader>ep :e! ~/.vim_runtime/my_plugins_configs.vim<cr>
 map <leader>es :so ~/.vimrc
 
 "---------------
@@ -116,7 +115,7 @@ iabbrev pnb 15238723375
 iabbrev seperate -----------------------------------------
 nmap <leader>Se o------------------BEGIN------------------------------<c-c>0gcc
 nmap <leader>SE o==================END================================<c-c>0gcc
-nmap <leader>se ojkx,Seojkx,SE2ko
+nmap <leader>se ojkx,Seojkx,SE2ko==> 
 nmap <leader>Si :SyntasticToggleMode<cr>
 
 nnoremap nb /BEGIN<cr>
@@ -153,8 +152,8 @@ nnoremap <c-w>s :split<cr>
 "    au FileType vim nnoremap <buffer> <localleader>c I"<esc>
 "augroup END
 
-map <leader>E :e! ~/.vim_runtime/vimrcs/basic.vim <cr>
-map <leader>ee :e! ~/.vim_runtime/vimrcs/extended.vim <cr>
+map <leader>ee :e! ~/.vim_runtime/vimrcs/basic.vim <cr>
+map <leader>ex :e! ~/.vim_runtime/vimrcs/extended.vim <cr>
 map <leader>ep :e! ~/.vim_runtime/vimrcs/plugins_config.vim<cr>
 set ssop-=options    " do not store global and local values in a session
 set ssop-=folds      " do not store folds

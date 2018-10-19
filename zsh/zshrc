@@ -40,6 +40,9 @@ case "$(hostname)" in
         export set  home='/mnt/c/Users/Administrator'
         alias CD="cd $home"
         ZSH_THEME="ys"
+        function ssho(){
+            ssh $(nmblookup ${1} | awk '{print $1}')
+        }
         ;;
     "nuages")
         ZSH_THEME="af-magic"

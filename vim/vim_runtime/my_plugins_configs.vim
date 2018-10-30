@@ -22,7 +22,7 @@ let g:syntastic_auto_loc_list = 1
 "  templates
 if has("autocmd")
     augroup templates
-        autocmd BufNewFile *.sh 0r ~/.vim_runtime/my_plugins/templates/bash.sh
+        autocmd BufNewFile *.sh 0r ~/.vim_runtime/vimrcs/templates/bash.sh
     augroup END
 endif
 " ==================END================================

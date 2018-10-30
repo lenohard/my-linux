@@ -48,7 +48,7 @@ let g:ctrlp_working_path_mode = 0
 let g:ctrlp_map = ''
 map <leader>j :CtrlP<cr>
 " map <c-b> :CtrlPBuffer<cr>
-nnoremap <leader>J :CtrlPMRUFiles<CR>
+nnoremap <leader>J :CtrlPMixed<CR>
 
 let g:ctrlp_max_height = 20
 let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
@@ -97,9 +97,10 @@ let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 map <leader>nn :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark<Space>
 map <leader>nf :NERDTreeFind<cr>
+map <leader>nc :NERDCWD<cr>
 autocmd FileType nerdtree setlocal nocursorline
-
-
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType")
+    \&& b:NERDTreeType == "primary") | q | endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => vim-multiple-cursors
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -222,6 +223,7 @@ autocmd VimEnter *
             \ endif
 " Keep NERDTree from opening a split when startify is open
 autocmd FileType startify setlocal buftype=
+
 let g:startify_recursive_dir = 1
 " ==================END================================
 

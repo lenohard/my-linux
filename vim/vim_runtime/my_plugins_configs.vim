@@ -26,3 +26,13 @@ if has("autocmd")
     augroup END
 endif
 " ==================END================================
+
+" ------------------BEGIN------------------------------
+"  ==> python specifc commands
+
+augroup python
+    autocmd!
+    au FileType python iabbrev pdb import pdb;pdb.set_trace()
+augroup END
+
+" ==================END================================

@@ -22,3 +22,6 @@ do
     fi
 done
 
+vultr='64.156.14.43'
+sed -in "/\bvultr\b/d" /etc/hosts
+echo "$vultr vultr" >> /etc/hosts

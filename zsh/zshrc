@@ -14,7 +14,7 @@ case "$(hostname)" in
         ;;
     "elementary")
         ZSH_THEME="frisk"
-        alias anaconda='export "PATH=/home/carl/anaconda/bin:$PATH"'
+        alias anaconda='export "PATH=/home/carl/anaconda3/bin:$PATH"'
         function ml(){
             if [ -n "$1" ] && [ "$1" = "exit" ];then
                 cd ~
@@ -22,7 +22,7 @@ case "$(hostname)" in
             else
                 if [ -z "$(ls -A ~/wdh)" ]; then
                     echo "Trying"
-                    if [ mount ~/wdh ]; then
+                    if [ ! $(sudo mount /home/carl/wdh) ]; then
                         echo "OK"
                     else
                         echo "......"
@@ -33,6 +33,9 @@ case "$(hostname)" in
                 fi
             fi
         }
+        alias cdy=' cd /mnt/share/racoon && pwd=${PWD} && sudo caddy -conf /usr/local/caddy/Caddyfile &; cd "$pwd" '
+        alias cby='sudo calibre-server /mnt/share/racoon/Calibre_Library &'
+        alias jpy='sudo mount ~/wdh ; anaconda && jupyter notebook &'
         ;;
     "WDH")
         alias anaconda='export "PATH=/mnt/e/.anaconda3/bin:$PATH"'

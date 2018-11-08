@@ -97,7 +97,7 @@ let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 map <leader>nn :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark<Space>
 map <leader>nf :NERDTreeFind<cr>
-map <leader>nc :NERDCWD<cr>
+map <leader>nc :NERDTreeCWD<cr>
 autocmd FileType nerdtree setlocal nocursorline
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType")
     \&& b:NERDTreeType == "primary") | q | endif

@@ -182,6 +182,10 @@ EDITOR="vim"
 #ibus-daemon -drx
 
 setopt extended_glob
+function showme()
+{
+    vim "$(which $1)" 
+}
 function swap()         
 {
     local TMPFILE=tmp.$$

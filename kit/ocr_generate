@@ -1,0 +1,11 @@
+#! /usr/bin/awk -f
+BEGIN \
+{
+    FS="    ";
+    print "#!/usr/bin/awk -f"
+    print "{ two=(lastline $0);lastline=$0 }"
+}
+/offset/{offset=$2}
+!/offset/{
+print "match($0,/" $1"/, m) {print \"BookmarkBegin\\nBookmarkTitle:\"m[1]\"\\nBookmarkLevel:\"" $2 "\"\\nBookmarkPageNumber:\"m[2]+" offset ";next}match(two,/" $1"/, m) {print \"BookmarkBegin\\nBookmarkTitle:\"m[1]\"\\nBookmarkLevel:\"" $2 "\"\\nBookmarkPageNumber:\"m[2]+" offset ";next}"
+}

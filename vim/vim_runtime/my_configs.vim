@@ -40,6 +40,7 @@ Plug 'Yggdroot/indentLine'
 Plug 'zchee/deoplete-zsh'
 Plug 'zchee/deoplete-jedi'
 Plug 'Shougo/neco-vim'
+Plug 'vim-scripts/bash-support.vim'
 " Any valid git URL is allowed
 Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 
@@ -132,6 +133,7 @@ nnoremap <leader>bb :bd<esc>
 nnoremap <leader>BB :bd!<esc>
 nnoremap <c-w>v :vsplit<cr>
 nnoremap <c-w>s :split<cr>
+nnoremap ,cd :cd %:h<cr>
 
 " unmap space for / and c-space for ? in basic.vim
 

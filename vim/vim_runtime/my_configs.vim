@@ -85,6 +85,7 @@ call plug#end()
 
 if has('win32')
     let g:python3_host_prog='C:\Python37\python'
+    set undodir=~/_vim_undo//
 endif
 let s:path=fnamemodify(resolve(expand('<sfile>:p')), ':h')
 map <leader>es :so ~/.vimrc
@@ -184,4 +185,3 @@ function! Z(...)
         exec 'cd' fnameescape(path)
     endif
 endfunction
-

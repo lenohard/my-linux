@@ -154,6 +154,7 @@ nnoremap ,cd :cd %:h<cr>
 "    au FileType vim nnoremap <buffer> <localleader>c I"<esc>
 "augroup END
 
+filetype plugin on
 map <leader>ee :e! ~/.vim_runtime/vimrcs/basic.vim <cr>
 map <leader>ex :e! ~/.vim_runtime/vimrcs/extended.vim <cr>
 map <leader>ep :e! ~/.vim_runtime/vimrcs/plugins_config.vim<cr>

@@ -34,7 +34,7 @@ case "$(hostname)" in
             fi
         }
         alias cdy=' cd /mnt/share/racoon && pwd=${PWD} && sudo caddy -conf /usr/local/caddy/Caddyfile &; cd "$pwd" '
-        alias cby='sudo calibre-server /mnt/share/racoon/Calibre_Library &'
+        alias cby='sudo calibre-server /mnt/share/racoon/Calibre_Library --userdb /home/carl/.config/calibre/user.sqlite --enable-auth &'
         alias jpy='sudo mount ~/wdh ; anaconda && jupyter notebook &'
         ;;
     "WDH")

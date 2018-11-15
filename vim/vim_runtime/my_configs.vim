@@ -3,7 +3,6 @@
 " - For Neovim: ~/.local/share/nvim/plugged
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.vim_runtime/my_plugins')
-
 " Make sure you use single quotes
 
 " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
@@ -84,7 +83,10 @@ Plug '~/.vim_runtime/sources_forked/vim-irblack-forked'
 call plug#end()
 "--------------------------------------------------------------------
 
-source /home/carl/.vim_runtime/my_plugins_configs.vim
+if has('win32')
+    let g:python3_host_prog='C:\Python37\python'
+endif
+let s:path=fnamemodify(resolve(expand('<sfile>:p')), ':h')
 map <leader>es :so ~/.vimrc
 
 "---------------
@@ -182,3 +184,4 @@ function! Z(...)
         exec 'cd' fnameescape(path)
     endif
 endfunction
+

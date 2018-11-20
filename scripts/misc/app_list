@@ -7,3 +7,7 @@ ycm:(build-essential camke python3 python-dev) ./install.py --clane-completer
 todotxt-cli
 taskbook(npm)
 https://github.com/Xfennec/progress process
+pip neovim
+tesseract
+djvulibre-bin ghostscript
+pdftk

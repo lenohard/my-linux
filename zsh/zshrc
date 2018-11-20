@@ -248,9 +248,9 @@ alias tianyi="google-chrome-stable -app=https://cloud.189.cn/main.action"
 alias baiduyun="google-chrome-stable -app=https://pan.baidu.com"
 alias bdpcs="baidupcs-go"
 alias rsynccl='rsync -rv --delete /home/carl/mounts/galileo/main/  /home/carl/mounts/RACOON/Calibre_Library'
-alias cl2gd="rclone sync ~/mounts/galileo/Calibre_Library gd_alves:library -v --no-update-modtime"
+# alias cl2gd="rclone sync ~/mounts/galileo/Calibre_Library gd_alves:library -v --no-update-modtime"
 alias mypublicip='drill +short myip.opendns.com @resolver1.opendns.com | grep IN | tac | cut -f5 -s'
 alias git-root='cd $(git rev-parse --show-toplevel)'
-alias du1='du -hd1 | sort -rh'
-alias du2='du -hd0'
-alias ,e='vim ~/.zshrc'
+alias duca='du -hd1 | sort -rh'
+alias du1='du -hd0'
+alias ,e='nvim ~/.zshrc'

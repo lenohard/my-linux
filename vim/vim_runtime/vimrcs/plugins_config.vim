@@ -46,7 +46,7 @@ nmap <c-n> <Plug>yankstack_substitute_newer_paste
 let g:ctrlp_working_path_mode = 0
 
 let g:ctrlp_map = ''
-map <leader>j :CtrlP<cr>
+map <leader>j :CtrlPBuffer<cr>
 " map <c-b> :CtrlPBuffer<cr>
 nnoremap <leader>J :CtrlPMixed<CR>
 
@@ -234,10 +234,6 @@ let g:deoplete#enable_at_startup = 1
 " ==================END================================
 
 
-" ------------------BEGIN------------------------------
-" ==>  Airline
-" let g:airline#extensions#tabline#enabled = 1
-" ==================END================================
 
 " -----------------------------------------------------
 let g:GitGutterEnable=1
@@ -245,10 +241,15 @@ let g:GitGutterEnable=1
 
 " airline config
 " -----------------------------------------------------
-let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#enabled = 0
 let g:airline#extensions#tabline#left_sep = ' '
+" let g:airline#extensions#tabline#overflow_marker='...'
+" let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'default'
+let g:airline#extensions#tabline#buffer_nr_show = 1
+" let g:airline#extensions#tabline#tabs_label = 't'
+" let g:airline#extensions#tabline#buffers_label = 'b'
 " -----------------------------------------------------
 
 
@@ -259,14 +260,6 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 " -----------------------------------------------------
 
-" " ------------------BEGIN------------------------------
-" "  templates
-" if has("autocmd")
-"     augroup templates
-"         autocmd BufNewFile *.sh 0r ~/.vim_runtime/vimrcs/templates/bash.sh
-"     augroup END
-" endif
-" " ==================END================================
 
 " ------------------BEGIN------------------------------
 "  ==> python specifc commands
@@ -276,4 +269,13 @@ augroup python
     au FileType python iabbrev pdb import pdb;pdb.set_trace()
 augroup END
 
+" ==================END================================
+
+
+" ------------------BEGIN------------------------------
+"  ==> buftabline
+let g:buftabline_show =1
+let g:buftabline_numbers=1
+let g:buftabline_indicators=1
+let g:buftabline_separators=1
 " ==================END================================

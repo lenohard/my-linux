@@ -34,7 +34,7 @@ Plug 'amix/vim-zenroom2'
 Plug 'scrooloose/snipmate-snippets'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'nanotech/jellybeans.vim'
-Plug 'mhinz/vim-startify'
+" Plug 'mhinz/vim-startify'
 Plug 'Yggdroot/indentLine'
 Plug 'zchee/deoplete-zsh'
 Plug 'zchee/deoplete-jedi'
@@ -75,7 +75,7 @@ endif
 " Unmanaged plugin (manually installed and updated)
 Plug '~/my-prototype-plugin'
 Plug '~/.vim_runtime/sources_forked/peaksea'
-Plug '~/.vim_runtime/sources_forked/set_tabline'
+" Plug '~/.vim_runtime/sources_forked/set_tabline'
 Plug '~/.vim_runtime/sources_forked/vim-peepopen'
 Plug '~/.vim_runtime/sources_forked/vim-irblack-forked'
 
@@ -104,6 +104,10 @@ augroup numbertoggle
     autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
     autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber
 augroup END
+" Automatically save the session when leaving Vim
+autocmd! VimLeave * mksession
+" Automatically load the session when entering vim
+autocmd! VimEnter * source ~/Session.vim
 set cursorline
 
 
@@ -122,8 +126,11 @@ nmap <leader>SE o==================END================================<c-c>0gcc
 nmap <leader>se ojkx,Seojkx,SE2ko==> 
 nmap <leader>Si :SyntasticToggleMode<cr>
 
-nnoremap nb /BEGIN<cr>
-nnoremap ne /END<cr>
+nnoremap nb /-BEGIN<cr>0
+nnoremap Nb ?-BEGIN<cr>0
+nnoremap ne /=END<cr>$
+nnoremap Ne ?=END<cr>$
+nnoremap <leader>ds ?-BEGIN<cr>0d/=END<cr>dd
 
 " au BufNewFile * :write
 " au FileType vim 
@@ -136,7 +143,18 @@ nnoremap <leader>bb :bd<esc>
 nnoremap <leader>BB :bd!<esc>
 nnoremap <c-w>v :vsplit<cr>
 nnoremap <c-w>s :split<cr>
-nnoremap ,cd :cd %:h<cr>
+nnoremap <leader>cd :cd %:h<cr>
+nnoremap <localleader>P :%!python -m json.tool
+nnoremap <Leader>1 :1b<CR>
+nnoremap <Leader>2 :2b<CR>
+nnoremap <Leader>3 :3b<CR>
+nnoremap <Leader>4 :4b<CR>
+nnoremap <Leader>5 :5b<CR>
+nnoremap <Leader>6 :6b<CR>
+nnoremap <Leader>7 :7b<CR>
+nnoremap <Leader>8 :8b<CR>
+nnoremap <Leader>9 :9b<CR>
+nnoremap <Leader>0 :10b<CR>
 
 " unmap space for / and c-space for ? in basic.vim
 

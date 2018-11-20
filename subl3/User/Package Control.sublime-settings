@@ -1,0 +1,40 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"ActualVim",
+		"Alignment",
+		"AngularJS",
+		"Autoprefixer",
+		"BracketHighlighter",
+		"C++ Snippets",
+		"C++ Starting Kit",
+		"ChineseLocalizations",
+		"ConvertToUTF8",
+		"CTags",
+		"DocBlockr",
+		"Dracula Color Scheme",
+		"Emmet",
+		"Ethereum",
+		"FileBrowser",
+		"FileSystem Autocompletion",
+		"Git",
+		"Git Config",
+		"Gutter Color",
+		"Highlight",
+		"HTML-CSS-JS Prettify",
+		"IPython Notebook",
+		"LaTeXTools",
+		"Package Control",
+		"SFTP",
+		"SideBarEnhancements",
+		"SublimeLinter",
+		"SublimeREPL",
+		"Tagify",
+		"Terminal",
+		"Theme - Soda"
+	]
+}

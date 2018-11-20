@@ -1,0 +1,9 @@
+{
+	"color_scheme": "Packages/Dracula Color Scheme/Dracula.tmTheme",
+	"ignored_packages":
+	[
+		"Vintag"
+	],
+	"soda_folder_icons": true,
+	"theme": "Default.sublime-theme"
+}

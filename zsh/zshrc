@@ -226,6 +226,7 @@ alias ssl="nohup  sslocal -s  64.156.14.43 -p 9265 -k vultr@_2018 &"
 alias locat="locate -Abi"
 alias pcs=proxychains4
 
+
 alias a='fasd -a'        # any
 alias s='fasd -si'       # show / search / select
 alias d='fasd -d'        # directory
@@ -254,3 +255,4 @@ alias git-root='cd $(git rev-parse --show-toplevel)'
 alias duca='du -hd1 | sort -rh'
 alias du1='du -hd0'
 alias ,e='nvim ~/.zshrc'
+alias prm=". ~/kit/prm.sh"

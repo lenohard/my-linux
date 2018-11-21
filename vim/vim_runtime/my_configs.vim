@@ -105,9 +105,9 @@ augroup numbertoggle
     autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber
 augroup END
 " Automatically save the session when leaving Vim
-autocmd! VimLeave * mksession
+" autocmd! VimLeave * mksession
 " Automatically load the session when entering vim
-autocmd! VimEnter * source ~/Session.vim
+" autocmd! VimEnter * source ~/Session.vim
 set cursorline
 
 

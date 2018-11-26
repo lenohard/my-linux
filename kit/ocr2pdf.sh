@@ -3,7 +3,7 @@
 #
 #          FILE: ocr2pdf.sh
 #
-#         USAGE: ./ocr2pdf.sh
+#         USAGE: ./ocr2pdf.sh filename
 #
 #   DESCRIPTION: convert unsearchable pdf to searchable pdf using tesseract
 #

@@ -4,7 +4,7 @@ name=${1%.*}
 pdftk "$1" dump_data output "$name".info
 awk -i inplace "!/Bookmark/" "$name".info
 
-mv "$name".bm tmp
+# mv "$name".bm tmp
 
 ed -s  "${name}".info <<EOF
 H

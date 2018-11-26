@@ -46,9 +46,9 @@ nmap <c-n> <Plug>yankstack_substitute_newer_paste
 let g:ctrlp_working_path_mode = 0
 
 let g:ctrlp_map = ''
-map <leader>j :CtrlPBuffer<cr>
+map <leader>b :CtrlPBuffer<cr>
 " map <c-b> :CtrlPBuffer<cr>
-nnoremap <leader>J :CtrlPMixed<CR>
+nnoremap <leader>j :CtrlPMixed<CR>
 
 let g:ctrlp_max_height = 20
 let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'

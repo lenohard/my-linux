@@ -130,7 +130,7 @@ nnoremap nb /-BEGIN<cr>0
 nnoremap Nb ?-BEGIN<cr>0
 nnoremap ne /=END<cr>$
 nnoremap Ne ?=END<cr>$
-nnoremap <leader>ds ?-BEGIN<cr>0d/=END<cr>dd
+nnoremap <leader>ds j?-BEGIN<cr>0d/=END<cr>dd
 
 " au BufNewFile * :write
 " au FileType vim 

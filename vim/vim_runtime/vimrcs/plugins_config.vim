@@ -266,7 +266,7 @@ let g:syntastic_auto_loc_list = 1
 
 augroup python
     autocmd!
-    au FileType python iabbrev pdb import pdb;pdb.set_trace()
+    au FileType python iabbrev pdb import ipdb;ipdb.set_trace()
 augroup END
 
 " ==================END================================

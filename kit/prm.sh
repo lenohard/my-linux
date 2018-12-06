@@ -94,10 +94,10 @@ function set_prompt_start() {
         echo "$cur_prompt" > "$prm_dir/.prompt-$$.tmp"
 
         eval "export $prompt_var"
-        eval $prompt_var="'[$1] $cur_prompt'"
+        eval $prompt_var="'%{$fg[yellow]%}[$1]$cur_prompt'"
     else
         eval "export $prompt_var"
-        eval $prompt_var="'[$1] $(cat "$prm_dir/.prompt-$$.tmp")'"
+        eval $prompt_var="'%{$fg[yellow]%}[$1]$(cat "$prm_dir/.prompt-$$.tmp")'"
     fi
 }
 

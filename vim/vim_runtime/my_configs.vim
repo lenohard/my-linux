@@ -34,12 +34,15 @@ Plug 'amix/vim-zenroom2'
 Plug 'scrooloose/snipmate-snippets'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'nanotech/jellybeans.vim'
-Plug 'mhinz/vim-startify'
+" Plug 'mhinz/vim-startify'
 Plug 'Yggdroot/indentLine'
 Plug 'zchee/deoplete-zsh'
 Plug 'zchee/deoplete-jedi'
 Plug 'Shougo/neco-vim'
 Plug 'vim-scripts/bash-support.vim'
+Plug 'tpope/vim-obsession'
+Plug 'xolox/vim-session'
+Plug 'xolox/vim-misc'
 " Any valid git URL is allowed
 Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 
@@ -203,3 +206,11 @@ function! Z(...)
         exec 'cd' fnameescape(path)
     endif
 endfunction
+
+
+
+" ------------------BEGIN------------------------------
+"  ==> pre
+colo desert
+set sessionoptions+=buffers
+" ==================END================================

@@ -126,7 +126,7 @@ iabbrev pnb 15238723375
 iabbrev seperate -----------------------------------------
 nmap <leader>Se o------------------BEGIN------------------------------<c-c>0gcc
 nmap <leader>SE o==================END================================<c-c>0gcc
-nmap <leader>se ojkx,Seojkx,SE2ko==> 
+nmap <leader>se ojkx,Seojkx,SE2ko ==><c-c>gccA
 nmap <leader>Si :SyntasticToggleMode<cr>
 
 nnoremap nb /-BEGIN<cr>0

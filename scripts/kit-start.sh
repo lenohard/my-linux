@@ -14,3 +14,15 @@ if [ -f ~/kit/baidupcs-go ]; then
     baidupcs-go config set -appid 266719
 fi
 # ==================END=========================
+
+# ------------------BEGIN------------------------------
+# ==> fasd
+if !  which fasd 2>&1 > /dev/null ;
+then
+    mkdir tmp
+    git clone https://github.com/clvv/fasd.git tmp
+    cd tmp/fasd/
+    sudo make install
+    cd ../..; rm tmp -rf
+fi
+# ==================END================================

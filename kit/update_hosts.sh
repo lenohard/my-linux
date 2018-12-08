@@ -25,3 +25,9 @@ done
 vultr='64.156.14.43'
 sed -in "/\bvultr\b/d" /etc/hosts
 echo "$vultr vultr" >> /etc/hosts
+qtb='192.186.4.90'
+sed -in "/\bqtb\b/d" /etc/hosts
+echo "$qtb qtb" >> /etc/hosts
+centos='192.186.1.49'
+sed -in "/\bcentos\b/d" /etc/hosts
+echo "$centos centos" >> /etc/hosts

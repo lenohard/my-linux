@@ -19,10 +19,10 @@ fi
 # ==> fasd
 if !  which fasd 2>&1 > /dev/null ;
 then
-    mkdir tmp
-    git clone https://github.com/clvv/fasd.git tmp
-    cd tmp
+    mkdir tmp_fasd
+    git clone https://github.com/clvv/fasd.git tmp_fasd
+    cd tmp_fasd
     sudo make install
-    cd ../..; rm tmp -rf
+    cd ../..; rm tmp_fasd -rf
 fi
 # ==================END================================

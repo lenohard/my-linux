@@ -18,7 +18,7 @@ do
     tesseract "$file" tmp"$n" --oem 3 --psm 6
 done
 cat tmp* | tee result.txt
-rm tmp* image*
+# rm tmp* image*
 
 
 

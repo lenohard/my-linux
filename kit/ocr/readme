@@ -1,0 +1,16 @@
+Step 0:
+if the file is djvu format you can use dj2pdf.sh to convert it into pdf before processing.
+
+Step 1:
+ocr3.sh filename.pdf first last  # first last to indicate the start and end page of the contents
+    generated tmp file "result.txt" include the recognized text.
+
+(ocr.sh integrated Step 0 and Step 1)
+Step 2:
+ocr_test.sh 'regex' # test the regex to extract correcsponding info if ok it will insert the regext into 
+    file "content" which have the " regex   layer " info. You can try manay times to insert enough rules
+Step 3:
+OCR.sh filename.pdf
+    it will first use the content to generate a awk script, then use the awk script to write a pdf info file
+    than write this info file back into the origin pdf file
+

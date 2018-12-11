@@ -170,7 +170,7 @@ man() {
     }
 
 source $HOME/kit/tools.sh
-export PATH="/home/carl/kit:$PATH"
+export PATH="/home/carl/kit/ocr:/home/carl/kit:$PATH"
 
 
 export EDITOR="nvim"
@@ -200,6 +200,9 @@ function setproxy() {
 function unsetproxy() {
     unset {http,https,ftp}_proxy
 }
+function help() {
+    bash -c "help $1"
+}
 
 plugins+=(fasd)
 eval "$(fasd --init auto)"
@@ -222,7 +225,7 @@ export set github="https://github.com/"
 
 #save $PS1 for restore
 export PS_="$PS1"
-alias ssl="nohup  sslocal -s  64.156.14.43 -p 9265 -k vultr@_2018 &"
+alias ssl="nohup  sslocal -s  207.246.111.84 -p 9265 -k vultr@_2018 &"
 alias locat="locate -Abi"
 alias pcs=proxychains4
 

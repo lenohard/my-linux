@@ -39,7 +39,6 @@ let g:yankstack_yank_keys = ['y', 'd']
 nmap <c-p> <Plug>yankstack_substitute_older_paste
 nmap <c-n> <Plug>yankstack_substitute_newer_paste
 
-
 """"""""""""""""""""""""""""""
 " => CTRL-P
 """"""""""""""""""""""""""""""
@@ -285,4 +284,18 @@ let g:buftabline_separators=1
 let g:session_autoload = 'no'
 let g:session_autosave = 'no'
 set sessionoptions+=buffers
+" ==================END================================
+
+
+" ------------------BEGIN------------------------------
+"   ==> Jedi
+let g:jedi#use_tabs_not_buffers = 0  " use buffers instead of tabs
+let g:jedi#show_call_signatures = "1"
+let g:jedi#goto_command = "<localleader>gt"
+let g:jedi#goto_assignments_command = "<localleader>ga"
+let g:jedi#goto_definitions_command = "<localleader>gg"
+let g:jedi#documentation_command = "K"
+let g:jedi#usages_command = "<localleader>u"
+let g:jedi#completions_command = "<C-Space>"
+let g:jedi#rename_command = "<leader>r"
 " ==================END================================

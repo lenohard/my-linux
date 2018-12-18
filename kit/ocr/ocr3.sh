@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-if [[ $# -ne 3 ]]; then
+if [[ $# -lt 3 ]]; then
     echo " ocr fileanme first last (please ;\) "
     exit
 fi
@@ -15,10 +15,10 @@ pdftoppm "$file" -png -f $f -l $l image
 for file in image*;
 do
     n="${file:7:3}"
-    tesseract "$file" tmp"$n" --oem 3 --psm 6
+    tesseract "$file" tmp"$n" --oem 3 --psm 6 -l ${4:-eng}
 done
 cat tmp* | tee result.txt
-# rm tmp* image*
+rm tmp* image*
 
 
 

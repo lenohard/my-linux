@@ -25,8 +25,8 @@ do
     fi
 done
 
-name=($(awk '{print $1}' .kit/iplist))
-ip=($(awk '{print $2}' .kit/iplist))
+name=($(awk '{print $1}' "$DIR"/etc/iplist))
+ip=($(awk '{print $2}' "$DIR"/etc/iplist))
 for n in "${!name[@]}";
 do
     sed -in "/\b${name[n]}\b/d" /etc/hosts

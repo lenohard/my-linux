@@ -70,6 +70,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  " Plug 'Vigemus/iron.nvim'
 else
   Plug 'Shougo/deoplete.nvim'
   Plug 'roxma/nvim-yarp'
@@ -129,6 +130,7 @@ nmap <leader>Se o------------------BEGIN------------------------------<c-c>0gcc
 nmap <leader>SE o==================END================================<c-c>0gcc
 nmap <leader>se ojkx,Seojkx,SE2ko ==><c-c>A
 nmap <leader>Si :SyntasticToggleMode<cr>
+nmap <leader>py 0:.,/^$/ s/^.*: //<cr>
 
 nnoremap nb /-BEGIN<cr>0
 nnoremap Nb ?-BEGIN<cr>0

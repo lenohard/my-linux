@@ -259,6 +259,8 @@ alias du1='du -hd0'
 alias ,e='nvim ~/.zshrc'
 alias prm=". ~/kit/prm.sh"
 alias ssh='autossh'
+alias exp='less ~/kit/experience.sh'
+alias exp-add='nvim ~/kit/experience.sh'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 

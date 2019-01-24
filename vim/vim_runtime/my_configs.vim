@@ -151,6 +151,7 @@ nnoremap <leader>BB :bd!<esc>
 nnoremap <c-w>v :vsplit<cr>
 nnoremap <c-w>s :split<cr>
 nnoremap <leader>cd :cd %:h<cr>
+nnoremap <leader>bf :BufExplorer<cr>
 nnoremap <localleader>P :%!python -m json.tool
 nnoremap <Leader>1 :1b<CR>
 nnoremap <Leader>2 :2b<CR>

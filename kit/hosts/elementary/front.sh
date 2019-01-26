@@ -2,10 +2,11 @@
 
 set -e
 
-if [ "$(find /mnt/WDH_Front -maxdepth 0 -type d -empty 2>/dev/null)" ];then
-    if mount /mnt/WDH;then
+if [ "$(find /mnt/WDH -maxdepth 0 -type d -empty 2>/dev/null)" ];then
+    if sudo mount /mnt/WDH;then
         :
     else
+        echo "cant mount /mnt/WDH"
         exit 1
     fi
 fi

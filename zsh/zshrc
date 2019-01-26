@@ -258,5 +258,15 @@ alias git-root='cd $(git rev-parse --show-toplevel)'
 alias du1='du -hd0'
 alias ,e='nvim ~/.zshrc'
 alias prm=". ~/kit/prm.sh"
+alias ssh='autossh'
+alias exp='less ~/kit/experience.sh'
+alias exp-add='nvim ~/kit/experience.sh'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# HSTR configuration - add this to ~/.bashrc
+# alias hh=hstr                    # hh to be alias for hstr
+# export HISTFILE=~/.zsh_history  # ensure history file visibility
+# export HSTR_CONFIG=hicolor        # get more colors
+# bindkey -s "\C-r" "\eqhstr\n"     # bind hstr to Ctrl-r (for Vi mode check doc)
+

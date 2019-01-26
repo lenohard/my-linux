@@ -286,37 +286,16 @@ let g:session_autosave = 'no'
 set sessionoptions+=buffers
 " ==================END================================
 
-
 " ------------------BEGIN------------------------------
 "   ==> Jedi
 let g:jedi#use_tabs_not_buffers = 0  " use buffers instead of tabs
 let g:jedi#show_call_signatures = "1"
-let g:jedi#goto_command = "<localleader>gt"
-let g:jedi#goto_assignments_command = "<localleader>ga"
-let g:jedi#goto_definitions_command = "<localleader>gg"
+let g:jedi#goto_command = "<leader>]"
+let g:jedi#goto_definitions_command = "<leader>ga"
+let g:jedi#goto_assignments = "<leader>gg"
 let g:jedi#documentation_command = "K"
-let g:jedi#usages_command = "<localleader>u"
+let g:jedi#usages_command = "<leader>u"
 let g:jedi#completions_command = "<C-Space>"
-let g:jedi#rename_command = "<leader>r"
-" ==================END================================
-
-
-" ------------------BEGIN------------------------------
-"   ==> Iron.nvim
-tnoremap <Esc> <C-\><C-n>
-tnoremap <A-h> <C-\><C-N><C-w>h
-tnoremap <A-j> <C-\><C-N><C-w>j
-tnoremap <A-k> <C-\><C-N><C-w>k
-tnoremap <A-l> <C-\><C-N><C-w>l
-inoremap <A-h> <C-\><C-N><C-w>h
-inoremap <A-j> <C-\><C-N><C-w>j
-inoremap <A-k> <C-\><C-N><C-w>k
-inoremap <A-l> <C-\><C-N><C-w>l
-nnoremap <A-h> <C-w>h
-nnoremap <A-j> <C-w>j
-nnoremap <A-k> <C-w>k
-nnoremap <A-l> <C-w>l
-
-let g:iron_repl_open_cmd="split"
+let g:jedi#rename_command = "<localleader>r"
 
 " ==================END================================

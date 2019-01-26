@@ -27,7 +27,6 @@ do
             ;;
         "library")
             sudo rsync -aPv /mnt/WDH/Calibre_Library/ /mnt/share/racoon/Calibre_Library
-            sudo rsync -aPv /mnt/share/racoon/Calibre_Library/ /mnt/WDH/Calibre_Library
             ;;
         "music")
             sudo rsync -aPv '/mnt/WDH/music/' /mnt/share/racoon/music

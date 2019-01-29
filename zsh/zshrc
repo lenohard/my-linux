@@ -270,3 +270,43 @@ alias exp-add='nvim ~/kit/experience.sh'
 # export HSTR_CONFIG=hicolor        # get more colors
 # bindkey -s "\C-r" "\eqhstr\n"     # bind hstr to Ctrl-r (for Vi mode check doc)
 
+
+# ------------------BEGIN------------------------------
+#  ==> vi mode
+bindkey -v
+
+# Vi mode settings
+# # Better searching in command mode
+bindkey -M vicmd '?' history-incremental-search-backward
+bindkey -M vicmd '/' history-incremental-search-forward
+#
+# # Beginning search with arrow keys
+bindkey "^[OA" up-line-or-beginning-search
+bindkey "^[OB" down-line-or-beginning-search
+bindkey -M vicmd "k" up-line-or-beginning-search
+bindkey -M vicmd "j" down-line-or-beginning-search
+#
+# # Easier, more vim-like editor opening
+# # `v` is already mapped to visual mode, so we need to use a different key to
+# # open Vim
+bindkey -M vicmd "^V" edit-command-line
+#
+# # Make Vi mode transitions faster (KEYTIMEOUT is in hundredths of a second)
+export KEYTIMEOUT=1
+# ==================END================================
+
+# ------------------BEGIN------------------------------
+#  ==> ENV VAR
+ENABLE_CORRECTION="true"
+COMPLETION_WAITING_DOTS="true"
+
+
+# Save all history
+# # Incrementally write history to file
+setopt INC_APPEND_HISTORY
+# # Save timestamp to history file too
+setopt EXTENDED_HISTORY
+# # Import newly written commands from the history file
+setopt SHARE_HISTORY
+
+# ==================END================================

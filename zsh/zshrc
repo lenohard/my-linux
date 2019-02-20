@@ -225,7 +225,7 @@ export set github="https://github.com/"
 
 #save $PS1 for restore
 export PS_="$PS1"
-alias ssl="nohup  sslocal -s  207.246.111.84 -p 9265 -k vultr@_2018 &"
+alias ssl="nohup  sslocal -s  144.202.105.34 -p 9525 -k vultr@_2018 &"
 alias locat="locate -Abi"
 alias pcs=proxychains4
 
@@ -270,30 +270,30 @@ alias exp-add='nvim ~/kit/experience.sh'
 # export HSTR_CONFIG=hicolor        # get more colors
 # bindkey -s "\C-r" "\eqhstr\n"     # bind hstr to Ctrl-r (for Vi mode check doc)
 
+bindkey -e
+## ------------------BEGIN------------------------------
+##  ==> vi mode
+#bindkey -v
 
-# ------------------BEGIN------------------------------
-#  ==> vi mode
-bindkey -v
-
-# Vi mode settings
-# # Better searching in command mode
-bindkey -M vicmd '?' history-incremental-search-backward
-bindkey -M vicmd '/' history-incremental-search-forward
-#
-# # Beginning search with arrow keys
-bindkey "^[OA" up-line-or-beginning-search
-bindkey "^[OB" down-line-or-beginning-search
-bindkey -M vicmd "k" up-line-or-beginning-search
-bindkey -M vicmd "j" down-line-or-beginning-search
-#
-# # Easier, more vim-like editor opening
-# # `v` is already mapped to visual mode, so we need to use a different key to
-# # open Vim
-bindkey -M vicmd "^V" edit-command-line
-#
-# # Make Vi mode transitions faster (KEYTIMEOUT is in hundredths of a second)
-export KEYTIMEOUT=1
-# ==================END================================
+## Vi mode settings
+## # Better searching in command mode
+#bindkey -M vicmd '?' history-incremental-search-backward
+#bindkey -M vicmd '/' history-incremental-search-forward
+##
+## # Beginning search with arrow keys
+#bindkey "^p"A up-line-or-beginning-search
+#bindkey "^n" down-line-or-beginning-search
+#bindkey -M vicmd "k" up-line-or-beginning-search
+#bindkey -M vicmd "j" down-line-or-beginning-search
+##
+## # Easier, more vim-like editor opening
+## # `v` is already mapped to visual mode, so we need to use a different key to
+## # open Vim
+#bindkey -M vicmd "^V" edit-command-line
+##
+## # Make Vi mode transitions faster (KEYTIMEOUT is in hundredths of a second)
+#export KEYTIMEOUT=1
+## ==================END================================
 
 # ------------------BEGIN------------------------------
 #  ==> ENV VAR

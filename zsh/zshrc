@@ -118,7 +118,7 @@ fi
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git heroku archlinux autojump)
+plugins=(git heroku archlinux autojump zsh_reload)
 
 # User configuration
 
@@ -225,7 +225,8 @@ export set github="https://github.com/"
 
 #save $PS1 for restore
 export PS_="$PS1"
-alias ssl="nohup  sslocal -s  144.202.105.34 -p 9525 -k vultr@_2018 &"
+# alias ssl="nohup  sslocal -s  144.202.105.34 -p 9525 -k vultr@_2018 &"
+alias ssl="nohup  sslocal -s  192.186.1.45  -p 9525 -k vultr@_2018 &"
 alias locat="locate -Abi"
 alias pcs=proxychains4
 
@@ -271,29 +272,29 @@ alias exp-add='nvim ~/kit/experience.sh'
 # bindkey -s "\C-r" "\eqhstr\n"     # bind hstr to Ctrl-r (for Vi mode check doc)
 
 bindkey -e
-## ------------------BEGIN------------------------------
-##  ==> vi mode
-#bindkey -v
 
-## Vi mode settings
-## # Better searching in command mode
-#bindkey -M vicmd '?' history-incremental-search-backward
-#bindkey -M vicmd '/' history-incremental-search-forward
-##
-## # Beginning search with arrow keys
-#bindkey "^p"A up-line-or-beginning-search
-#bindkey "^n" down-line-or-beginning-search
-#bindkey -M vicmd "k" up-line-or-beginning-search
-#bindkey -M vicmd "j" down-line-or-beginning-search
-##
-## # Easier, more vim-like editor opening
-## # `v` is already mapped to visual mode, so we need to use a different key to
-## # open Vim
-#bindkey -M vicmd "^V" edit-command-line
-##
-## # Make Vi mode transitions faster (KEYTIMEOUT is in hundredths of a second)
-#export KEYTIMEOUT=1
-## ==================END================================
+# ------------------BEGIN------------------------------
+#  ==> zle bindkey
+#  alt+s to prepend 'sudo' to current command and move to EOL.
+bindkey -s '\es' 'sudo '
+
+function _toggle-keymap {
+    if bindkey | grep 'vi-beginning-of-line' > /dev/null 2>&1; then
+        bindkey -e
+        RPROMPT='[emacs]'
+        zle reset-prompt
+    else
+        bindkey -v
+        bindkey "\ee" _toggle-keymap
+        zle -U ''
+        RPROMPT='[vim]'
+        zle reset-prompt
+    fi
+}
+zle -N _toggle-keymap
+bindkey "\ee" _toggle-keymap
+
+# ==================END================================
 
 # ------------------BEGIN------------------------------
 #  ==> ENV VAR

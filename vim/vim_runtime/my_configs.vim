@@ -45,6 +45,7 @@ Plug 'vim-scripts/bash-support.vim'
 Plug 'tpope/vim-obsession'
 Plug 'xolox/vim-session'
 Plug 'xolox/vim-misc'
+Plug 'Chiel92/vim-autoformat'
 " Any valid git URL is allowed
 Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 
@@ -70,12 +71,12 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 " Plug 'Valloric/YouCompleteMe', { 'do': './install.py ' }
 
 if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  " Plug 'Vigemus/iron.nvim'
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    " Plug 'Vigemus/iron.nvim'
 else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
+    Plug 'Shougo/deoplete.nvim'
+    Plug 'roxma/nvim-yarp'
+    Plug 'roxma/vim-hug-neovim-rpc'
 endif
 
 " Unmanaged plugin (manually installed and updated)
@@ -140,10 +141,10 @@ nnoremap Ne ?=END<cr>$
 nnoremap <leader>ds j?-BEGIN<cr>0d/=END<cr>dd
 
 " au BufNewFile * :write
-" au FileType vim 
+" au FileType vim
 inoremap jk <esc>
 inoremap <esc> <nop>
-nnoremap <leader>? :help 
+nnoremap <leader>? :help
 nnoremap <leader>q :wq<esc>
 nnoremap <leader>X :q!<esc>
 nnoremap <leader>bb :bd<esc>
@@ -163,6 +164,9 @@ nnoremap <Leader>7 :7b<CR>
 nnoremap <Leader>8 :8b<CR>
 nnoremap <Leader>9 :9b<CR>
 nnoremap <Leader>0 :10b<CR>
+
+"enable y to copy/paste selected text
+set clipboard^=unnamed,unnamedplus
 
 " unmap space for / and c-space for ? in basic.vim
 

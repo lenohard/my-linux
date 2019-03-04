@@ -14,7 +14,7 @@ set vi-ins-mode-string \1\e[6 q\2
 set vi-cmd-mode-string \1\e[2 q\2
 
 set keymap emacs
-"\ee": vi-editting-mode
+"\ee": vi-editing-mode
 "jk": "\eejk"
 "kj": "\eejk"
 
@@ -24,4 +24,4 @@ set keymap vi-insert
 "kj": vi-movement-mode
 
 set keymap vi-command
-"\ee" emacs-editing-mode
+"\ee": emacs-editing-mode

@@ -1,5 +1,5 @@
 # Path to your oh-my-zsh installation.
-  export ZSH=/home/carl/.oh-my-zsh
+export ZSH=/home/carl/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -47,11 +47,8 @@ case "$(hostname)" in
             ssh $(nmblookup ${1} | awk '{print $1}')
         }
         ;;
-    "nuages")
-        ZSH_THEME="af-magic"
-        ;;
     *)
-        ZSH_THEME="bureau"
+        ZSH_THEME="af-magic"
 esac    
 #--------------------------------------------
 
@@ -226,7 +223,7 @@ export set github="https://github.com/"
 #save $PS1 for restore
 export PS_="$PS1"
 # alias ssl="nohup  sslocal -s  144.202.105.34 -p 9525 -k vultr@_2018 &"
-alias ssl="nohup  sslocal -s  192.186.1.45  -p 9525 -k vultr@_2018 &"
+alias ssl="nohup  sslocal -s  155.138.143.65  -p 9525 -k vultr@_2018 &"
 alias locat="locate -Abi"
 alias pcs=proxychains4
 

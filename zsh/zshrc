@@ -1,5 +1,5 @@
 # Path to your oh-my-zsh installation.
-  export ZSH=/home/carl/.oh-my-zsh
+export ZSH=/home/carl/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -47,11 +47,8 @@ case "$(hostname)" in
             ssh $(nmblookup ${1} | awk '{print $1}')
         }
         ;;
-    "nuages")
-        ZSH_THEME="af-magic"
-        ;;
     *)
-        ZSH_THEME="bureau"
+        ZSH_THEME="af-magic"
 esac    
 #--------------------------------------------
 
@@ -118,7 +115,7 @@ fi
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git heroku archlinux autojump)
+plugins=(git heroku archlinux autojump zsh_reload)
 
 # User configuration
 
@@ -225,7 +222,8 @@ export set github="https://github.com/"
 
 #save $PS1 for restore
 export PS_="$PS1"
-alias ssl="nohup  sslocal -s  207.246.111.84 -p 9265 -k vultr@_2018 &"
+# alias ssl="nohup  sslocal -s  144.202.105.34 -p 9525 -k vultr@_2018 &"
+alias ssl="nohup  sslocal -s  155.138.143.65  -p 9525 -k vultr@_2018 &"
 alias locat="locate -Abi"
 alias pcs=proxychains4
 
@@ -258,7 +256,7 @@ alias git-root='cd $(git rev-parse --show-toplevel)'
 alias du1='du -hd0'
 alias ,e='nvim ~/.zshrc'
 alias prm=". ~/kit/prm.sh"
-alias ssh='autossh'
+# alias ssh='autossh'
 alias exp='less ~/kit/experience.sh'
 alias exp-add='nvim ~/kit/experience.sh'
 
@@ -270,3 +268,43 @@ alias exp-add='nvim ~/kit/experience.sh'
 # export HSTR_CONFIG=hicolor        # get more colors
 # bindkey -s "\C-r" "\eqhstr\n"     # bind hstr to Ctrl-r (for Vi mode check doc)
 
+bindkey -e
+
+# ------------------BEGIN------------------------------
+#  ==> zle bindkey
+#  alt+s to prepend 'sudo' to current command and move to EOL.
+bindkey -s '\es' 'sudo '
+
+function _toggle-keymap {
+    if bindkey | grep 'vi-beginning-of-line' > /dev/null 2>&1; then
+        bindkey -e
+        RPROMPT='[emacs]'
+        zle reset-prompt
+    else
+        bindkey -v
+        bindkey "\ee" _toggle-keymap
+        zle -U ''
+        RPROMPT='[vim]'
+        zle reset-prompt
+    fi
+}
+zle -N _toggle-keymap
+bindkey "\ee" _toggle-keymap
+
+# ==================END================================
+
+# ------------------BEGIN------------------------------
+#  ==> ENV VAR
+ENABLE_CORRECTION="true"
+COMPLETION_WAITING_DOTS="true"
+
+
+# Save all history
+# # Incrementally write history to file
+setopt INC_APPEND_HISTORY
+# # Save timestamp to history file too
+setopt EXTENDED_HISTORY
+# # Import newly written commands from the history file
+setopt SHARE_HISTORY
+
+# ==================END================================

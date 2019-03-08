@@ -6,6 +6,8 @@ call plug#begin('~/.vim_runtime/my_plugins')
 " Make sure you use single quotes
 
 " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
+Plug 'vim-scripts/paredit.vim'
+Plug 'jpalardy/vim-slime'
 Plug 'junegunn/vim-easy-align'
 Plug 'vim-syntastic/syntastic'
 Plug 'mattn/emmet-vim'
@@ -33,6 +35,7 @@ Plug 'maxbrunsfeld/vim-yankstack'
 Plug 'amix/vim-zenroom2'
 Plug 'scrooloose/snipmate-snippets'
 Plug 'terryma/vim-multiple-cursors'
+Plug 'amdt/vim-niji'
 Plug 'nanotech/jellybeans.vim'
 " Plug 'mhinz/vim-startify'
 Plug 'Yggdroot/indentLine'
@@ -45,6 +48,8 @@ Plug 'vim-scripts/bash-support.vim'
 Plug 'tpope/vim-obsession'
 Plug 'xolox/vim-session'
 Plug 'xolox/vim-misc'
+Plug 'Chiel92/vim-autoformat'
+Plug 'metakirby5/codi.vim'
 " Any valid git URL is allowed
 Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 
@@ -70,12 +75,12 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 " Plug 'Valloric/YouCompleteMe', { 'do': './install.py ' }
 
 if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  " Plug 'Vigemus/iron.nvim'
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    " Plug 'Vigemus/iron.nvim'
 else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
+    Plug 'Shougo/deoplete.nvim'
+    Plug 'roxma/nvim-yarp'
+    Plug 'roxma/vim-hug-neovim-rpc'
 endif
 
 " Unmanaged plugin (manually installed and updated)
@@ -140,10 +145,10 @@ nnoremap Ne ?=END<cr>$
 nnoremap <leader>ds j?-BEGIN<cr>0d/=END<cr>dd
 
 " au BufNewFile * :write
-" au FileType vim 
+" au FileType vim
 inoremap jk <esc>
 inoremap <esc> <nop>
-nnoremap <leader>? :help 
+nnoremap <leader>? :help
 nnoremap <leader>q :wq<esc>
 nnoremap <leader>X :q!<esc>
 nnoremap <leader>bb :bd<esc>
@@ -164,24 +169,10 @@ nnoremap <Leader>8 :8b<CR>
 nnoremap <Leader>9 :9b<CR>
 nnoremap <Leader>0 :10b<CR>
 
-" unmap space for / and c-space for ? in basic.vim
+"enable y to copy/paste selected text
+set clipboard^=unnamed,unnamedplus
 
-"augroup cpp_group
-"    autocmd!
-"    au FileType c,cpp nnoremap <localleader>cc o/*<cr>*/<esc>O
-"    au FileType c,cpp nnoremap <buffer> <localleader>sp I//seperate<esc>
-"    au FileType c,cpp nnoremap <buffer> <localleader>c I//<esc>
-"augroup END
-"augroup shell_group
-"    autocmd!
-"    au FileType zsh,bash,sh nnoremap <buffer> <localleader>c I#<esc>
-"    au FileType zsh,bash,sh nnoremap <buffer> <localleader>sp I#seperate<esc>
-"augroup END
-"augroup vim_group
-"    autocmd!
-"    au FileType vim nnoremap <buffer> <localleader>sp I"seperate<esc>
-"    au FileType vim nnoremap <buffer> <localleader>c I"<esc>
-"augroup END
+autocmd filetype lisp,scheme,art setlocal equalprg=~/kit/scmindent.rkt
 
 filetype plugin on
 map <leader>ee :e! ~/.vim_runtime/vimrcs/basic.vim <cr>

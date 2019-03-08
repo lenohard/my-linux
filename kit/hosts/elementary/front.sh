@@ -12,7 +12,7 @@ if [ "$(find /mnt/WDH -maxdepth 0 -type d -empty 2>/dev/null)" ];then
 fi
 
 if [ $(find /mnt/share/racoon -maxdepth 0 -type d -emtpy 2>/dev/null) ];then
-    if mount /mnt/share/racoon; then
+    if sudo mount /mnt/share/racoon; then
         :
     else
         exit 1

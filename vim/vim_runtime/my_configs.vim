@@ -50,6 +50,7 @@ Plug 'xolox/vim-session'
 Plug 'xolox/vim-misc'
 Plug 'Chiel92/vim-autoformat'
 Plug 'metakirby5/codi.vim'
+Plug 'easymotion/vim-easymotion'
 " Any valid git URL is allowed
 Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 
@@ -143,12 +144,13 @@ nnoremap Nb ?-BEGIN<cr>0
 nnoremap ne /=END<cr>$
 nnoremap Ne ?=END<cr>$
 nnoremap <leader>ds j?-BEGIN<cr>0d/=END<cr>dd
+nnoremap <leader>re :e!<cr>
 
 " au BufNewFile * :write
 " au FileType vim
 inoremap jk <esc>
 inoremap <esc> <nop>
-nnoremap <leader>? :help
+nnoremap <leader>? :help 
 nnoremap <leader>q :wq<esc>
 nnoremap <leader>X :q!<esc>
 nnoremap <leader>bb :bd<esc>

@@ -304,7 +304,7 @@ let g:jedi#rename_command = "<localleader>r"
 " ------------------BEGIN------------------------------
 "   ==>vim-slime
 let g:slime_target = "tmux"
-let g:slime_python_ipython = 1
+let g:slime_python_ipython=1
 nmap <c-c>l <Plug>SlimeLineSend
 nmap <c-c>c <Plug>SlimeMotionSend
 " ==================END================================

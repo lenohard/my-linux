@@ -11,3 +11,7 @@ pip neovim
 tesseract
 djvulibre-bin ghostscript
 pdftk
+gitsome
+direnv
+autoenv
+virtualenv

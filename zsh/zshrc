@@ -308,3 +308,17 @@ setopt EXTENDED_HISTORY
 setopt SHARE_HISTORY
 
 # ==================END================================
+
+
+# ------------------BEGIN------------------------------
+#  ==> autoenv or direnv
+if which direnv > /dev/null 2>&1;
+then
+    eval "$(direnv hook zsh)"
+fi
+
+if which activate.sh > /dev/null 2>&1; 
+then
+    source `which activate.sh`
+fi
+# ==================END================================

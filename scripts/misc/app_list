@@ -15,3 +15,19 @@ gitsome
 direnv
 autoenv
 virtualenv
+mycli # better mysql
+jq # json beautiful print
+shellcheck
+tig # git
+htop
+axel # better curl , multithread
+cloc
+cppman
+pm  
+ncdu 
+bro 
+cheat  #pip
+tldr
+multitai
+
+

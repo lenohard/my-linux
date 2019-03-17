@@ -44,8 +44,9 @@ nmap <c-n> <Plug>yankstack_substitute_newer_paste
 """"""""""""""""""""""""""""""
 let g:ctrlp_working_path_mode = 0
 
-let g:ctrlp_map = ''
 map <leader>b :CtrlPBuffer<cr>
+map <leader>J :CtrlP<cr>
+map <c-M> :CtrlPMRUFiles<cr>
 " map <c-b> :CtrlPBuffer<cr>
 nnoremap <leader>j :CtrlPMixed<CR>
 
@@ -303,7 +304,11 @@ let g:jedi#rename_command = "<localleader>r"
 
 " ------------------BEGIN------------------------------
 "   ==>vim-slime
-let g:slime_target = "tmux"
+if has('win32')
+    let g:slime_target='conemu'
+else
+    let g:slime_target = "tmux"
+endif
 let g:slime_python_ipython=1
 nmap <c-c>l <Plug>SlimeLineSend
 nmap <c-c>c <Plug>SlimeMotionSend

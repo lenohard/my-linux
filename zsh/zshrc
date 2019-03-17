@@ -181,7 +181,12 @@ export EDITOR="nvim"
 setopt extended_glob
 function showme()
 {
-    vim "$(which $1)" 
+    if which nvim > /dev/null 2>&1;
+    then
+        nvim "$(which $1)" 
+    else
+        vim "$(which $1)"
+    fi
 }
 function swap()         
 {
@@ -259,6 +264,7 @@ alias prm=". ~/kit/prm.sh"
 # alias ssh='autossh'
 alias exp='less ~/kit/experience.sh'
 alias exp-add='nvim ~/kit/experience.sh'
+alias fixmode='find . -perm 000 -exec chmod 766 {} \;'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -268,11 +274,17 @@ alias exp-add='nvim ~/kit/experience.sh'
 # export HSTR_CONFIG=hicolor        # get more colors
 # bindkey -s "\C-r" "\eqhstr\n"     # bind hstr to Ctrl-r (for Vi mode check doc)
 
-bindkey -e
+
+# ------------------BEGIN------------------------------
+#  ==>tmux 
+bindkey -s '^s^s' 'tmux set-option status '
+
+# ==================END================================
 
 # ------------------BEGIN------------------------------
 #  ==> zle bindkey
 #  alt+s to prepend 'sudo' to current command and move to EOL.
+bindkey -e
 bindkey -s '\es' 'sudo '
 
 function _toggle-keymap {

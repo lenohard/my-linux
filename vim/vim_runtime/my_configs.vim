@@ -134,11 +134,12 @@ iabbrev wyyx mathestics@163.com
 iabbrev pnb 15238723375
 iabbrev seperate -----------------------------------------
 nmap <leader>Se o------------------BEGIN------------------------------<c-c>0gcc
+" ------------------BEGIN------------------------------
+"   ==>
 nmap <leader>SE o==================END================================<c-c>0gcc
 nmap <leader>se ojkx,Seojkx,SE2ko ==><c-c>A
 nmap <leader>Si :SyntasticToggleMode<cr>
 nmap <leader>py 0:.,/^$/ s/^.*: //<cr>
-
 nnoremap nb /-BEGIN<cr>0
 nnoremap Nb ?-BEGIN<cr>0
 nnoremap ne /=END<cr>$
@@ -146,8 +147,14 @@ nnoremap Ne ?=END<cr>$
 nnoremap <leader>ds j?-BEGIN<cr>0d/=END<cr>dd
 nnoremap <leader>re :e!<cr>
 
-" au BufNewFile * :write
-" au FileType vim
+" ==================END================================
+
+nnoremap nn f(
+nnoremap NN f)
+nnoremap mm F(
+nnoremap MM F)
+
+nnoremap zz :Z 
 inoremap jk <esc>
 inoremap <esc> <nop>
 nnoremap <leader>? :help 

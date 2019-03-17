@@ -1,62 +1,53 @@
 #!/usr/bin/env bash
 set -o errexit -o pipefail -o noclobber 
 
-# ------------------BEGIN------------------------------
-# ==> parameters parsing
-
-! getopt --test > /dev/null
-if [[ ${PIPESTATUS[0]} -ne 4 ]]; then
-    echo "I’m sorry, `getopt --test` failed in this environment."
-    exit 1
-fi
-
-OPTIONS=d:s:c:n:
-LONGOPTS=dir,source-file,copy-file,name
-! PARSED=$(getopt --options=$OPTIONS --longoptions=$LONGOPTS --name "$0" --name "$@")
-if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
-    echo "Usage: $0 [-d|--dir] -s|--source-file [-n|--name] [-c|--copy-file] 
-                 $0 [-d|--dir] [-n|--name]"
-    exit 2
-fi
-eval set -- "$PARSED"
-DIR="."
-COPY="newfile"
-while true; do
-    case "$1" in
-        -d|--dir)
-            DIR="$2"
-            shift 2
+NMAE=''
+while getopts ":d:s:c:n:m:h" opt; do
+    case "$opt" in
+        d)
+            DIR="$OPTARG"
             ;;
-        -s|--source-file)
-            REF="$2"
-            shift 2
+        s)
+            REF="$OPTARG"
             ;;
-        -c|--copy-file)
-            COPY="$2"
-            shift 2
+        c)
+            COPY="$OPTARG"
             ;;
-        -n|--name)
-            NAME="$2"
-            shift 2
+        n)
+            SESSION_NAME="$OPTARG"
             ;;
+        m)
+            CMD="$OPTARG"
+            ;;
+        h)
+            echo "Usage: $0 [ -d DIR ] -s SOURCE  -n SESSION_NAME [ -c copy ] [ -m CMD ]
+                         $0 [-d|--dir] -n|--name [-m CMD ]"
+            exit 0
+            ;;
+        \?)
+            echo "Invalid option: -$OPTARG" >&2
+            exit 1;;
         --)
-            shift
             break
             ;;
-        *)
-            echo "Usage: $0 [-d|--dir] -s|--source-file [-n|--name] [-c|--copy-file] 
-                         $0 [-d|--dir] [-n|--name]"
-            exit 3
-            ;;
+        :)
+            echo "Option: -$OPTARG requires an argument" >&2
+            exit 1;;
         esac
 done
 
 # ==================END================================
 cd "$DIR"
-tmux new-session -s "$NAME" -d
+if [[ -z $SESSION_NAME ]];
+then
+    echo "You must specify a session-name with -n!"
+    exit 2;
+fi
+
+tmux new-session -s "$SESSION_NAME" -n main -d
 if [[ -z $REF ]];
 then
-    tmux splitw -t 1 -d -h -p 35
+    tmux splitw -t 1 -d -h -p 38
 else
     #tmux splitw -t 2 -d -p 30
     #tmux send-key -t 1 'nvim  -S ~/.vim/sessions/cs231n.vim' 'Enter'
@@ -65,11 +56,16 @@ else
         echo "$REF" doesn\'t exis
         exit 3
     fi
-    VIMCMD="nvim -O \"$REF\" \"$COPY\""
-    tmux splitw -t 1 -d -h -p 22
-    tmux send-key -t 1 "$VIMCMD" 'Enter'
-    # tmux send-key -t 3 'cal' 'Enter'
-    # tmux send-key -t 2 'import numpy as np' 'Enter'
+
+    if [[ -z $COPY ]];
+    then
+        VIMCMD="nvim \"$REF\""
+    else
+        VIMCMD="nvim -O \"$REF\" \"$COPY\""
+    fi
+    tmux splitw -t 1 -d -h -p 29
+    tmux send-key -t $SESSION_NAME:1.1 "$VIMCMD" 'Enter'
+    tmux send-key -t $SESSION_NAME:1.2 "$CMD" '' 'Enter' 
 fi
-tmux rename-window -t 1 'main'
-tmux attach -t "$NAME"
+tmux rename-window -t $SESSION_NAME:1 'main'
+tmux attach -t "$SESSION_NAME"

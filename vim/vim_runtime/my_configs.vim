@@ -51,6 +51,8 @@ Plug 'xolox/vim-misc'
 Plug 'Chiel92/vim-autoformat'
 Plug 'metakirby5/codi.vim'
 Plug 'easymotion/vim-easymotion'
+Plug 'guns/xterm-color-table.vim'
+Plug 'ap/vim-css-color'
 " Any valid git URL is allowed
 Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 

@@ -28,7 +28,7 @@ map <leader>o :BufExplorer<cr>
 " => MRU plugin
 """"""""""""""""""""""""""""""
 let MRU_Max_Entries = 400
-map <leader>f :MRU<CR>
+" map <leader>f :MRU<CR>
 
 
 """"""""""""""""""""""""""""""
@@ -242,10 +242,11 @@ let g:GitGutterEnable=1
 " airline config
 " -----------------------------------------------------
 let g:airline#extensions#tabline#enabled = 0
-let g:airline#extensions#tabline#left_sep = ' '
+" let g:airline#extensions#tabline#left_sep = ' '
+" let g:airline#extensions#tabline#formatter='unique_tail_improved'
 " let g:airline#extensions#tabline#overflow_marker='...'
 " let g:airline#extensions#tabline#buffer_idx_mode = 1
-let g:airline#extensions#tabline#left_alt_sep = '|'
+" let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'default'
 let g:airline#extensions#tabline#buffer_nr_show = 1
 " let g:airline#extensions#tabline#tabs_label = 't'
@@ -275,9 +276,9 @@ augroup END
 " ------------------BEGIN------------------------------
 "  ==> buftabline
 let g:buftabline_show =1
-let g:buftabline_numbers=1
-let g:buftabline_indicators=1
-let g:buftabline_separators=1
+let g:buftabline_numbers=2
+let g:buftabline_indicators= 1
+" let g:buftabline_separators= off
 " ==================END================================
 
 " ------------------BEGIN------------------------------
@@ -312,4 +313,18 @@ endif
 let g:slime_python_ipython=1
 nmap <c-c>l <Plug>SlimeLineSend
 nmap <c-c>c <Plug>SlimeMotionSend
+" ==================END================================
+
+
+" ------------------BEGIN------------------------------
+"   ==>CtrlSF
+nmap     <leader>ff <Plug>CtrlSFPrompt
+vmap     <leader>ff <Plug>CtrlSFVwordPath
+vmap     <leader>fF <Plug>CtrlSFVwordExec
+nmap     <leader>fn <Plug>CtrlSFCwordPath
+nmap     <leader>fp <Plug>CtrlSFPwordPath
+nnoremap <leader>fo :CtrlSFOpen<CR>
+nnoremap <leader>ft :CtrlSFToggle<CR>
+inoremap <leader>ft <Esc>:CtrlSFToggle<CR>
+
 " ==================END================================

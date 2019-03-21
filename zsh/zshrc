@@ -115,8 +115,7 @@ fi
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git heroku archlinux autojump zsh_reload)
-
+plugins=(zsh-dircolors-solarized git heroku archlinux autojump zsh_reload)
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -264,7 +263,7 @@ alias prm=". ~/kit/prm.sh"
 # alias ssh='autossh'
 alias exp='less ~/kit/experience.sh'
 alias exp-add='nvim ~/kit/experience.sh'
-alias fixmode='find . -perm 000 -exec chmod 766 {} \;'
+alias fixmode='find . -perm 000 -exec chmod 755 {} \;'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 

@@ -53,6 +53,8 @@ Plug 'metakirby5/codi.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'guns/xterm-color-table.vim'
 Plug 'ap/vim-css-color'
+Plug 'dyng/ctrlsf.vim'
+
 " Any valid git URL is allowed
 Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 
@@ -134,10 +136,11 @@ iabbrev gml mathestics@gmail.com
 iabbrev unm carlleonhard
 iabbrev wyyx mathestics@163.com
 iabbrev pnb 15238723375
-iabbrev seperate -----------------------------------------
-nmap <leader>Se o------------------BEGIN------------------------------<c-c>0gcc
+
 " ------------------BEGIN------------------------------
 "   ==>
+iabbrev seperate -----------------------------------------
+nmap <leader>Se o------------------BEGIN------------------------------<c-c>0gcc
 nmap <leader>SE o==================END================================<c-c>0gcc
 nmap <leader>se ojkx,Seojkx,SE2ko ==><c-c>A
 nmap <leader>Si :SyntasticToggleMode<cr>
@@ -151,10 +154,17 @@ nnoremap <leader>re :e!<cr>
 
 " ==================END================================
 
-nnoremap nn f(
-nnoremap NN f)
-nnoremap mm F(
-nnoremap MM F)
+nnoremap n( ya(
+nnoremap n{ ya{
+nnoremap n[ ya[
+nnoremap nt yat
+nnoremap np yap
+nnoremap N( ya(%
+nnoremap N{ ya{%
+nnoremap N[ ya[%
+nnoremap Nt yat%
+nnoremap <leader>zf :set foldmethod=indent<cr>
+nnoremap <leader>zF :set foldmethod=manual<cr>
 
 nnoremap zz :Z 
 inoremap jk <esc>
@@ -193,6 +203,7 @@ set ssop-=options    " do not store global and local values in a session
 set ssop-=folds      " do not store folds
 set ssop-=buffers
 
+set wrap
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*

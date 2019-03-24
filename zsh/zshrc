@@ -187,6 +187,7 @@ function showme()
         vim "$(which $1)"
     fi
 }
+
 function swap()         
 {
     local TMPFILE=tmp.$$
@@ -194,6 +195,7 @@ function swap()
     mv "$2" "$1"
     mv $TMPFILE "$2"
 }
+
 #function to set or unset proxy in terminal
 function setproxy() {
     export {http,https,ftp}_proxy="${1-socks5}://127.0.0.1:1080"
@@ -209,7 +211,6 @@ plugins+=(fasd)
 eval "$(fasd --init auto)"
 
 export R_ENVIRON_USER='/home/carl/.config/r/.Renviron'
-
 
 export AURDEST='/var/cache/pacaur/pkg'
 
@@ -265,6 +266,8 @@ alias exp='less ~/kit/experience.sh'
 alias exp-add='nvim ~/kit/experience.sh'
 alias fixmode='find . -perm 000 -exec chmod 755 {} \;'
 
+alias ng="sudo npm list -g --depth=0 2>/dev/null"
+alias nl="npm list --depth=0 2>/dev/null"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # HSTR configuration - add this to ~/.bashrc

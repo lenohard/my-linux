@@ -8,6 +8,7 @@ todotxt-cli
 taskbook(npm)
 https://github.com/Xfennec/progress process
 pip neovim
+pip pynvim
 tesseract
 djvulibre-bin ghostscript
 pdftk
@@ -29,8 +30,6 @@ bro
 cheat  #pip
 tldr
 multitai
-
-
 diff-so-fancy
 glances
 nmon

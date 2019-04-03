@@ -6,6 +6,9 @@ call plug#begin('~/.vim_runtime/my_plugins')
 " Make sure you use single quotes
 
 " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
+" Plug 'tommcdo/vim-ninja-feet'
+Plug 'guns/vim-sexp'
+Plug 'lervag/vimtex'
 Plug 'vim-scripts/paredit.vim'
 Plug 'jpalardy/vim-slime'
 Plug 'junegunn/vim-easy-align'
@@ -18,7 +21,7 @@ Plug 'tomlion/vim-solidity'
 " Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-commentary'
 Plug 'chrisbra/Colorizer'
-Plug 'Shougo/denite.vim'
+Plug 'Shougo/denite.nvim'
 Plug 'mileszs/ack.vim'
 Plug 'corntrace/bufexplorer'
 Plug 'ap/vim-buftabline'
@@ -31,12 +34,15 @@ Plug 'itchyny/lightline.vim'
 Plug 'maximbaz/lightline-ale'
 Plug 'yuttie/comfortable-motion.vim'
 Plug 'vim-scripts/mru.vim'
+Plug 'michaeljsmith/vim-indent-object'
 Plug 'wellle/targets.vim'
 Plug 'maxbrunsfeld/vim-yankstack'
 Plug 'amix/vim-zenroom2'
 Plug 'scrooloose/snipmate-snippets'
 Plug 'terryma/vim-multiple-cursors'
+Plug 'kana/vim-textobj-user'
 Plug 'amdt/vim-niji'
+Plug 'ludovicchabant/vim-gutentags'
 Plug 'nanotech/jellybeans.vim'
 " Plug 'mhinz/vim-startify'
 Plug 'Yggdroot/indentLine'
@@ -55,6 +61,8 @@ Plug 'easymotion/vim-easymotion'
 Plug 'guns/xterm-color-table.vim'
 Plug 'ap/vim-css-color'
 Plug 'dyng/ctrlsf.vim'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'Raimondi/delimitMate'
 
 " Any valid git URL is allowed
 Plug 'https://github.com/junegunn/vim-github-dashboard.git'
@@ -82,7 +90,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
 if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    " Plug 'Vigemus/iron.nvim'
+    Plug 'Vigemus/iron.nvim'
 else
     Plug 'Shougo/deoplete.nvim'
     Plug 'roxma/nvim-yarp'
@@ -118,7 +126,7 @@ set number relativenumber
 set nowrap
 augroup numbertoggle
     autocmd!
-    autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+    autocmd BufEnter,FocusGained,InsertLeave * if &number | set relativenumber | endif
     autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber
 augroup END
 " Automatically save the session when leaving Vim
@@ -146,13 +154,12 @@ nmap <leader>SE o==================END================================<c-c>0gcc
 nmap <leader>se ojkx,Seojkx,SE2ko ==><c-c>A
 nmap <leader>Si :SyntasticToggleMode<cr>
 nmap <leader>py 0:.,/^$/ s/^.*: //<cr>
-nnoremap nb /-BEGIN<cr>0
-nnoremap Nb ?-BEGIN<cr>0
-nnoremap ne /=END<cr>$
-nnoremap Ne ?=END<cr>$
+" nnoremap nb /-BEGIN<cr>0
+" nnoremap Nb ?-BEGIN<cr>0
+" nnoremap ne /=END<cr>$
+" nnoremap Ne ?=END<cr>$
 nnoremap <leader>ds j?-BEGIN<cr>0d/=END<cr>dd
 nnoremap <leader>re :e!<cr>
-
 " ==================END================================
 
 nnoremap n( ya(
@@ -194,7 +201,8 @@ nnoremap <Leader>0 :10b<CR>
 "enable y to copy/paste selected text
 set clipboard^=unnamed,unnamedplus
 
-autocmd filetype lisp,scheme,art setlocal equalprg=~/kit/scmindent.rkt
+"use this script to help write lisp-like () 
+" autocmd filetype lisp,scheme,art setlocal equalprg=~/kit/scmindent.rkt
 
 filetype plugin on
 map <leader>ee :e! ~/.vim_runtime/vimrcs/basic.vim <cr>
@@ -203,6 +211,8 @@ map <leader>ep :e! ~/.vim_runtime/vimrcs/plugins_config.vim<cr>
 set ssop-=options    " do not store global and local values in a session
 set ssop-=folds      " do not store folds
 set ssop-=buffers
+"open new buffer instead new tab when open file with quickfix
+set switchbuf-=newtab
 
 set wrap
 set statusline+=%#warningmsg#
@@ -210,6 +220,7 @@ set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 set tags=./tags,tags;
+
 
 "Z - cd to recent / frequent directories
 "-------------------------------------------------------------------

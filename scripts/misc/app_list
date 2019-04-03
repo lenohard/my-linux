@@ -1,5 +1,8 @@
 fasd:
 silver searcher:
+tmux
+python3
+fasd
 ack-grep
 ack
 beets(python)
@@ -31,5 +34,13 @@ cheat  #pip
 tldr
 multitai
 diff-so-fancy
+node
 glances
 nmon
+ranger // pip ranger-fm
+
+#mirror list change to tsu
+ubuntu.18 
+arch
+pip
+node

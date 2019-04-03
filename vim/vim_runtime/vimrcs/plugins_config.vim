@@ -45,7 +45,6 @@ nmap <c-n> <Plug>yankstack_substitute_newer_paste
 let g:ctrlp_working_path_mode = 0
 
 map <leader>b :CtrlPBuffer<cr>
-map <leader>J :CtrlP<cr>
 map <c-M> :CtrlPMRUFiles<cr>
 " map <c-b> :CtrlPBuffer<cr>
 nnoremap <leader>j :CtrlPMixed<CR>
@@ -93,6 +92,9 @@ let g:NERDTreeMinmalUI=1
 let g:NERDTreeHightCursorline=0
 let g:NERDTreeChDirMode=1
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+let g:NERDTreeShowLineNumbers=0
 " let g:NERDTreeWinSize=35
 map <leader>nn :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark<Space>
@@ -276,7 +278,7 @@ augroup END
 " ------------------BEGIN------------------------------
 "  ==> buftabline
 let g:buftabline_show =1
-let g:buftabline_numbers=2
+let g:buftabline_numbers=1
 let g:buftabline_indicators= 1
 " let g:buftabline_separators= off
 " ==================END================================

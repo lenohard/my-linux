@@ -49,8 +49,6 @@ if [[ -z $REF ]];
 then
     tmux splitw -t 1 -d -h -p 38
 else
-    #tmux splitw -t 2 -d -p 30
-    #tmux send-key -t 1 'nvim  -S ~/.vim/sessions/cs231n.vim' 'Enter'
     if [[ ! -r $REF ]];
     then
         echo "$REF" doesn\'t exis

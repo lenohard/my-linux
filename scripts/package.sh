@@ -34,7 +34,7 @@ deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-security main restricted
 # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-proposed main restricted universe multiverse'
 
 MIRROR_INFO="your origin sourcelist has been backup, and replaced with tsinghua mirror"
-APT_PACKAGES="fasd tmux python3 ack htop node ranger"
+APT_PACKAGES="fasd tmux python3 ack htop node ranger neovim"
 if [[ $OS == "CentOS" ]]
 then
     echo "CentOS";
@@ -47,17 +47,19 @@ then
     sudo mv /etc/apt/sources.list /etc/apt/source.list.bk
     echo $SOURCE_UBUNTU > /etc/apt/sources.list
     echo $MIRROR_INFO
+    sudo apt-get install python3 python3-pip
     pip3 install pip -U
     pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
     pip install pip -U
     pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 
     sudo add-apt-repository ppa:aacebedo/fasd
+    sudo add-apt-repository ppa:neovim-ppa/unstable
     sudo apt-get update && sudo apt-get install $apt-packages
 
 
 
-elif [[ $OS == "ArchLinux"]]
+elif [[ $OS == "ArchLinux" ]]
 then
     echo "Your OS is Archlinux";
 

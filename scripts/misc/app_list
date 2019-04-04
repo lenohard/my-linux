@@ -38,6 +38,11 @@ node
 glances
 nmon
 ranger // pip ranger-fm
+ctags /linux and windows
+zsh-dircolor_solarizald
+
+#font
+ubunt-mono
 
 #mirror list change to tsu
 ubuntu.18 

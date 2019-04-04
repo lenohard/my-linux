@@ -16,6 +16,6 @@ fi
 ln -s $ROOT/zsh/ssh ~/.ssh
 if [[ -e ~/.racketrc || -h ~/.racketrc ]]; then
 	echo "the existing racketrc will be mv to .zshrc_bk"
-    mv .racketrc .racketrc_bk
+    mv ~/.racketrc ~/.racketrc_bk
 fi
 ln -s $ROOT/zsh/racketrc ~/.racketrc

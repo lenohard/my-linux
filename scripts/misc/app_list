@@ -41,9 +41,15 @@ nmon
 ranger // pip ranger-fm
 ctags /linux and windows
 zsh-dircolor_solarizald
+sslocal // shadows-libv
+clang gcc g++
 
 #font
 ubunt-mono
+Colaborate
+Source_code_pro
+robot
+open sans
 
 #mirror list change to tsu
 ubuntu.18 

@@ -174,6 +174,7 @@ nnoremap Nt yat%
 nnoremap <leader>zf :set foldmethod=indent<cr>
 nnoremap <leader>zF :set foldmethod=manual<cr>
 
+
 nnoremap zz :Z 
 inoremap jk <esc>
 inoremap <esc> <nop>

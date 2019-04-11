@@ -1,21 +1,4 @@
 #!/bin/bash -
-#===============================================================================
-#
-#          FILE: package.sh
-#
-#         USAGE: ./package.sh
-#
-#   DESCRIPTION: install nesseary package on different distribution
-#
-#       OPTIONS: ---
-#  REQUIREMENTS: ---
-#          BUGS: ---
-#         NOTES: ---
-#        AUTHOR: carlleonhard
-#  ORGANIZATION:
-#       CREATED: 04/03/2019 20:45
-#      REVISION:  1
-#===============================================================================
 
 set -o nounset                              # Treat unset variables as an error
 OS="$(lsb_release -is)"
@@ -52,17 +35,12 @@ then
     pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
     pip install pip -U
     pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
-
     sudo add-apt-repository ppa:aacebedo/fasd
     sudo add-apt-repository ppa:neovim-ppa/unstable
     sudo apt-get update && sudo apt-get install $apt-packages
-
-
-
 elif [[ $OS == "ArchLinux" ]]
 then
     echo "Your OS is Archlinux";
-
 else
     echo "Unsupport";
 fi

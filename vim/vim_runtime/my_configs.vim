@@ -198,7 +198,7 @@ nnoremap <Leader>7 :7b<CR>
 nnoremap <Leader>8 :8b<CR>
 nnoremap <Leader>9 :9b<CR>
 nnoremap <Leader>0 :10b<CR>
-
+nnoremap <cr> <esc>
 "enable y to copy/paste selected text
 set clipboard^=unnamed,unnamedplus
 

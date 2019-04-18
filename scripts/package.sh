@@ -16,6 +16,13 @@ deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-security main restricted
 # deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-proposed main restricted universe multiverse
 # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-proposed main restricted universe multiverse'
 
+# /etc/pacman.d/mirrorlist
+SOURCE_ARCH_INSERT="Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch"
+# /etc/pacman.conf
+SOURCE_ARCH_APPEND=" Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch "
+# AUR 修改 /etc/yaourtrc，去掉 # AURURL 的注释，修改为
+AURURL="https://aur.tuna.tsinghua.edu.cn"
+
 MIRROR_INFO="your origin sourcelist has been backup, and replaced with tsinghua mirror"
 APT_PACKAGES="fasd tmux python3 ack htop node ranger neovim"
 if [[ $OS == "CentOS" ]]
@@ -41,6 +48,12 @@ then
 elif [[ $OS == "ArchLinux" ]]
 then
     echo "Your OS is Archlinux";
+    sudo sed -i "1i$SOURCE_ARCH_INSERT\n" /etc/pacman.d/mirrorlist
+    sudo sed -i -e "$a\
+        $SOURCE_ARCH_APPEND" /etc/pacman.conf
+    sudo sed -i "1i$AURURL" /etc/yaourtrc
+    sudo pacman -Syy
+
 else
     echo "Unsupport";
 fi

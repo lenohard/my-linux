@@ -1,0 +1,18 @@
+#!/bin/bash -
+
+CURT=$(dirname $(readlink -f $0))
+ROOT=$(readlink -f $(dirname "$CURT"))
+
+set -o nounset                              # Treat unset variables as an error
+#upper case argument
+mode=$(echo "$1" | tr '/A-Z/' '/a-z/' )
+if [[ $mode == 'antigen' || -z $mode ]];
+then
+    if [[ ! -e ~/.antigen.zsh ]];
+    then
+        curl -L git.io/antigen > ~/.antigen.zsh
+    fi
+    rm ~/.zshrc && ln -s $ROOT/zsh/zshrc_antigen ~/.zshrc
+else
+    rm ~/.zshrc && ln -s $ROOT/zsh/zshrc ~/.zshrc
+fi

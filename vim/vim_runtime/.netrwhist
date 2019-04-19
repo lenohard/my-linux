@@ -1,4 +1,5 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =2
+let g:netrw_dirhist_cnt =3
 let g:netrw_dirhist_1='/home/carl/github/my-linux'
 let g:netrw_dirhist_2='/mnt/f/OneDrive - Ixsay/Application'
+let g:netrw_dirhist_3='/home/carl/github/my-linux/vim/vim_runtime/my_plugins'

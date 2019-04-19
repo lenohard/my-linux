@@ -9,12 +9,6 @@ fi
 ln -s $(dirname $PWD)/kit ~/kit
 echo "creating link  ok"
 
-# ------------------BEGIN-----------------------
-if [ -f ~/kit/baidupcs-go ]; then
-    baidupcs-go config set -appid 266719
-fi
-# ==================END=========================
-
 # ------------------BEGIN------------------------------
 # ==> fasd
 if !  which fasd 2>&1 > /dev/null ;

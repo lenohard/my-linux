@@ -3,13 +3,6 @@ CURT=$(dirname $(readlink -f $0))
 ROOT=$(readlink -f $(dirname "$CURT"))
 echo root dir is \"$ROOT\"
 
-bash $ROOT/zsh/install.sh
-
-if [[ -e ~/.zshrc || -h ~/.zshrc ]]; then
-	echo "the existing zshrc will be mv to .zshrc_bk"
-	mv ~/.zshrc ~/.zshrc_bk
-fi
-ln -s $ROOT/zsh/zshrc ~/.zshrc
 if [[ -e ~/.inputrc || -h ~/.inputrc ]]; then
 	echo "the existing zshrc will be mv to .zshrc_bk"
 	mv ~/.inputrc ~/.inputrc_bk
@@ -25,5 +18,12 @@ if [[ -e ~/.racketrc || -h ~/.racketrc ]]; then
     mv .racketrc .racketrc_bk
 fi
 ln -s $ROOT/zsh/racketrc ~/.racketrc
-git clone --recursive git://github.com/joel-porquet/zsh-dircolors-solarized $ZSH_CUSTOM/plugins/zsh-dircolors-solarized
-chmod g-w,o-w  ~/.oh-my-zsh/custom/plugins/zsh-dircolors-solarized
+# git clone --recursive git://github.com/joel-porquet/zsh-dircolors-solarized $ZSH_CUSTOM/plugins/zsh-dircolors-solarized
+# chmod g-w,o-w  ~/.oh-my-zsh/custom/plugins/zsh-dircolors-solarized
+
+bash $ROOT/zsh/install.sh
+if [[ -e ~/.zshrc || -h ~/.zshrc ]]; then
+	echo "the existing zshrc will be mv to .zshrc_bk"
+	mv ~/.zshrc ~/.zshrc_bk
+fi
+bash $ROOT/script/switch_zsh antigen

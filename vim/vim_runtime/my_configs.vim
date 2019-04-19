@@ -115,6 +115,13 @@ endif
 let s:path=fnamemodify(resolve(expand('<sfile>:p')), ':h')
 map <leader>es :so ~/.vimrc
 
+
+if has('gui_running')
+	try
+ 	:set gfn=Ubuntu_Mono:h11:cANSI:qDRAFT
+	endtry
+endif
+
 "---------------
 "UI
 "---------------

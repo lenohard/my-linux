@@ -26,4 +26,4 @@ if [[ -e ~/.zshrc || -h ~/.zshrc ]]; then
 	echo "the existing zshrc will be mv to .zshrc_bk"
 	mv ~/.zshrc ~/.zshrc_bk
 fi
-bash $ROOT/script/switch_zsh antigen
+bash $ROOT/scripts/switch_zsh antigen

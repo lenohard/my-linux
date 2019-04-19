@@ -12,7 +12,15 @@ then
     then
         curl -L git.io/antigen > ~/.antigen.zsh
     fi
-    rm ~/.zshrc && ln -s $ROOT/zsh/zshrc_antigen ~/.zshrc
+    if [[ -e ~/.zshrc ]];
+    then
+        rm ~/.zshrc 
+    fi
+    ln -s $ROOT/zsh/zshrc_antigen ~/.zshrc
 else
-    rm ~/.zshrc && ln -s $ROOT/zsh/zshrc ~/.zshrc
+    if [[ -e ~/.zshrc ]];
+    then
+        rm ~/.zshrc 
+    fi
+    ln -s $ROOT/zsh/zshrc ~/.zshrc
 fi

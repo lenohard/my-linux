@@ -25,47 +25,55 @@ case "$(hostname)" in
                 fi
             fi
         }
-        alias cdy='cd /mnt/share/racoon && pwd=${PWD} && sudo caddy -conf /usr/local/caddy/Caddyfile &; cd "$pwd" '
-        alias cby='calibre-server /mnt/share/racoon/Calibre_Library --userdb /home/carl/.config/calibre/user.sqlite --enable-auth &'
-        alias jpy='mount ~/wdh ; anaconda && jupyter notebook &'
-        ;;
-    "WDH")
-        unsetopt BG_NICE
-        alias docker='docker.exe'
-        alias gvim='gvim.exe'
-        alias nvim-qt='nvim-qt.exe'
-        alias anaconda='export "PATH=/mnt/e/.anaconda3/bin:$PATH"'
-        alias host='sudo ~/kit/update_hosts.sh'
-        export set  home='/mnt/c/Users/Administrator'
-        alias CD="cd $home"
-        ZSH_THEME="ys"
-        # ZSH_THEME="spaceship"
-        function ssho(){
-            ssh $(nmblookup ${1} | awk '{print $1}')
-        }
-        ;;
-    *)
-        ZSH_THEME="af-magic"
+    alias cdy='cd /mnt/share/racoon && pwd=${PWD} && sudo caddy -conf /usr/local/caddy/Caddyfile &; cd "$pwd" '
+    alias cby='calibre-server /mnt/share/racoon/Calibre_Library --userdb /home/carl/.config/calibre/user.sqlite --enable-auth &'
+    alias jpy='mount ~/wdh ; anaconda && jupyter notebook &'
+    ;;
+"WDH")
+    unsetopt BG_NICE
+    alias docker='docker.exe'
+    alias gvim='gvim.exe'
+    alias nvim-qt='nvim-qt.exe'
+    alias anaconda='export "PATH=/mnt/e/.anaconda3/bin:$PATH"'
+    alias host='sudo ~/kit/update_hosts.sh'
+    export set  home='/mnt/c/Users/Administrator'
+    alias CD="cd $home"
+    ZSH_THEME="ys"
+    # ZSH_THEME="spaceship"
+    function ssho(){
+        ssh $(nmblookup ${1} | awk '{print $1}')
+    }
+;;
+'iMac.wdh')
+    HOMEBREW_NO_AUTO_UPDATE=1
+    export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles
+    ZSH_THEME='robbyrussell'
+    ;;
+*)
+    ZSH_THEME="af-magic"
 esac    
 #--------------------------------------------
 
 # ------------------BEGIN-----------------------
 # os-specific 
 
-os=$(cat /etc/os-release | grep '^ID=' | cut -c4- | tr '[:upper:]' '[:lower:]')
-if [ -n "$os" ];then
-    case "$os" in
-        "arch")
-            alias syslog='sudo journalctl -r'
-            alias logmonitor='sudo journalctl -f'
-            ;;
-        "ubuntu"|"elementary")
-            alias syslog='sudo less /var/log/syslog'
-            alias logmonitor='sudo tail -f /var/log/syslog'
-            ;;
-        *)
-            ;;
-    esac
+if [[ -e /etc/os-release ]];
+then
+    os=$(cat /etc/os-release | grep '^ID=' | cut -c4- | tr '[:upper:]' '[:lower:]')
+    if [ -n "$os" ];then
+        case "$os" in
+            "arch")
+                alias syslog='sudo journalctl -r'
+                alias logmonitor='sudo journalctl -f'
+                ;;
+            "ubuntu"|"elementary")
+                alias syslog='sudo less /var/log/syslog'
+                alias logmonitor='sudo tail -f /var/log/syslog'
+                ;;
+            *)
+                ;;
+        esac
+    fi
 fi
 # ==================END=========================
 
@@ -152,8 +160,24 @@ function help() {
     bash -c "help $1"
 }
 
-plugins+=(fasd)
-eval "$(fasd --init auto)"
+if [[ ! $(hostname) == 'iMac.wdh' ]];
+then
+    plugins+=(fasd)
+    eval "$(fasd --init auto)"
+    alias z='fasd_cd -d'     # cd, same functionality as j in autojump
+    alias zz='fasd_cd -d -i' # cd with interactive selection
+else
+   . /usr/local/etc/profile.d/z.sh 
+fi
+
+alias a='fasd -a'        # any
+alias s='fasd -si'       # show / search / select
+alias d='fasd -d'        # directory
+alias f='fasd -f'        # file
+alias sd='fasd -sid'     # interactive directory selection
+alias sf='fasd -sif'     # interactive file selection
+alias vv='fasd -e vim'
+
 
 export R_ENVIRON_USER='/home/carl/.config/r/.Renviron'
 
@@ -171,55 +195,46 @@ plugins+=(zsh-proxychains-ng)
 export set github="https://github.com/"
 
 #save $PS1 for restore
-export PS_="$PS1"
-# alias ssl="nohup  sslocal -s  144.202.105.34 -p 9525 -k vultr@_2018 &"
-alias ssl="nohup  sslocal -s  155.138.143.65  -p 9525 -k vultr@_2018 &"
-alias locat="locate -Abi"
-alias pcs=proxychains4
+    export PS_="$PS1"
+    # alias ssl="nohup  sslocal -s  144.202.105.34 -p 9525 -k vultr@_2018 &"
+    alias ssl="nohup  sslocal -s  155.138.143.65  -p 9525 -k vultr@_2018 &"
+    alias locat="locate -Abi"
+    alias pcs=proxychains4
 
 
-alias a='fasd -a'        # any
-alias s='fasd -si'       # show / search / select
-alias d='fasd -d'        # directory
-alias f='fasd -f'        # file
-alias sd='fasd -sid'     # interactive directory selection
-alias sf='fasd -sif'     # interactive file selection
-alias z='fasd_cd -d'     # cd, same functionality as j in autojump
-alias zz='fasd_cd -d -i' # cd with interactive selection
-alias vv='fasd -e vim'
 
-alias ev='evince '
-alias wget_all='wget -r -np -k' #download all files in a page 
-alias lld='ls -d */'
-alias git-root='cd $(git rev-parse --show-toplevel)'
-alias ucap='setxkbmap -option caps:ctrl_modifier'
-alias recap='setxkbmap -option'
-alias pacsort='pacsize| sort -rhk 2| less'
-alias weixin='google-chrome-stable -app=https://wx.qq.com'
-alias tianyi="google-chrome-stable -app=https://cloud.189.cn/main.action"
-alias baiduyun="google-chrome-stable -app=https://pan.baidu.com"
-alias bdpcs="baidupcs-go"
-alias rsynccl='rsync -rv --delete /home/carl/mounts/galileo/main/  /home/carl/mounts/RACOON/Calibre_Library'
-# alias cl2gd="rclone sync ~/mounts/galileo/Calibre_Library gd_alves:library -v --no-update-modtime"
-alias mypublicip='drill +short myip.opendns.com @resolver1.opendns.com | grep IN | tac | cut -f5 -s'
-alias git-root='cd $(git rev-parse --show-toplevel)'
-alias du1='du -hd0'
-alias ,e='nvim ~/.zshrc'
-alias prm=". ~/kit/prm.sh"
-# alias ssh='autossh'
-alias exp='less ~/kit/experience.sh'
-alias exp-add='nvim ~/kit/experience.sh'
-alias fixmode='find . -perm 000 -exec chmod 755 {} \;'
+    alias ev='evince '
+    alias wget_all='wget -r -np -k' #download all files in a page 
+    alias lld='ls -d */'
+    alias git-root='cd $(git rev-parse --show-toplevel)'
+    alias ucap='setxkbmap -option caps:ctrl_modifier'
+    alias recap='setxkbmap -option'
+    alias pacsort='pacsize| sort -rhk 2| less'
+    alias weixin='google-chrome-stable -app=https://wx.qq.com'
+    alias tianyi="google-chrome-stable -app=https://cloud.189.cn/main.action"
+    alias baiduyun="google-chrome-stable -app=https://pan.baidu.com"
+    alias bdpcs="baidupcs-go"
+    alias rsynccl='rsync -rv --delete /home/carl/mounts/galileo/main/  /home/carl/mounts/RACOON/Calibre_Library'
+    # alias cl2gd="rclone sync ~/mounts/galileo/Calibre_Library gd_alves:library -v --no-update-modtime"
+    alias mypublicip='drill +short myip.opendns.com @resolver1.opendns.com | grep IN | tac | cut -f5 -s'
+    alias git-root='cd $(git rev-parse --show-toplevel)'
+    alias du1='du -hd0'
+    alias ,e='nvim ~/.zshrc'
+    alias prm=". ~/kit/prm.sh"
+    # alias ssh='autossh'
+    alias exp='less ~/kit/experience.sh'
+    alias exp-add='nvim ~/kit/experience.sh'
+    alias fixmode='find . -perm 000 -exec chmod 755 {} \;'
 
-alias ng="sudo npm list -g --depth=0 2>/dev/null"
-alias nl="npm list --depth=0 2>/dev/null"
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+    alias ng="sudo npm list -g --depth=0 2>/dev/null"
+    alias nl="npm list --depth=0 2>/dev/null"
+    [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # HSTR configuration - add this to ~/.bashrc
 # alias hh=hstr                    # hh to be alias for hstr
-# export HISTFILE=~/.zsh_history  # ensure history file visibility
-# export HSTR_CONFIG=hicolor        # get more colors
-# bindkey -s "\C-r" "\eqhstr\n"     # bind hstr to Ctrl-r (for Vi mode check doc)
+    # export HISTFILE=~/.zsh_history  # ensure history file visibility
+    # export HSTR_CONFIG=hicolor        # get more colors
+    # bindkey -s "\C-r" "\eqhstr\n"     # bind hstr to Ctrl-r (for Vi mode check doc)
 
 
 # ------------------BEGIN------------------------------

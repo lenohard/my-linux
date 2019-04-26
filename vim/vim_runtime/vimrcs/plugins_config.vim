@@ -45,7 +45,7 @@ nmap <c-n> <Plug>yankstack_substitute_newer_paste
 let g:ctrlp_working_path_mode = 0
 
 map <leader>b :CtrlPBuffer<cr>
-map <c-M> :CtrlPMRUFiles<cr>
+map <leader>m :CtrlPMRUFiles<cr>
 " map <c-b> :CtrlPBuffer<cr>
 nnoremap <leader>j :CtrlPMixed<CR>
 
@@ -189,6 +189,10 @@ let g:ale_set_highlights = 0
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
 
+let g:syntastic_mode_map = {
+    \ "mode": "passive",
+    \ "active_filetypes": ["ruby", "php"],
+    \ "passive_filetypes": ["puppet"] }
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Git gutter (Git diff)

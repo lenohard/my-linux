@@ -1,9 +1,10 @@
 #!/bin/bash
+
 cwd="$(pwd)"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 cd $DIR
 
-hosts=("arch" "wdh" "elementary")
+hosts=("arch" "wdh" "elementary" "imac")
 
 iplookup() {
     if nmblookup "$1" >/dev/null
@@ -15,30 +16,31 @@ iplookup() {
     fi
 }
 
-for host in "${hosts[@]}"
-do
-    #awk -v hst=$host '$2!~/^hst&/ {print $0}' /etc/hosts  > /etc/hosts
-    # grep -wiv $host
-    if nmblookup "$host" >/dev/null;then
-        sed -in "/\b$host\b/d" /etc/hosts
-        echo "$(iplookup $host)" "$host" >> /etc/hosts
-    fi
-done
+if  ! type nmblookup > /dev/null 2>&1;
+then
+    echo "there is no nmblookup in your PATH"
+    echo "info maybe incorrect"
+else
+    for host in "${hosts[@]}"
+    do
+        #awk -v hst=$host '$2!~/^hst&/ {print $0}' /etc/hosts  > /etc/hosts
+        # grep -wiv $host
+        if nmblookup "$host" >/dev/null;then
+            echo "$host $(iplookup $host)"  >> "$DIR"/etc/iplist
+        fi
+    done
+fi
 
 name=($(awk '{print $1}' "$DIR"/etc/iplist))
 ip=($(awk '{print $2}' "$DIR"/etc/iplist))
 for n in "${!name[@]}";
 do
-    sed -in "/\b${name[n]}\b/d" /etc/hosts
+    if [[ $(uname) == "Darwin" ]];
+    then
+        sed -i '' "/\b${name[n]}\b/d" /etc/hosts
+    else
+        sed -in  "/\b${name[n]}\b/d" /etc/hosts
+    fi
     echo "${ip[n]} ${name[n]}" >> /etc/hosts
 done
 cd "$cwd"
-# vultr='207.246.111.84'
-# sed -in "/\bvultr\b/d" /etc/hosts
-# echo "$vultr vultr" >> /etc/hosts
-# qtb='192.186.4.90'
-# sed -in "/\bqtb\b/d" /etc/hosts
-# echo "$qtb qtb" >> /etc/hosts
-# centos='192.186.1.49'
-# sed -in "/\bcentos\b/d" /etc/hosts
-# echo "$centos centos" >> /etc/hosts

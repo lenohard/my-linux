@@ -46,8 +46,15 @@ case "$(hostname)" in
 ;;
 'iMac.wdh')
     HOMEBREW_NO_AUTO_UPDATE=1
+    export PATH=/opt/local/bin:/opt/local/sbin:$PATH
     export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles
     ZSH_THEME='robbyrussell'
+    export ANDROID_HOME=/Volumes/Fourth/Android/sdk
+    export PATH=$PATH:$ANDROID_HOME/tools 
+    export PATH=$PATH:$ANDROID_HOME/tools/bin
+    export PATH=$PATH/:$ANDROID_HOME/platform-tools
+    export PATH="/Volumes/Fourth/Anaconda/anaconda3/bin:$PATH"
+    alias anaconda='export PATH="/Volumes/Fourth/Anaconda/anaconda3/bin:$PATH"'
     ;;
 *)
     ZSH_THEME="af-magic"
@@ -74,6 +81,11 @@ then
                 ;;
         esac
     fi
+fi
+
+if [[ $(uname) == Darwin ]];
+then
+    ;
 fi
 # ==================END=========================
 
@@ -119,7 +131,7 @@ man() {
     }
 
 source $HOME/kit/tools.sh
-export PATH="/home/carl/kit/ocr:/home/carl/kit:$PATH"
+export PATH="$HOME/kit/ocr:$HOME/kit:$PATH"
 
 
 export EDITOR="nvim"
@@ -158,6 +170,17 @@ function unsetproxy() {
 }
 function help() {
     bash -c "help $1"
+}
+function color(){
+ for i in {0..255} ; do
+    printf "\x1b[38;5;${i}m%3d " "${i}"
+    if (( $i == 15 )) || (( $i > 15 )) && (( ($i-15) % 12 == 0 )); then
+        echo;
+    fi
+done
+}
+function pipi(){
+    python3 -m pip install $@
 }
 
 if [[ ! $(hostname) == 'iMac.wdh' ]];
@@ -239,7 +262,8 @@ export set github="https://github.com/"
 
 # ------------------BEGIN------------------------------
 #  ==>tmux 
-bindkey -s '^s^s' 'tmux set-option status '
+bindkey -s '^s^s' 'tmux set-option status 
+'
 
 # ==================END================================
 
@@ -250,12 +274,13 @@ bindkey -e
 bindkey -s '\es' 'sudo '
 
 function _toggle-keymap {
-    if bindkey | grep 'vi-beginning-of-line' > /dev/null 2>&1; then
+    if ! bindkey | grep 'vi-join' > /dev/null 3>&1; then
         bindkey -e
         RPROMPT='[emacs]'
         zle reset-prompt
     else
         bindkey -v
+        bindkey "jk" vi-cmd-mode
         bindkey "\ee" _toggle-keymap
         zle -U ''
         RPROMPT='[vim]'
@@ -265,6 +290,13 @@ function _toggle-keymap {
 zle -N _toggle-keymap
 bindkey "\ee" _toggle-keymap
 
+# ==================END================================
+
+
+# ------------------BEGIN------------------------------
+#  ==>autosuggestions
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=30
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=32'
 # ==================END================================
 
 # ------------------BEGIN------------------------------
@@ -296,3 +328,22 @@ then
     source `which activate.sh`
 fi
 # ==================END================================
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Volumes/Fourth/Anaconda/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Volumes/Fourth/Anaconda/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/Volumes/Fourth/Anaconda/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Volumes/Fourth/Anaconda/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+

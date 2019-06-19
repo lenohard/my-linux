@@ -7,7 +7,9 @@ call plug#begin('~/.vim_runtime/my_plugins')
 
 " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
 " Plug 'tommcdo/vim-ninja-feet'
+Plug 'vimlab/split-term.vim'
 Plug 'guns/vim-sexp'
+Plug 'wesQ3/vim-windowswap'
 Plug 'lervag/vimtex'
 Plug 'vim-scripts/paredit.vim'
 Plug 'jpalardy/vim-slime'
@@ -136,6 +138,11 @@ augroup numbertoggle
     autocmd BufEnter,FocusGained,InsertLeave * if &number | set relativenumber | endif
     autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber
 augroup END
+
+augroup TerminalStuff
+   au! 
+  autocmd TermOpen * setlocal nonumber norelativenumber
+augroup END
 " Automatically save the session when leaving Vim
 " autocmd! VimLeave * mksession
 " Automatically load the session when entering vim
@@ -180,7 +187,20 @@ nnoremap N[ ya[%
 nnoremap Nt yat%
 nnoremap <leader>zf :set foldmethod=indent<cr>
 nnoremap <leader>zF :set foldmethod=manual<cr>
-
+tnoremap kj <c-\><c-n>
+tnoremap <expr> <C-R> '<C-\><C-N>"'.nr2char(getchar()).'pi'
+tnoremap <A-h> <C-\><C-N><C-w>h
+tnoremap <A-j> <C-\><C-N><C-w>j
+tnoremap <A-k> <C-\><C-N><C-w>k
+tnoremap <A-l> <C-\><C-N><C-w>l
+inoremap <A-h> <C-\><C-N><C-w>h
+inoremap <A-j> <C-\><C-N><C-w>j
+inoremap <A-k> <C-\><C-N><C-w>k
+inoremap <A-l> <C-\><C-N><C-w>l
+nnoremap <A-h> <C-w>h
+nnoremap <A-j> <C-w>j
+nnoremap <A-k> <C-w>k
+nnoremap <A-l> <C-w>l
 
 nnoremap zz :Z 
 inoremap jk <esc>
@@ -192,7 +212,7 @@ nnoremap <leader>bb :bd<esc>
 nnoremap <leader>BB :bd!<esc>
 nnoremap <c-w>v :vsplit<cr>
 nnoremap <c-w>s :split<cr>
-nnoremap <leader>cd :cd %:h<cr>
+" nnoremap <leader>cd :cd %:h<cr>
 nnoremap <leader>bf :BufExplorer<cr>
 nnoremap <localleader>P :%!python -m json.tool
 nnoremap <Leader>1 :1b<CR>
@@ -208,6 +228,8 @@ nnoremap <Leader>0 :10b<CR>
 nnoremap <cr> <esc>
 "enable y to copy/paste selected text
 set clipboard^=unnamed,unnamedplus
+
+set scrolloff=2
 
 "use this script to help write lisp-like () 
 " autocmd filetype lisp,scheme,art setlocal equalprg=~/kit/scmindent.rkt
@@ -252,3 +274,4 @@ endfunction
 colo desert
 set sessionoptions+=buffers
 " ==================END================================
+

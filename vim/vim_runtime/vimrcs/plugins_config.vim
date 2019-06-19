@@ -334,3 +334,11 @@ nnoremap <leader>ft :CtrlSFToggle<CR>
 inoremap <leader>ft <Esc>:CtrlSFToggle<CR>
 
 " ==================END================================
+
+
+
+" ------------------BEGIN------------------------------
+"   ==>split-term.vim
+set splitright
+set splitbelow
+" ==================END================================

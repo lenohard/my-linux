@@ -28,3 +28,23 @@ git rev-list --objects --all \
 #delete ref from history to shrink size
 git filter-branch --index-filter 'git rm -r --cached --ignore-unmatch [unwanted_folename_or_folder]' --prune-empty
 #/* ==================END================================ */
+
+
+
+# ------------------BEGIN------------------------------
+ ==>ls
+ # with modified time (content change)
+ ls -l
+ ls -lt
+ ls -ltr
+ # ctime (ctime is metadata change and content change)
+ ls -lc
+ ls -ltc
+ ls -ltrc
+ # atime (latest access time)
+ ls -lu
+ ls -ltu
+ ls -ltur
+# last 4 lines
+ tail -n 4
+# ==================END================================

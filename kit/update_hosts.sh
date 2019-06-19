@@ -4,7 +4,7 @@ cwd="$(pwd)"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 cd $DIR
 
-hosts=("arch" "wdh" "elementary" "imac")
+hosts=("arch" "wdh" "elementary" "imac" "test")
 
 iplookup() {
     if nmblookup "$1" >/dev/null
@@ -37,7 +37,7 @@ for n in "${!name[@]}";
 do
     if [[ $(uname) == "Darwin" ]];
     then
-        sed -i '' "/\b${name[n]}\b/d" /etc/hosts
+        sed -in  "/\b${name[n]}\b/d" /etc/hosts
     else
         sed -in  "/\b${name[n]}\b/d" /etc/hosts
     fi

@@ -1,0 +1,6 @@
+#!/bin/bash -
+
+ssh -f administrator@WDH "activate ml && ipython kernel -f kernel-1234.json"
+sleep 2
+# [ -e ~/misc/kernel-1234.json ] && rm ~/misc/kernel-1234.json
+scp administrator@WDH:C:/Users/Administrator/AppData/Roaming/jupyter/runtime/kernel-1234.json ./misc/ && jupyter console --existing ~/misc/kernel-1234.json --ssh administrator@WDH

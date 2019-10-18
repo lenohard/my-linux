@@ -12,3 +12,7 @@ try
 source ~/.config/nvim/my_configs.vim
 catch
 endtry
+
+if @% == ""
+  bd
+endif

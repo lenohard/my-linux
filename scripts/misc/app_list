@@ -1,5 +1,8 @@
 fasd:
 silver searcher:
+tmux
+python3
+fasd
 ack-grep
 ack
 beets(python)
@@ -7,7 +10,49 @@ ycm:(build-essential camke python3 python-dev) ./install.py --clane-completer
 todotxt-cli
 taskbook(npm)
 https://github.com/Xfennec/progress process
+nvim
 pip neovim
+pip pynvim
 tesseract
 djvulibre-bin ghostscript
 pdftk
+gitsome
+direnv
+autoenv
+virtualenv
+mycli # better mysql
+jq # json beautiful print
+shellcheck
+tig # git
+htop
+axel # better curl , multithread
+cloc
+cppman
+pm  
+ncdu 
+bro 
+cheat  #pip
+tldr
+multitai
+diff-so-fancy
+node
+glances
+nmon
+ranger // pip ranger-fm
+ctags /linux and windows
+zsh-dircolor_solarizald
+sslocal // shadows-libv
+clang gcc g++
+
+#font
+ubunt-mono
+Colaborate
+Source_code_pro
+robot
+open sans
+
+#mirror list change to tsu
+ubuntu.18 
+arch
+pip
+node

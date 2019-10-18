@@ -1,0 +1,42 @@
+#!/bin/bash -
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+  DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+CURT="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+ROOT="$(dirname "$CURT")"
+
+set -o nounset                              # Treat unset variables as an error
+#upper case argument
+if [[ $# -ne 1 ]];
+then 
+    echo ":> switch_zsh antigen | ohmyzsh "
+    exit 0
+fi
+
+mode=$(echo "$1" | tr '/A-Z/' '/a-z/' )
+if [[ $mode == 'antigen' ]];
+then
+    if [[ ! -e ~/.antigen.zsh ]];
+    then
+        curl -L git.io/antigen > ~/.antigen.zsh
+    fi
+    if [[ -h ~/.zshrc ]];
+    then
+        rm ~/.zshrc 
+    fi
+    ln -s $ROOT/zsh/zshrc_antigen ~/.zshrc
+    echo "Sucessful! You are using antigen"
+elif [[ $mode == 'ohmyzsh' ]];
+then
+    if [[ -h ~/.zshrc ]];
+    then
+        rm ~/.zshrc 
+    fi
+    ln -s $ROOT/zsh/zshrc ~/.zshrc
+    echo "Sucessful! You are using oh my zsh"
+else
+    echo ":> switch_zsh antigen | ohmyzsh "
+fi

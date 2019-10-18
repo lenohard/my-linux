@@ -28,7 +28,7 @@ map <leader>o :BufExplorer<cr>
 " => MRU plugin
 """"""""""""""""""""""""""""""
 let MRU_Max_Entries = 400
-map <leader>f :MRU<CR>
+" map <leader>f :MRU<CR>
 
 
 """"""""""""""""""""""""""""""
@@ -44,9 +44,8 @@ nmap <c-n> <Plug>yankstack_substitute_newer_paste
 """"""""""""""""""""""""""""""
 let g:ctrlp_working_path_mode = 0
 
-let g:ctrlp_map = ''
-let g:ctrlp_cmd = ''
 map <leader>b :CtrlPBuffer<cr>
+map <leader>m :CtrlPMRUFiles<cr>
 " map <c-b> :CtrlPBuffer<cr>
 nnoremap <leader>j :CtrlPMixed<CR>
 
@@ -93,6 +92,9 @@ let g:NERDTreeMinmalUI=1
 let g:NERDTreeHightCursorline=0
 let g:NERDTreeChDirMode=1
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+let g:NERDTreeShowLineNumbers=0
 " let g:NERDTreeWinSize=35
 map <leader>nn :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark<Space>
@@ -181,6 +183,9 @@ let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_
 let g:syntastic_check_on_wq = 0
 nmap <silent> <leader>a <Plug>(ale_next_wrap)
 let g:syntastic_disabled_filetypes=['java']
+
+nmap <silent> <leader>a <Plug>(ale_next_wrap)
+
 " Disabling highlighting
 let g:ale_set_highlights = 0
 
@@ -243,10 +248,11 @@ let g:GitGutterEnable=1
 " airline config
 " -----------------------------------------------------
 let g:airline#extensions#tabline#enabled = 0
-let g:airline#extensions#tabline#left_sep = ' '
+" let g:airline#extensions#tabline#left_sep = ' '
+" let g:airline#extensions#tabline#formatter='unique_tail_improved'
 " let g:airline#extensions#tabline#overflow_marker='...'
 " let g:airline#extensions#tabline#buffer_idx_mode = 1
-let g:airline#extensions#tabline#left_alt_sep = '|'
+" let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'default'
 let g:airline#extensions#tabline#buffer_nr_show = 1
 " let g:airline#extensions#tabline#tabs_label = 't'
@@ -277,8 +283,8 @@ augroup END
 "  ==> buftabline
 let g:buftabline_show =1
 let g:buftabline_numbers=1
-let g:buftabline_indicators=1
-let g:buftabline_separators=1
+let g:buftabline_indicators= 1
+" let g:buftabline_separators= off
 " ==================END================================
 
 " ------------------BEGIN------------------------------
@@ -305,9 +311,12 @@ let g:jedi#rename_command = "<localleader>r"
 
 " ------------------BEGIN------------------------------
 "   ==>vim-slime
-let g:slime_target = "tmux"
-let g:slime_python_ipython = 1
-" let g:slime_haskell_ghci_add_let = 0
+if has('win32')
+    let g:slime_target='conemu'
+else
+    let g:slime_target = "tmux"
+endif
+let g:slime_python_ipython=1
 nmap <c-c>l <Plug>SlimeLineSend
 nmap <c-c>c <Plug>SlimeMotionSend
 " ==================END================================
@@ -334,4 +343,24 @@ let g:airline_theme='base16_oceanicnext'
 " let g:airline_theme='base16_nord'
 " let g:airline_theme='base16_flat'
 
+" ==================END================================
+" ------------------BEGIN------------------------------
+"   ==>CtrlSF
+nmap     <leader>ff <Plug>CtrlSFPrompt
+vmap     <leader>ff <Plug>CtrlSFVwordPath
+vmap     <leader>fF <Plug>CtrlSFVwordExec
+nmap     <leader>fn <Plug>CtrlSFCwordPath
+nmap     <leader>fp <Plug>CtrlSFPwordPath
+nnoremap <leader>fo :CtrlSFOpen<CR>
+nnoremap <leader>ft :CtrlSFToggle<CR>
+inoremap <leader>ft <Esc>:CtrlSFToggle<CR>
+
+" ==================END================================
+
+
+
+" ------------------BEGIN------------------------------
+"   ==>split-term.vim
+set splitright
+set splitbelow
 " ==================END================================

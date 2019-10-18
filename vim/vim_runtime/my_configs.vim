@@ -7,6 +7,7 @@ call plug#begin('~/.vim_runtime/my_plugins')
 
 " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
 Plug 'vim-scripts/paredit.vim'
+Plug 'dense-analysis/ale'
 Plug 'jpalardy/vim-slime'
 Plug 'junegunn/vim-easy-align'
 Plug 'vim-syntastic/syntastic'
@@ -110,6 +111,9 @@ set nohlsearch
 set number
 set number relativenumber
 set nowrap
+set fileencodings=gb2312,utf-8,gb18030,gbk,ucs-bom,cp936,latin1
+set enc=utf8
+set fencs=utf8,gbk,gb2312,gb18030
 augroup numbertoggle
     autocmd!
     autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
@@ -131,6 +135,8 @@ iabbrev gml mathestics@gmail.com
 iabbrev unm carlleonhard
 iabbrev wyyx mathestics@163.com
 iabbrev pnb 15238723375
+iabbrev ,. :
+iabbrev ., ;
 iabbrev seperate -----------------------------------------
 nmap <leader>Se o------------------BEGIN------------------------------<c-c>0gcc
 nmap <leader>SE o==================END================================<c-c>0gcc
@@ -148,7 +154,7 @@ nnoremap <leader>ds j?-BEGIN<cr>0d/=END<cr>dd
 " au FileType vim
 inoremap jk <esc>
 inoremap <esc> <nop>
-nnoremap <leader>? :help
+nnoremap <leader>? :help 
 nnoremap <leader>q :wq<esc>
 nnoremap <leader>X :q!<esc>
 nnoremap <leader>bb :bd<esc>
@@ -172,6 +178,7 @@ nnoremap <Leader>0 :10b<CR>
 "enable y to copy/paste selected text
 set clipboard^=unnamed,unnamedplus
 
+au BufRead,BufNewFile,BufNew *.hss setl ft=haskell.script
 autocmd filetype lisp,scheme,art setlocal equalprg=~/kit/scmindent.rkt
 
 filetype plugin on
@@ -185,7 +192,6 @@ set ssop-=buffers
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
-
 set tags=./tags,tags;
 
 "Z - cd to recent / frequent directories

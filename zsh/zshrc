@@ -7,6 +7,10 @@ export ZSH=/home/carl/.oh-my-zsh
 # time that oh-my-zsh is loaded.
 
 #-------------------------------------------- host
+alias ucap='setxkbmap -option caps:ctrl_modifier'
+alias recap='setxkbmap -option'
+alias fixkey='xmodmap -e "keycode 112 = semicolon colon"'
+
 case "$(hostname)" in
     "dream")
         alias anaconda='export PATH="/opt/anaconda/bin:$PATH"'
@@ -61,6 +65,8 @@ if [ -n "$os" ];then
         "arch")
             alias syslog='sudo journalctl -r'
             alias logmonitor='sudo journalctl -f'
+            ucap
+            fixkey
             ;;
         "ubuntu"|"elementary")
             alias syslog='sudo less /var/log/syslog'
@@ -194,6 +200,9 @@ function swap()
 function setproxy() {
     export {http,https,ftp}_proxy="${1-socks5}://127.0.0.1:1080"
 }
+function pid(){
+    ps -o cmd fp $1
+}
 function unsetproxy() {
     unset {http,https,ftp}_proxy
 }
@@ -223,7 +232,7 @@ export set github="https://github.com/"
 #save $PS1 for restore
 export PS_="$PS1"
 # alias ssl="nohup  sslocal -s  144.202.105.34 -p 9525 -k vultr@_2018 &"
-alias ssl="nohup  sslocal -s  155.138.143.65  -p 9525 -k vultr@_2018 &"
+alias ssl="nohup  sslocal -s  149.28.242.183  -p 9525 -k vultr@_2018 &"
 alias locat="locate -Abi"
 alias pcs=proxychains4
 
@@ -242,8 +251,6 @@ alias ev='evince '
 alias wget_all='wget -r -np -k' #download all files in a page 
 alias lld='ls -d */'
 alias git-root='cd $(git rev-parse --show-toplevel)'
-alias ucap='setxkbmap -option caps:ctrl_modifier'
-alias recap='setxkbmap -option'
 alias pacsort='pacsize| sort -rhk 2| less'
 alias weixin='google-chrome-stable -app=https://wx.qq.com'
 alias tianyi="google-chrome-stable -app=https://cloud.189.cn/main.action"
@@ -261,6 +268,29 @@ alias exp='less ~/kit/experience.sh'
 alias exp-add='nvim ~/kit/experience.sh'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+
+# ------------------BEGIN------------------------------
+#  ==>fzf
+# tmux split
+export FZF_TMUX=1
+
+# Using highlight (http://www.andre-simon.de/doku/highlight/en/highlight.html)
+export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
+
+#full screen mode
+# export FZF_DEFAULT_OPTS='--no-height --no-reverse'
+
+#Commands that are too long are not fully visible on screen. We can use --preview option to display the full command on the preview window. In the following example, we bind ? key for toggling the preview window.
+export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
+
+fzf-history-widget-accept() {
+  fzf-history-widget
+  zle accept-line
+}
+zle     -N     fzf-history-widget-accept
+bindkey '^X^R' fzf-history-widget-accept
+# ==================END================================
 
 # HSTR configuration - add this to ~/.bashrc
 # alias hh=hstr                    # hh to be alias for hstr

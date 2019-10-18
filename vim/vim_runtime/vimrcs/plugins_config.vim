@@ -45,6 +45,7 @@ nmap <c-n> <Plug>yankstack_substitute_newer_paste
 let g:ctrlp_working_path_mode = 0
 
 let g:ctrlp_map = ''
+let g:ctrlp_cmd = ''
 map <leader>b :CtrlPBuffer<cr>
 " map <c-b> :CtrlPBuffer<cr>
 nnoremap <leader>j :CtrlPMixed<CR>
@@ -176,9 +177,10 @@ let g:ale_linters = {
 \   'go': ['go', 'golint', 'errcheck']
 \}
 " let g:syntastic_python_flake8_args='--ignore=E501,E225'
-
+let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
+let g:syntastic_check_on_wq = 0
 nmap <silent> <leader>a <Plug>(ale_next_wrap)
-
+let g:syntastic_disabled_filetypes=['java']
 " Disabling highlighting
 let g:ale_set_highlights = 0
 
@@ -305,6 +307,31 @@ let g:jedi#rename_command = "<localleader>r"
 "   ==>vim-slime
 let g:slime_target = "tmux"
 let g:slime_python_ipython = 1
+" let g:slime_haskell_ghci_add_let = 0
 nmap <c-c>l <Plug>SlimeLineSend
 nmap <c-c>c <Plug>SlimeMotionSend
+" ==================END================================
+
+
+" ------------------BEGIN------------------------------
+"   ==>ale
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_linters = { 'eruby': ['erubi'], 'java': [] }
+let g:ale_sign_column_always = 1
+let g:ale_sign_error = '✗'
+let g:ale_sign_warning = '▲'
+
+highlight link ALEWarningSign String
+highlight link ALEErrorSign Title
+
+nnoremap ]l :ALENextWrap<CR>
+nnoremap [l :ALEPreviousWrap<CR>
+
+" Set this. Airline will handle the rest.
+let g:airline#extensions#ale#enabled = 1
+
+let g:airline_theme='base16_oceanicnext'
+" let g:airline_theme='base16_nord'
+" let g:airline_theme='base16_flat'
+
 " ==================END================================

@@ -1,0 +1,6 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =4
+let g:netrw_dirhist_4='/home/carl/project/my-linux/kit'
+let g:netrw_dirhist_3='/home/carl/project/ethereum/exchange/service/src/main/java/com/zag/service'
+let g:netrw_dirhist_2='/home/carl/project/ethereum/exchange/service/src/main/java/com/zag'
+let g:netrw_dirhist_1='/home/carl/project/ethereum/exchange/service/src/main/java/com'

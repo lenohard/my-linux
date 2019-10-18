@@ -65,7 +65,7 @@ Plug 'ap/vim-css-color'
 Plug 'dyng/ctrlsf.vim'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'Raimondi/delimitMate'
-
+Plug 'andymass/vim-matchup'
 " Any valid git URL is allowed
 Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 
@@ -212,6 +212,7 @@ nnoremap <leader>bb :bd<esc>
 nnoremap <leader>BB :bd!<esc>
 nnoremap <c-w>v :vsplit<cr>
 nnoremap <c-w>s :split<cr>
+nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
 " nnoremap <leader>cd :cd %:h<cr>
 nnoremap <leader>bf :BufExplorer<cr>
 nnoremap <localleader>P :%!python -m json.tool

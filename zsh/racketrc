@@ -3,6 +3,13 @@
 ;Utils
 (define (square n) ( * n  n ))
 (define (cube x) (* x x x))
+(define (insert-between v xs)
+  (cond ((null? xs) xs)
+        ((null? (cdr xs)) xs)
+        (else (cons (car xs)
+                    (cons v (insert-between v (cdr xs)))))))
+(define (display-all sep . vs)
+  (for-each display (insert-between sep vs)))
 (define (average a b) (/ (+ a b ) 2))
 (define (isNum? A)
   (cond ((null? A) #f)

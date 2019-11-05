@@ -7,6 +7,7 @@ call plug#begin('~/.vim_runtime/my_plugins')
 
 " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
 " Plug 'tommcdo/vim-ninja-feet'
+Plug 'voldikss/vim-mma'
 Plug 'vimlab/split-term.vim'
 Plug 'guns/vim-sexp'
 Plug 'wesQ3/vim-windowswap'
@@ -16,7 +17,7 @@ Plug 'vim-scripts/paredit.vim'
 Plug 'dense-analysis/ale'
 Plug 'jpalardy/vim-slime'
 Plug 'junegunn/vim-easy-align'
-Plug 'vim-syntastic/syntastic'
+" Plug 'vim-syntastic/syntastic'
 Plug 'mattn/emmet-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -25,7 +26,6 @@ Plug 'tomlion/vim-solidity'
 Plug 'tpope/vim-commentary'
 Plug 'chrisbra/Colorizer'
 Plug 'Shougo/unite.vim'
-" Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-commentary'
 Plug 'chrisbra/Colorizer'
 Plug 'Shougo/denite.nvim'
@@ -37,8 +37,8 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'airblade/vim-gitgutter'
-Plug 'itchyny/lightline.vim'
-Plug 'maximbaz/lightline-ale'
+" Plug 'itchyny/lightline.vim'
+" Plug 'maximbaz/lightline-ale'
 Plug 'yuttie/comfortable-motion.vim'
 Plug 'vim-scripts/mru.vim'
 Plug 'michaeljsmith/vim-indent-object'
@@ -52,7 +52,6 @@ Plug 'amdt/vim-niji'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'amdt/vim-niji'
 Plug 'nanotech/jellybeans.vim'
-" Plug 'mhinz/vim-startify'
 Plug 'Yggdroot/indentLine'
 Plug 'zchee/deoplete-zsh'
 Plug 'zchee/deoplete-jedi'
@@ -74,6 +73,10 @@ Plug 'Raimondi/delimitMate'
 Plug 'andymass/vim-matchup'
 " Any valid git URL is allowed
 Plug 'https://github.com/junegunn/vim-github-dashboard.git'
+Plug 'albfan/vim-breakpts'
+Plug 'vim-scripts/genutils'
+Plug 'bfredl/nvim-miniyank'
+Plug 'tpope/vim-abolish'
 
 
 " Multiple Plug commands can be written in a single line using | separators
@@ -94,7 +97,7 @@ Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
 
 " Plugin outside ~/.vim/plugged with post-update hook
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-" Plug 'Valloric/YouCompleteMe', { 'do': './install.py ' }
+Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
 
 if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -126,7 +129,7 @@ map <leader>es :so ~/.vimrc
 
 if has('gui_running')
 	try
- 	:set gfn=Ubuntu_Mono:h11:cANSI:qDRAFT
+        :set gfn=Ubuntu_Mono:h11:cANSI:qDRAFT
 	endtry
 endif
 
@@ -134,7 +137,6 @@ endif
 "UI
 "---------------
 set background=dark
-colorscheme jellybeans
 set nohlsearch
 set number
 set number relativenumber
@@ -148,10 +150,10 @@ augroup numbertoggle
     autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber
 augroup END
 
-augroup TerminalStuff
-   au! 
-  autocmd TermOpen * setlocal nonumber norelativenumber
-augroup END
+" augroup TerminalStuff
+"     au!
+"     autocmd TermOpen * setlocal nonumber norelativenumber
+" augroup END
 " Automatically save the session when leaving Vim
 " autocmd! VimLeave * mksession
 " Automatically load the session when entering vim
@@ -175,7 +177,7 @@ iabbrev seperate -----------------------------------------
 nmap <leader>Se o------------------BEGIN------------------------------<c-c>0gcc
 nmap <leader>SE o==================END================================<c-c>0gcc
 nmap <leader>se ojkx,Seojkx,SE2ko ==><c-c>A
-nmap <leader>Si :SyntasticToggleMode<cr>
+" nmap <leader>Si :SyntasticToggleMode<cr>
 nmap <leader>py 0:.,/^$/ s/^.*: //<cr>
 " nnoremap nb /-BEGIN<cr>0
 " nnoremap Nb ?-BEGIN<cr>0
@@ -211,8 +213,10 @@ nnoremap <A-j> <C-w>j
 nnoremap <A-k> <C-w>k
 nnoremap <A-l> <C-w>l
 
-nnoremap zz :Z 
+noremap <leader>P o<esc>p
+nnoremap zz :Z
 inoremap jk <esc>
+inoremap kj <esc>
 inoremap <esc> <nop>
 nnoremap <leader>? :help 
 nnoremap <leader>q :wq<esc>
@@ -244,13 +248,9 @@ set scrolloff=2
 "use this script to help write lisp-like () 
 " autocmd filetype lisp,scheme,art setlocal equalprg=~/kit/scmindent.rkt
 
-"enable y to copy/paste selected text
-set clipboard^=unnamed,unnamedplus
-
 au BufRead,BufNewFile,BufNew *.hss setl ft=haskell.script
 autocmd filetype lisp,scheme,art setlocal equalprg=~/kit/scmindent.rkt
 
-filetype plugin on
 map <leader>ee :e! ~/.vim_runtime/vimrcs/basic.vim <cr>
 map <leader>ex :e! ~/.vim_runtime/vimrcs/extended.vim <cr>
 map <leader>ep :e! ~/.vim_runtime/vimrcs/plugins_config.vim<cr>
@@ -262,7 +262,7 @@ set switchbuf-=newtab
 
 set wrap
 set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 set tags=./tags,tags;
@@ -287,6 +287,7 @@ endfunction
 
 " ------------------BEGIN------------------------------
 "  ==> pre
-colo desert
+set background=dark
+colorscheme jellybeans
 set sessionoptions+=buffers
 " ==================END================================

@@ -130,30 +130,30 @@ au FileType mako vmap Si S"i${ _(<esc>2f"a) }<esc>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => lightline
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ }
+" let g:lightline = {
+"       \ 'colorscheme': 'wombat',
+"       \ }
 
-let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ 'active': {
-      \   'left': [ ['mode', 'paste'],
-      \             ['fugitive', 'readonly', 'filename', 'modified'] ],
-      \   'right': [ [ 'lineinfo' ], ['percent'] ]
-      \ },
-      \ 'component': {
-      \   'readonly': '%{&filetype=="help"?"":&readonly?"🔒":""}',
-      \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
-      \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
-      \ },
-      \ 'component_visible_condition': {
-      \   'readonly': '(&filetype!="help"&& &readonly)',
-      \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
-      \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
-      \ },
-      \ 'separator': { 'left': ' ', 'right': ' ' },
-      \ 'subseparator': { 'left': ' ', 'right': ' ' }
-      \ }
+" let g:lightline = {
+"       \ 'colorscheme': 'wombat',
+"       \ 'active': {
+"       \   'left': [ ['mode', 'paste'],
+"       \             ['fugitive', 'readonly', 'filename', 'modified'] ],
+"       \   'right': [ [ 'lineinfo' ], ['percent'] ]
+"       \ },
+"       \ 'component': {
+"       \   'readonly': '%{&filetype=="help"?"":&readonly?"🔒":""}',
+"       \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
+"       \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
+"       \ },
+"       \ 'component_visible_condition': {
+"       \   'readonly': '(&filetype!="help"&& &readonly)',
+"       \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
+"       \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
+"       \ },
+"       \ 'separator': { 'left': ' ', 'right': ' ' },
+"       \ 'subseparator': { 'left': ' ', 'right': ' ' }
+"       \ }
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Vimroom
@@ -173,25 +173,13 @@ let g:go_fmt_command = "goimports"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Syntastic (syntax checker)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:ale_linters = {
-\   'javascript': ['jshint'],
-\   'python': ['flake8'],
-\   'go': ['go', 'golint', 'errcheck']
-\}
-" let g:syntastic_python_flake8_args='--ignore=E501,E225'
-let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
-let g:syntastic_check_on_wq = 0
-nmap <silent> <leader>a <Plug>(ale_next_wrap)
-let g:syntastic_disabled_filetypes=['java']
+" let g:syntastic_error_symbol = 's'
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
+" let g:syntastic_check_on_wq = 0
+" let g:syntastic_disabled_filetypes=['java']
 
-nmap <silent> <leader>a <Plug>(ale_next_wrap)
-
-" Disabling highlighting
-let g:ale_set_highlights = 0
-
-" Only run linting when saving the file
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_enter = 0
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -235,7 +223,7 @@ nnoremap <silent> <leader>d :GitGutterToggle<cr>
 
 " ------------------BEGIN------------------------------
 " ==> deoplete
-let g:deoplete#enable_at_startup = 1
+" let g:deoplete#enable_at_startup = 1
 
 " ==================END================================
 
@@ -260,12 +248,6 @@ let g:airline#extensions#tabline#buffer_nr_show = 1
 " -----------------------------------------------------
 
 
-" -----------------------------------------------------
-let g:syntastic_check_on_wq = 1
-let g:syntastic_error_symbol = "✗"
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-" -----------------------------------------------------
 
 
 " ------------------BEGIN------------------------------
@@ -296,15 +278,15 @@ set sessionoptions+=buffers
 
 " ------------------BEGIN------------------------------
 "   ==> Jedi
-let g:jedi#use_tabs_not_buffers = 0  " use buffers instead of tabs
-let g:jedi#show_call_signatures = "1"
-let g:jedi#goto_command = "<leader>]"
-let g:jedi#goto_definitions_command = "<leader>ga"
-let g:jedi#goto_assignments = "<leader>gg"
-let g:jedi#documentation_command = "K"
-let g:jedi#usages_command = "<leader>u"
-let g:jedi#completions_command = "<C-Space>"
-let g:jedi#rename_command = "<localleader>r"
+" let g:jedi#use_tabs_not_buffers = 0  " use buffers instead of tabs
+" let g:jedi#show_call_signatures = "1"
+" let g:jedi#goto_command = "<leader>]"
+" let g:jedi#goto_definitions_command = "<leader>ga"
+" let g:jedi#goto_assignments = "<leader>gg"
+" let g:jedi#documentation_command = "K"
+" let g:jedi#usages_command = "<leader>u"
+" let g:jedi#completions_command = "<C-Space>"
+" let g:jedi#rename_command = "<localleader>r"
 
 " ==================END================================
 
@@ -325,25 +307,36 @@ nmap <c-c>c <Plug>SlimeMotionSend
 " ------------------BEGIN------------------------------
 "   ==>ale
 let g:ale_lint_on_text_changed = 'never'
-let g:ale_linters = { 'eruby': ['erubi'], 'java': [] }
-let g:ale_sign_column_always = 1
+" let g:ale_sign_column_always = 1
 let g:ale_sign_error = '✗'
 let g:ale_sign_warning = '▲'
 
 highlight link ALEWarningSign String
 highlight link ALEErrorSign Title
 
+nmap <silent> <leader>a <Plug>(ale_next_wrap)
 nnoremap ]l :ALENextWrap<CR>
 nnoremap [l :ALEPreviousWrap<CR>
 
 " Set this. Airline will handle the rest.
 let g:airline#extensions#ale#enabled = 1
 
-let g:airline_theme='base16_oceanicnext'
+let g:airline_theme='random'
 " let g:airline_theme='base16_nord'
 " let g:airline_theme='base16_flat'
 
+" Disabling highlighting
+let g:ale_set_highlights = 0
+
+" Only run linting when saving the file
+let g:ale_lint_on_enter = 0
+let g:ale_linters = {
+\   'javascript': ['jshint'],
+\   'python': ['flake8'],
+\   'go': ['go', 'golint', 'errcheck']
+\}
 " ==================END================================
+
 " ------------------BEGIN------------------------------
 "   ==>CtrlSF
 nmap     <leader>ff <Plug>CtrlSFPrompt
@@ -360,7 +353,32 @@ inoremap <leader>ft <Esc>:CtrlSFToggle<CR>
 
 
 " ------------------BEGIN------------------------------
+"   ==>vim-mma
+let g:mma_candy = 1
+
+" ==================END================================
+
+" ------------------BEGIN------------------------------
 "   ==>split-term.vim
 set splitright
 set splitbelow
+" ==================END================================
+
+
+" ------------------BEGIN------------------------------
+"   ==>coc.nvim
+set hidden
+
+" ==================END================================
+
+
+" ------------------BEGIN------------------------------
+"   ==>miniyank
+
+" ==================END================================
+
+
+" ------------------BEGIN------------------------------
+"   ==>vim-abolish
+
 " ==================END================================

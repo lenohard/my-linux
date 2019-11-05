@@ -1,8 +1,332 @@
-#-------------------------------------------- host
+# ------------------BEGIN------------------------------
+#  ==>antigen
+source ~/.antigen.zsh
+
+# Load the oh-my-zsh's library.
+antigen use oh-my-zsh
+# Load the theme
+antigen theme rkj-repos
+# Bundles from the default repo (robbyrussell's oh-my-zsh).
+antigen bundle git
+antigen bundle heroku
+antigen bundle pip
+antigen bundle lein
+antigen bundle command-not-found
+# antigen bundle autojump
+antigen bundle common-aliases
+antigen bundle compleat
+antigen bundle git-extras
+antigen bundle zsh-reload
+antigen bundle git-flow
+antigen bundle npm
+antigen bundle z
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zdharma/history-search-multi-word
+# antigen bundle zsh-users/zsh-history-substring-search 
+antigen bundle zsh-users/zsh-autosuggestions
+
+antigen apply
+
+
+# ------------------BEGIN------------------------------
+#  ==>oh my zsh
+plugins=(zsh-reload zsh-history-substring-search)
+
+# ==================END================================
+
+fpath=(/usr/local/share/zsh-completions $fpath)
+man() {
+    env LESS_TERMCAP_mb=$'\E[01;31m' \
+        LESS_TERMCAP_md=$'\E[01;38;5;74m' \
+        LESS_TERMCAP_me=$'\E[0m' \
+        LESS_TERMCAP_se=$'\E[0m' \
+        LESS_TERMCAP_so=$'\E[38;5;246m' \
+        LESS_TERMCAP_ue=$'\E[0m' \
+        LESS_TERMCAP_us=$'\E[04;38;5;146m' \
+        man "$@"
+    }
+
+
+# ------------------BEGIN-----------------------
+# os-specific 
+
+if [[ -e /etc/os-release ]];
+then
+    os=$(cat /etc/os-release | grep '^ID=' | cut -c4- | tr '[:upper:]' '[:lower:]')
+    if [ -n "$os" ];then
+        case "$os" in
+            "arch")
+                alias syslog='sudo journalctl -r'
+                alias logmonitor='sudo journalctl -f'
+                ;;
+            "ubuntu"|"elementary")
+                alias syslog='sudo less /var/log/syslog'
+                alias logmonitor='sudo tail -f /var/log/syslog'
+                ;;
+            *)
+                ;;
+        esac
+    fi
+fi
+
+# ==================END=========================
+
+setopt extended_glob
+source $HOME/kit/tools.sh
+export PATH="$HOME/kit/ocr:$HOME/kit:$PATH"
+export EDITOR="nvim"
+
+function cdd(){
+    cd $@ && ls
+}
+function showme()
+{
+    if which nvim > /dev/null 2>&1;
+    then
+        nvim "$(which $1)" 
+    else
+        vim "$(which $1)"
+    fi
+}
+function findit()
+{
+    case $# in 
+        0 )
+            echo "arguments required"
+            return 0
+            ;;
+        1 )
+            find "$PWD" -iname "*$1*"
+            ;;
+        2 )
+            find "$(realpath $2)" -iname "*$1*"
+            ;;
+        * )
+            echo ":find PARTEN [path]"
+            return 0
+    esac
+}
+function findv()
+{
+    nvim "$(findit $@ | select.py)"
+}
+function findc()
+{
+    cd "$(dirname "$(findit $@ | select.py)")"
+}
+function findout()
+{
+    findit $@ | select.py
+}
+function swap()         
+{
+    local TMPFILE=tmp.$$
+    mv "$1" $TMPFILE
+    mv "$2" "$1"
+    mv $TMPFILE "$2"
+}
+#function to set or unset proxy in terminal
+function setproxy() {
+    if [[ $(uname) == Darwin ]];
+    then
+        export {http,https,ftp}_proxy="${1-socks5}://127.0.0.1:1086"
+    else
+        export {http,https,ftp}_proxy="${1-socks5}://127.0.0.1:1080"
+    fi
+}
+function unsetproxy() {
+    unset {http,https,ftp}_proxy
+}
+function help() {
+    bash -c "help $1"
+}
+function color(){
+    for i in {0..255} ; do
+        printf "\x1b[38;5;${i}m%3d " "${i}"
+        if (( $i == 15 )) || (( $i > 15 )) && (( ($i-15) % 12 == 0 )); then
+            echo;
+        fi
+    done
+}
+
+if [[ ! $(hostname) == 'iMac.wdh' ]];
+then
+    plugins+=(fasd)
+    eval "$(fasd --init auto)"
+    alias z='fasd_cd -d'     # cd, same functionality as j in autojump
+    alias zz='fasd_cd -d -i' # cd with interactive selection
+else
+    . /usr/local/etc/profile.d/z.sh 
+fi
+
+alias a='fasd -a'        # any
+alias s='fasd -si'       # show / search / select
+alias d='fasd -d'        # directory
+alias f='fasd -f'        # file
+alias sd='fasd -sid'     # interactive directory selection
+alias sf='fasd -sif'     # interactive file selection
+alias vv='fasd -e vim'
+
+
+export R_ENVIRON_USER='/home/carl/.config/r/.Renviron'
+
+export AURDEST='/var/cache/pacaur/pkg'
+
+#transfer.sh, to upload file and share with a link
+transfer() { if [ $# -eq 0 ]; then echo -e "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"; return 1; fi 
+    tmpfile=$( mktemp -t transferXXX ); if tty -s; then basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g'); curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" >> $tmpfile; else curl --progress-bar --upload-file "-" "https://transfer.sh/$1" >> $tmpfile ; fi; cat $tmpfile; rm -f $tmpfile; } 
+
+
+#source /home/carl/kit/env_proxy
+plugins+=(zsh-proxychains-ng)
+
+#ssh log in to server hosted on vultr 
+export set github="https://github.com/"
+
+#save $PS1 for restore
+export PS_="$PS1"
+# alias ssl="nohup  sslocal -s  144.202.105.34 -p 9525 -k vultr@_2018 &"
+alias ssl="nohup  sslocal -s  155.138.143.65  -p 9525 -k vultr@_2018 &"
+alias locat="locate -Abi"
+alias pcs=proxychains4
+
+
+alias ucap='setxkbmap -option caps:ctrl_modifier'
+alias recap='setxkbmap -option'
+alias fixkey='xmodmap -e "keycode 112 = semicolon colon"'
+alias wget_all='wget -r -np -k' #download all files in a page
+alias lld='ls -d */'
+alias git-root='cd $(git rev-parse --show-toplevel)'
+alias pacsort='pacsize| sort -rhk 2| less'
+alias weixin='google-chrome-stable -app=https://wx.qq.com'
+alias tianyi="google-chrome-stable -app=https://cloud.189.cn/main.action"
+alias baiduyun="google-chrome-stable -app=https://pan.baidu.com"
+alias bdpcs="baidupcs-go"
+alias rsynccl='rsync -rv --delete /home/carl/mounts/galileo/main/  /home/carl/mounts/RACOON/Calibre_Library'
+# alias cl2gd="rclone sync ~/mounts/galileo/Calibre_Library gd_alves:library -v --no-update-modtime"
+alias mypublicip='drill +short myip.opendns.com @resolver1.opendns.com | grep IN | tac | cut -f5 -s'
+alias git-root='cd $(git rev-parse --show-toplevel)'
+alias du1='du -hd0'
+alias ,e='nvim ~/.zshrc'
+alias prm=". ~/kit/prm.sh"
+# alias ssh='autossh'
+alias exp='less ~/kit/experience.sh'
+alias exp-add='nvim ~/kit/experience.sh'
+alias fixmode='find . -perm 000 -exec chmod 755 {} \;'
+
+alias ng="sudo npm list -g --depth=0 2>/dev/null"
+alias nl="npm list --depth=0 2>/dev/null"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+
+# ------------------BEGIN------------------------------
+#  ==>tmux 
+bindkey -s '^s^s' 'tmux set-option status'
+
+# ==================END================================
+
+# ------------------BEGIN------------------------------
+#  ==> zle bindkey
+#  alt+s to prepend 'sudo' to current command and move to EOL.
+bindkey -e
+bindkey -s '\es' 'sudo '
+
+function _toggle-keymap {
+    if ! bindkey | grep 'vi-join' > /dev/null 3>&1; then
+        bindkey -e
+        RPROMPT='[emacs]'
+        zle reset-prompt
+    else
+        bindkey -v
+        bindkey "jk" vi-cmd-mode
+        bindkey "\ee" _toggle-keymap
+        zle -U ''
+        RPROMPT='[vim]'
+        zle reset-prompt
+    fi
+}
+zle -N _toggle-keymap
+bindkey "\ee" _toggle-keymap
+
+# ==================END================================
+
+# ------------------BEGIN------------------------------
+#  ==>fzf
+# tmux split
+export FZF_TMUX=1
+
+# Using highlight (http://www.andre-simon.de/doku/highlight/en/highlight.html)
+export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
+
+#full screen mode
+# export FZF_DEFAULT_OPTS='--no-height --no-reverse'
+
+#Commands that are too long are not fully visible on screen. We can use --preview option to display the full command on the preview window. In the following example, we bind ? key for toggling the preview window.
+export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
+
+fzf-history-widget-accept() {
+fzf-history-widget
+zle accept-line
+}
+zle     -N     fzf-history-widget-accept
+bindkey '^X^R' fzf-history-widget-accept
+# ==================END================================
+
+# ------------------BEGIN------------------------------
+#  ==>autosuggestions
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=30
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=32'
+# ==================END================================
+
+# ------------------BEGIN------------------------------
+#  ==> ENV VAR
+ENABLE_CORRECTION="true"
+COMPLETION_WAITING_DOTS="true"
+
+
+# Save all history
+# # Incrementally write history to file
+setopt INC_APPEND_HISTORY
+# # Save timestamp to history file too
+setopt EXTENDED_HISTORY
+# # Import newly written commands from the history file
+setopt SHARE_HISTORY
+
+# ==================END================================
+
+
+# ------------------BEGIN------------------------------
+#  ==> autoenv or direnv
+if which direnv > /dev/null 2>&1;
+then
+    eval "$(direnv hook zsh)"
+fi
+
+if which activate.sh > /dev/null 2>&1; 
+then
+    source `which activate.sh`
+fi
+# ==================END================================
+
+
+
+
+# ------------------BEGIN------------------------------
+#  ==>Host
+
 case "$(hostname)" in
     "dream")
         alias anaconda='export PATH="/opt/anaconda/bin:$PATH"'
         ZSH_THEME="rkj-repos"
+        if [ ! $TMUX ];
+        then
+            tmux new-session -n Home
+        fi        
+        setxkbmap -option caps:ctrl_modifier
+        xmodmap -e "keycode 112 = semicolon colon"
+        alias readbook='cd /mnt/galileo/BOOK && nohup evince "$(fzf)"'
+        alias clash='sudo nohup /home/carl/local/clash-linux-amd64-v0.16.0 &'
+        export PATH="/home/carl/local:$PATH"
         ;;
     "elementary")
         ZSH_THEME="frisk"
@@ -54,351 +378,24 @@ case "$(hostname)" in
         cd /Volumes/Fourth/Android/sdk/tools
         /Volumes/Fourth/Android/sdk/tools/emulator $@
     }
-    export PATH=/Volumes/Fourth/Application/calibre.app/Contents/MacOS:/opt/local/bin:/opt/local/sbin:$PATH
-    export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles
-    ZSH_THEME='robbyrussell'
-    export ANDROID_HOME=/Volumes/Fourth/Android/sdk
-    export PATH=$PATH:$ANDROID_HOME/tools 
-    export PATH=$PATH:$ANDROID_HOME/tools/bin
-    export PATH=$PATH/:$ANDROID_HOME/platform-tools
-# export PATH="/Volumes/Fourth/Anaconda/anaconda3/bin:$PATH"  # commented out by conda initialize
-    # alias anaconda='export PATH="/Volumes/Fourth/Anaconda/anaconda3/bin:$PATH"'
-    ;;
-*)
-    ZSH_THEME="af-magic"
-esac    
-#--------------------------------------------
 
-# ------------------BEGIN-----------------------
-# os-specific 
-
-if [[ -e /etc/os-release ]];
-then
-    os=$(cat /etc/os-release | grep '^ID=' | cut -c4- | tr '[:upper:]' '[:lower:]')
-    if [ -n "$os" ];then
-        case "$os" in
-            "arch")
-                alias syslog='sudo journalctl -r'
-                alias logmonitor='sudo journalctl -f'
-                ;;
-            "ubuntu"|"elementary")
-                alias syslog='sudo less /var/log/syslog'
-                alias logmonitor='sudo tail -f /var/log/syslog'
-                ;;
-            *)
-                ;;
-        esac
-    fi
-fi
-
-# ==================END=========================
-
-
-# ------------------BEGIN------------------------------
-#  ==>antigen
-source ~/.antigen.zsh
-
-# Load the oh-my-zsh's library.
-antigen use oh-my-zsh
-# Load the theme
-antigen theme $ZSH_THEME
-# Bundles from the default repo (robbyrussell's oh-my-zsh).
-antigen bundle git
-antigen bundle heroku
-antigen bundle pip
-antigen bundle lein
-antigen bundle command-not-found
-# antigen bundle autojump
-antigen bundle common-aliases
-antigen bundle compleat
-antigen bundle git-extras
-antigen bundle zsh-reload
-antigen bundle git-flow
-antigen bundle npm
-antigen bundle z
-antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle zdharma/history-search-multi-word
-# antigen bundle zsh-users/zsh-history-substring-search 
-antigen bundle zsh-users/zsh-autosuggestions
-
-antigen apply
-
-
-# ------------------BEGIN------------------------------
-#  ==>oh my zsh
-plugins=(zsh-reload zsh-history-substring-search)
-
-# ==================END================================
-
-fpath=(/usr/local/share/zsh-completions $fpath)
-man() {
-    env LESS_TERMCAP_mb=$'\E[01;31m' \
-        LESS_TERMCAP_md=$'\E[01;38;5;74m' \
-        LESS_TERMCAP_me=$'\E[0m' \
-        LESS_TERMCAP_se=$'\E[0m' \
-        LESS_TERMCAP_so=$'\E[38;5;246m' \
-        LESS_TERMCAP_ue=$'\E[0m' \
-        LESS_TERMCAP_us=$'\E[04;38;5;146m' \
-        man "$@"
-    }
-
-source $HOME/kit/tools.sh
-export PATH="$HOME/kit/ocr:$HOME/kit:$PATH"
-
-
-export EDITOR="nvim"
-#export GTK_IM_MODULE=ibus
-#export XMODIFIERS=@im=ibus
-#export QT_IM_MODULE=ibus
-#export PATH="/home/carl/algs4/bin:$PATH"
-
-#ibus-daemon -drx
-function cdd(){
-    cd $@ && ls
-}
-
-setopt extended_glob
-function showme()
-{
-    if which nvim > /dev/null 2>&1;
-    then
-        nvim "$(which $1)" 
-    else
-        vim "$(which $1)"
-    fi
-}
-
-function findit()
-{
-    case $# in 
-        0 )
-            echo "arguments required"
-            return 0
-            ;;
-        1 )
-            find "$PWD" -iname "*$1*"
-            ;;
-        2 )
-            find "$(realpath $2)" -iname "*$1*"
-            ;;
-        * )
-            echo ":find PARTEN [path]"
-            return 0
-    esac
-}
-
-function findv()
-{
-    nvim "$(findit $@ | select.py)"
-}
-
-function findc()
-{
-    cd "$(dirname "$(findit $@ | select.py)")"
-}
-
-function findout()
-{
-    findit $@ | select.py
-}
-
-function swap()         
-{
-    local TMPFILE=tmp.$$
-    mv "$1" $TMPFILE
-    mv "$2" "$1"
-    mv $TMPFILE "$2"
-}
-
-#function to set or unset proxy in terminal
-function setproxy() {
-if [[ $(uname) == Darwin ]];
-then
-    export {http,https,ftp}_proxy="${1-socks5}://127.0.0.1:1086"
-else
-    export {http,https,ftp}_proxy="${1-socks5}://127.0.0.1:1080"
-fi
-}
-function unsetproxy() {
-    unset {http,https,ftp}_proxy
-}
-function help() {
-    bash -c "help $1"
-}
-function color(){
- for i in {0..255} ; do
-    printf "\x1b[38;5;${i}m%3d " "${i}"
-    if (( $i == 15 )) || (( $i > 15 )) && (( ($i-15) % 12 == 0 )); then
-        echo;
-    fi
-done
-}
 function pipi(){
     python3 -m pip install $@
 }
-
-if [[ ! $(hostname) == 'iMac.wdh' ]];
-then
-    plugins+=(fasd)
-    eval "$(fasd --init auto)"
-    alias z='fasd_cd -d'     # cd, same functionality as j in autojump
-    alias zz='fasd_cd -d -i' # cd with interactive selection
-else
-   . /usr/local/etc/profile.d/z.sh 
-fi
-
-alias a='fasd -a'        # any
-alias s='fasd -si'       # show / search / select
-alias d='fasd -d'        # directory
-alias f='fasd -f'        # file
-alias sd='fasd -sid'     # interactive directory selection
-alias sf='fasd -sif'     # interactive file selection
-alias vv='fasd -e vim'
-
-
-export R_ENVIRON_USER='/home/carl/.config/r/.Renviron'
-
-export AURDEST='/var/cache/pacaur/pkg'
-
-#transfer.sh, to upload file and share with a link
-transfer() { if [ $# -eq 0 ]; then echo -e "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"; return 1; fi 
-tmpfile=$( mktemp -t transferXXX ); if tty -s; then basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g'); curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" >> $tmpfile; else curl --progress-bar --upload-file "-" "https://transfer.sh/$1" >> $tmpfile ; fi; cat $tmpfile; rm -f $tmpfile; } 
-
-
-#source /home/carl/kit/env_proxy
-plugins+=(zsh-proxychains-ng)
-
-#ssh log in to server hosted on vultr 
-export set github="https://github.com/"
-
-#save $PS1 for restore
-    export PS_="$PS1"
-    # alias ssl="nohup  sslocal -s  144.202.105.34 -p 9525 -k vultr@_2018 &"
-    alias ssl="nohup  sslocal -s  155.138.143.65  -p 9525 -k vultr@_2018 &"
-    alias locat="locate -Abi"
-    alias pcs=proxychains4
-
-
-
-    alias ev='evince '
-    alias wget_all='wget -r -np -k' #download all files in a page 
-    alias lld='ls -d */'
-    alias git-root='cd $(git rev-parse --show-toplevel)'
-    alias ucap='setxkbmap -option caps:ctrl_modifier'
-    alias recap='setxkbmap -option'
-    alias pacsort='pacsize| sort -rhk 2| less'
-    alias weixin='google-chrome-stable -app=https://wx.qq.com'
-    alias tianyi="google-chrome-stable -app=https://cloud.189.cn/main.action"
-    alias baiduyun="google-chrome-stable -app=https://pan.baidu.com"
-    alias bdpcs="baidupcs-go"
-    alias rsynccl='rsync -rv --delete /home/carl/mounts/galileo/main/  /home/carl/mounts/RACOON/Calibre_Library'
-    # alias cl2gd="rclone sync ~/mounts/galileo/Calibre_Library gd_alves:library -v --no-update-modtime"
-    alias mypublicip='drill +short myip.opendns.com @resolver1.opendns.com | grep IN | tac | cut -f5 -s'
-    alias git-root='cd $(git rev-parse --show-toplevel)'
-    alias du1='du -hd0'
-    alias ,e='nvim ~/.zshrc'
-    alias prm=". ~/kit/prm.sh"
-    # alias ssh='autossh'
-    alias exp='less ~/kit/experience.sh'
-    alias exp-add='nvim ~/kit/experience.sh'
-    alias fixmode='find . -perm 000 -exec chmod 755 {} \;'
-
-    alias ng="sudo npm list -g --depth=0 2>/dev/null"
-    alias nl="npm list --depth=0 2>/dev/null"
-    [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# HSTR configuration - add this to ~/.bashrc
-# alias hh=hstr                    # hh to be alias for hstr
-    # export HISTFILE=~/.zsh_history  # ensure history file visibility
-    # export HSTR_CONFIG=hicolor        # get more colors
-    # bindkey -s "\C-r" "\eqhstr\n"     # bind hstr to Ctrl-r (for Vi mode check doc)
-
-
-# ------------------BEGIN------------------------------
-#  ==>tmux 
-bindkey -s '^s^s' 'tmux set-option status 
-'
-
-# ==================END================================
-
-# ------------------BEGIN------------------------------
-#  ==> zle bindkey
-#  alt+s to prepend 'sudo' to current command and move to EOL.
-bindkey -e
-bindkey -s '\es' 'sudo '
-
-function _toggle-keymap {
-    if ! bindkey | grep 'vi-join' > /dev/null 3>&1; then
-        bindkey -e
-        RPROMPT='[emacs]'
-        zle reset-prompt
-    else
-        bindkey -v
-        bindkey "jk" vi-cmd-mode
-        bindkey "\ee" _toggle-keymap
-        zle -U ''
-        RPROMPT='[vim]'
-        zle reset-prompt
-    fi
-}
-zle -N _toggle-keymap
-bindkey "\ee" _toggle-keymap
-
-# ==================END================================
-
-
-# ------------------BEGIN------------------------------
-#  ==>autosuggestions
-ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=30
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=32'
-# ==================END================================
-
-# ------------------BEGIN------------------------------
-#  ==> ENV VAR
-ENABLE_CORRECTION="true"
-COMPLETION_WAITING_DOTS="true"
-
-
-# Save all history
-# # Incrementally write history to file
-setopt INC_APPEND_HISTORY
-# # Save timestamp to history file too
-setopt EXTENDED_HISTORY
-# # Import newly written commands from the history file
-setopt SHARE_HISTORY
-
-# ==================END================================
-
-
-# ------------------BEGIN------------------------------
-#  ==> autoenv or direnv
-if which direnv > /dev/null 2>&1;
-then
-    eval "$(direnv hook zsh)"
-fi
-
-if which activate.sh > /dev/null 2>&1; 
-then
-    source `which activate.sh`
-fi
-# ==================END================================
-
+export PATH=/Volumes/Fourth/Application/calibre.app/Contents/MacOS:/opt/local/bin:/opt/local/sbin:$PATH
+export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles
+ZSH_THEME='robbyrussell'
+export ANDROID_HOME=/Volumes/Fourth/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/tools 
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH/:$ANDROID_HOME/platform-tools
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Volumes/Fourth/Anaconda/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/Volumes/Fourth/Anaconda/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/Volumes/Fourth/Anaconda/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/Volumes/Fourth/Anaconda/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-conda deactivate
-# <<< conda initialize <<<
-
+# export PATH="/Volumes/Fourth/Anaconda/anaconda3/bin:$PATH"  # commented out by conda initialize
+# alias anaconda='export PATH="/Volumes/Fourth/Anaconda/anaconda3/bin:$PATH"'
+;;
+*)
+    ZSH_THEME="af-magic"
+esac    
+# ==================END================================
+setxkbmap -option caps:ctrl_modifier
+xmodmap -e "keycode 112 = semicolon colon"

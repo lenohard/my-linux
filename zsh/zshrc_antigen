@@ -127,15 +127,19 @@ function swap()
 }
 #function to set or unset proxy in terminal
 function setproxy() {
-    if [[ $(uname) == Darwin ]];
-    then
-        export {http,https,ftp}_proxy="${1-socks5}://127.0.0.1:1086"
-    else
-        export {http,https,ftp}_proxy="${1-socks5}://127.0.0.1:1080"
-    fi
+    # if [[ $(uname) == Darwin ]];
+    # then
+    #     ;
+    # else
+    #     ;
+    # fi
+    export {http,https,ftp}_proxy="${2-socks5}://127.0.0.1:${PORT-1080}"
+}
+function proxy_clash(){
+    export https_proxy=http://127.0.0.1:7890;export http_proxy=http://127.0.0.1:7890;export all_proxy=socks5://127.0.0.1:7891
 }
 function unsetproxy() {
-    unset {http,https,ftp}_proxy
+    unset {http,https,ftp,all_proxy}_proxy
 }
 function help() {
     bash -c "help $1"
@@ -397,5 +401,3 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
     ZSH_THEME="af-magic"
 esac    
 # ==================END================================
-setxkbmap -option caps:ctrl_modifier
-xmodmap -e "keycode 112 = semicolon colon"

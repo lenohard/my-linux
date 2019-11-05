@@ -77,6 +77,7 @@ Plug 'albfan/vim-breakpts'
 Plug 'vim-scripts/genutils'
 Plug 'bfredl/nvim-miniyank'
 Plug 'tpope/vim-abolish'
+Plug 'junegunn/rainbow_parentheses.vim'
 
 
 " Multiple Plug commands can be written in a single line using | separators
@@ -150,14 +151,16 @@ augroup numbertoggle
     autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber
 augroup END
 
-" augroup TerminalStuff
-"     au!
-"     autocmd TermOpen * setlocal nonumber norelativenumber
-" augroup END
-" Automatically save the session when leaving Vim
-" autocmd! VimLeave * mksession
-" Automatically load the session when entering vim
-" autocmd! VimEnter * source ~/Session.vim
+augroup TerminalStuff
+    au!
+    autocmd TermOpen * setlocal nonumber norelativenumber
+augroup END
+"Automatically save the session when leaving Vim
+autocmd! VimLeave * SaveSession
+"Automatically load the session when entering vim
+autocmd! VimEnter * source ~/.vim/sessions/default.vim
+" if filereadable(expand("~/.vim/sessions/default.vim")) source "~/.vim/sessions/default.vim" endif
+
 set cursorline
 
 
@@ -218,7 +221,7 @@ nnoremap zz :Z
 inoremap jk <esc>
 inoremap kj <esc>
 inoremap <esc> <nop>
-nnoremap <leader>? :help 
+nnoremap <leader>? :help
 nnoremap <leader>q :wq<esc>
 nnoremap <leader>X :q!<esc>
 nnoremap <leader>bb :bd<esc>
@@ -250,6 +253,11 @@ set scrolloff=2
 
 au BufRead,BufNewFile,BufNew *.hss setl ft=haskell.script
 autocmd filetype lisp,scheme,art setlocal equalprg=~/kit/scmindent.rkt
+
+augroup rainbow_lisp
+  autocmd!
+  autocmd FileType lisp,clojure,scheme RainbowParentheses
+augroup END
 
 map <leader>ee :e! ~/.vim_runtime/vimrcs/basic.vim <cr>
 map <leader>ex :e! ~/.vim_runtime/vimrcs/extended.vim <cr>

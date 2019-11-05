@@ -21,7 +21,8 @@ if [[ $mode == 'antigen' ]];
 then
     if [[ ! -e ~/.antigen.zsh ]];
     then
-        curl -L git.io/antigen > ~/.antigen.zsh
+        # curl -L git.io/antigen > ~/.antigen.zsh
+        cp $ROOT/zsh/antigen.zsh ~/.antigen.zsh
     fi
     if [[ -h ~/.zshrc ]];
     then

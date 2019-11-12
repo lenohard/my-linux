@@ -7,11 +7,17 @@ antigen use oh-my-zsh
 # Load the theme
 antigen theme rkj-repos
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
-antigen bundle git
+antigen bundle extract
+antigen bundle gitfast
+antigen bundle git-extras
+antigen bundle safe-paste
+antigen bundle vi-mode
 antigen bundle heroku
 antigen bundle pip
 antigen bundle lein
 antigen bundle command-not-found
+antigen bundle thefuck
+antigen bundle sublime
 # antigen bundle autojump
 antigen bundle common-aliases
 antigen bundle compleat

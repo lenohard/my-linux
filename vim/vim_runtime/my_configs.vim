@@ -157,7 +157,7 @@ augroup TerminalStuff
     autocmd TermOpen * setlocal nonumber norelativenumber
 augroup END
 "Automatically save the session when leaving Vim
-autocmd! VimLeave * :mksession!
+"autocmd! VimLeave * :mksession!
 "Automatically load the session when entering vim
 if filereadable(expand("./Session.vim"))
     autocmd! VimEnter * if argc() == 0 | source ./Session.vim | endif

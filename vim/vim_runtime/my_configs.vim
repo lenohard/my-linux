@@ -49,7 +49,7 @@ Plug 'scrooloose/snipmate-snippets'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'kana/vim-textobj-user'
 Plug 'amdt/vim-niji'
-Plug 'ludovicchabant/vim-gutentags'
+" Plug 'ludovicchabant/vim-gutentags'
 Plug 'amdt/vim-niji'
 Plug 'nanotech/jellybeans.vim'
 Plug 'Yggdroot/indentLine'
@@ -71,6 +71,7 @@ Plug 'dyng/ctrlsf.vim'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'Raimondi/delimitMate'
 Plug 'andymass/vim-matchup'
+" Plug 'weirongxu/coc-explorer'
 " Any valid git URL is allowed
 Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 Plug 'albfan/vim-breakpts'
@@ -156,10 +157,13 @@ augroup TerminalStuff
     autocmd TermOpen * setlocal nonumber norelativenumber
 augroup END
 "Automatically save the session when leaving Vim
-autocmd! VimLeave * SaveSession
+autocmd! VimLeave * :mksession!
 "Automatically load the session when entering vim
-autocmd! VimEnter * source ~/.vim/sessions/default.vim
-" if filereadable(expand("~/.vim/sessions/default.vim")) source "~/.vim/sessions/default.vim" endif
+if filereadable(expand("./Session.vim"))
+    autocmd! VimEnter * if argc() == 0 | source ./Session.vim | endif
+else
+    autocmd! VimEnter * if argc() == 0 | source ~/.vim/sessions/default.vim | endif
+endif
 
 set cursorline
 

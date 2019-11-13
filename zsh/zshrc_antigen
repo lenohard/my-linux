@@ -322,56 +322,59 @@ case "$(hostname)" in
     "dream")
         alias anaconda='export PATH="/opt/anaconda/bin:$PATH"'
         ZSH_THEME="rkj-repos"
-        if [ ! $TMUX ];
-        then
-            tmux new-session -n Home
-        fi        
         setxkbmap -option caps:ctrl_modifier
         xmodmap -e "keycode 112 = semicolon colon"
         alias readbook='cd /mnt/galileo/BOOK && nohup evince "$(fzf)"'
         alias clash='sudo nohup /home/carl/local/clash-linux-amd64-v0.16.0 &'
+        alias yacd='cd /home/carl/local/clash-dashboard && nohup npm start > ~/nohup.out &'
         export PATH="/home/carl/local:$PATH"
-        ;;
-    "elementary")
-        ZSH_THEME="frisk"
-        alias anaconda='export "PATH=/home/carl/anaconda3/bin:$PATH"'
-        function ml(){
-            if [ -n "$1" ] && [ "$1" = "exit" ];then
-                cd ~
-                export PS1="$PS_"
-            else
-                if [ -z "$(ls -A ~/wdh)" ]; then
-                    echo "Trying"
-                    if [ ! $(sudo mount /home/carl/wdh) ]; then
-                        echo "OK"
-                    else
-                        echo "......"
-                    fi
+        if [ ! $TMUX ];
+        then
+            tmux new-session -s Home -n main -d
+            tmux send-key -t Home:1.1 "ucap && fixkey" 'Enter'
+            tmux attach-session -t Home
+        fi
+            ;;
+        "elementary")
+            ZSH_THEME="frisk"
+            alias anaconda='export "PATH=/home/carl/anaconda3/bin:$PATH"'
+            function ml(){
+                if [ -n "$1" ] && [ "$1" = "exit" ];then
+                    cd ~
+                    export PS1="$PS_"
                 else
-                    cd ~/wdh/ml/
-                    export PS1="%{$fg[yellow]%}(WDH_ml) $PS1"
+                    if [ -z "$(ls -A ~/wdh)" ]; then
+                        echo "Trying"
+                        if [ ! $(sudo mount /home/carl/wdh) ]; then
+                            echo "OK"
+                        else
+                            echo "......"
+                        fi
+                    else
+                        cd ~/wdh/ml/
+                        export PS1="%{$fg[yellow]%}(WDH_ml) $PS1"
+                    fi
                 fi
-            fi
+            }
+        alias cdy='cd /mnt/share/racoon && pwd=${PWD} && sudo caddy -conf /usr/local/caddy/Caddyfile &; cd "$pwd" '
+        alias cby='calibre-server /mnt/share/racoon/Calibre_Library --userdb /home/carl/.config/calibre/user.sqlite --enable-auth &'
+        alias jpy='mount ~/wdh ; anaconda && jupyter notebook &'
+        ;;
+    "WDH")
+        unsetopt BG_NICE
+        alias docker='docker.exe'
+        alias gvim='gvim.exe'
+        alias nvim-qt='nvim-qt.exe'
+        alias anaconda='export "PATH=/mnt/e/.anaconda3/bin:$PATH"'
+        alias host='sudo ~/kit/update_hosts.sh'
+        export set  home='/mnt/c/Users/Administrator'
+        alias CD="cd $home"
+        ZSH_THEME="ys"
+        # ZSH_THEME="spaceship"
+        function ssho(){
+            ssh $(nmblookup ${1} | awk '{print $1}')
         }
-    alias cdy='cd /mnt/share/racoon && pwd=${PWD} && sudo caddy -conf /usr/local/caddy/Caddyfile &; cd "$pwd" '
-    alias cby='calibre-server /mnt/share/racoon/Calibre_Library --userdb /home/carl/.config/calibre/user.sqlite --enable-auth &'
-    alias jpy='mount ~/wdh ; anaconda && jupyter notebook &'
     ;;
-"WDH")
-    unsetopt BG_NICE
-    alias docker='docker.exe'
-    alias gvim='gvim.exe'
-    alias nvim-qt='nvim-qt.exe'
-    alias anaconda='export "PATH=/mnt/e/.anaconda3/bin:$PATH"'
-    alias host='sudo ~/kit/update_hosts.sh'
-    export set  home='/mnt/c/Users/Administrator'
-    alias CD="cd $home"
-    ZSH_THEME="ys"
-    # ZSH_THEME="spaceship"
-    function ssho(){
-        ssh $(nmblookup ${1} | awk '{print $1}')
-    }
-;;
 'iMac.wdh')
     HOMEBREW_NO_AUTO_UPDATE=1
     alias Jupyter="ssh  -f administrator@WDH 'activate ml & cd ml & jupyter notebook --no-browser'"

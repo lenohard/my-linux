@@ -79,6 +79,7 @@ Plug 'vim-scripts/genutils'
 Plug 'bfredl/nvim-miniyank'
 Plug 'tpope/vim-abolish'
 Plug 'junegunn/rainbow_parentheses.vim'
+Plug 'takac/vim-hardtime'
 
 
 " Multiple Plug commands can be written in a single line using | separators

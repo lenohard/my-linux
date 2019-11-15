@@ -3,3 +3,5 @@ vim/vim_runtime/temp_dirs
 nohup.out
 tags
 tags*
+Session.vim
+.session.vim

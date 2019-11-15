@@ -501,5 +501,5 @@ nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
 
 " ------------------BEGIN------------------------------
 "   ==>vim-hardtime
-let g:hardtime_default_on = 1
+let g:hardtime_default_on = 0
 " ==================END================================

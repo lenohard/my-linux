@@ -53,7 +53,7 @@ case "$(hostname)" in
         }
         ;;
     *)
-        ZSH_THEME="af-magic"
+        ZSH_THEME="random"
 esac    
 #--------------------------------------------
 

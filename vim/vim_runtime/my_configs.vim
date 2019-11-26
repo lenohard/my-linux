@@ -80,6 +80,7 @@ Plug 'bfredl/nvim-miniyank'
 Plug 'tpope/vim-abolish'
 Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'takac/vim-hardtime'
+Plug 'wincent/terminus'
 
 
 " Multiple Plug commands can be written in a single line using | separators
@@ -158,7 +159,7 @@ augroup TerminalStuff
     autocmd TermOpen * setlocal nonumber norelativenumber
 augroup END
 "Automatically save the session when leaving Vim
-"autocmd! VimLeave * :mksession! .session.vim
+"autocmd! VimLeave * :mksession!
 "Automatically load the session when entering vim
 if filereadable(expand("./Session.vim"))
     autocmd! VimEnter * if argc() == 0 | source ./.session.vim | endif

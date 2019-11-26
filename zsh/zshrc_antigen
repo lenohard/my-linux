@@ -196,7 +196,7 @@ export set github="https://github.com/"
 #save $PS1 for restore
 export PS_="$PS1"
 # alias ssl="nohup  sslocal -s  144.202.105.34 -p 9525 -k vultr@_2018 &"
-alias ssl="nohup  sslocal -s  155.138.143.65  -p 9525 -k vultr@_2018 &"
+alias ssl="nohup  sslocal -s  192.168.1.101  -p 8387 -k vultr@_2018 &"
 alias locat="locate -Abi"
 alias pcs=proxychains4
 
@@ -224,6 +224,8 @@ alias exp='less ~/kit/experience.sh'
 alias exp-add='nvim ~/kit/experience.sh'
 alias fixmode='find . -perm 000 -exec chmod 755 {} \;'
 
+#use beam style on start up
+printf '\033[5 q';
 alias ng="sudo npm list -g --depth=0 2>/dev/null"
 alias nl="npm list --depth=0 2>/dev/null"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -246,8 +248,15 @@ function _toggle-keymap {
         bindkey -e
         RPROMPT='[emacs]'
         zle reset-prompt
+        printf '\033[5 q';
     else
         bindkey -v
+        # function _vi-cmd-mode {
+        #     vi-cmd-mode
+        #     printf '\033[3 q';
+        # }
+        # zle -N _vi-cmd-mode
+        printf '\033[3 q';
         bindkey "jk" vi-cmd-mode
         bindkey "\ee" _toggle-keymap
         zle -U ''
@@ -255,6 +264,7 @@ function _toggle-keymap {
         zle reset-prompt
     fi
 }
+
 zle -N _toggle-keymap
 bindkey "\ee" _toggle-keymap
 
@@ -335,7 +345,7 @@ case "$(hostname)" in
         if [ ! $TMUX ];
         then
             tmux new-session -s Home -n main -d
-            tmux send-key -t Home:1.1 "ucap && fixkey" 'Enter'
+            # tmux send-key -t Home:1.1 "ucap && fixkey" 'Enter'
             tmux attach-session -t Home
         fi
             ;;

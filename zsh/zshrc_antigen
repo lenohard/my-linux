@@ -395,6 +395,11 @@ export PATH=$PATH/:$ANDROID_HOME/platform-tools
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 # export PATH="/Volumes/Fourth/Anaconda/anaconda3/bin:$PATH"  # commented out by conda initialize
 # alias anaconda='export PATH="/Volumes/Fourth/Anaconda/anaconda3/bin:$PATH"'
+if [ ! $TMUX ];
+then
+    tmux new-session  -n main -d
+fi
+if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
 ;;
 *)
     ZSH_THEME="af-magic"

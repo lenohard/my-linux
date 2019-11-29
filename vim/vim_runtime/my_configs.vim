@@ -81,6 +81,7 @@ Plug 'tpope/vim-abolish'
 Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'takac/vim-hardtime'
 Plug 'wincent/terminus'
+Plug 'eshion/vim-sync'
 
 
 " Multiple Plug commands can be written in a single line using | separators
@@ -161,10 +162,10 @@ augroup END
 "Automatically save the session when leaving Vim
 "autocmd! VimLeave * :mksession!
 "Automatically load the session when entering vim
-if filereadable(expand("./Session.vim"))
+if filereadable(expand("./.session.vim"))
     autocmd! VimEnter * if argc() == 0 | source ./.session.vim | endif
-else
-    autocmd! VimEnter * if argc() == 0 | source ~/.vim/sessions/default.vim | endif
+" else
+"     autocmd! VimEnter * if argc() == 0 | source ~/.vim/sessions/default.vim | endif
 endif
 
 set cursorline
@@ -298,7 +299,8 @@ function! Z(...)
 endfunction
 
 
-
+"Open in Vim reverse
+:command! OpenCwdInVSCode exe "silent !code '" . getcwd() . "' --goto '" . expand("%") . ":" . line(".") . ":" . col(".") . "'" | redraw!
 " ------------------BEGIN------------------------------
 "  ==> pre
 set background=dark

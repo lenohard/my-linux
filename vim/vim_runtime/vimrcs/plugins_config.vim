@@ -321,7 +321,7 @@ nnoremap [l :ALEPreviousWrap<CR>
 " Set this. Airline will handle the rest.
 let g:airline#extensions#ale#enabled = 1
 
-let g:airline_theme='random'
+" let g:airline_theme='random'
 " let g:airline_theme='base16_nord'
 " let g:airline_theme='base16_flat'
 
@@ -498,6 +498,11 @@ nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
 " ==================END================================
 "
 
+
+" ------------------BEGIN------------------------------
+"   ==>vim-sync
+let g:sync_async_upload = 0
+" ==================END================================
 
 " ------------------BEGIN------------------------------
 "   ==>vim-hardtime

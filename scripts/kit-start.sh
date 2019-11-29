@@ -17,6 +17,6 @@ then
     git clone https://github.com/clvv/fasd.git tmp_fasd
     cd tmp_fasd
     sudo make install
-    cd ../..; rm -rf tmp_fasd 
+    cd ../..; rm -rf tmp_fasd
 fi
 # ==================END================================

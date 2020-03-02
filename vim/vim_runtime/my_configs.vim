@@ -7,6 +7,9 @@ call plug#begin('~/.vim_runtime/my_plugins')
 
 " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
 " Plug 'tommcdo/vim-ninja-feet'
+
+" Multiple Plug commands can be written in a single line using | separators
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'voldikss/vim-mma'
 Plug 'vimlab/split-term.vim'
 Plug 'guns/vim-sexp'
@@ -17,7 +20,6 @@ Plug 'vim-scripts/paredit.vim'
 Plug 'dense-analysis/ale'
 Plug 'jpalardy/vim-slime'
 Plug 'junegunn/vim-easy-align'
-" Plug 'vim-syntastic/syntastic'
 Plug 'mattn/emmet-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -49,13 +51,9 @@ Plug 'scrooloose/snipmate-snippets'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'kana/vim-textobj-user'
 Plug 'amdt/vim-niji'
-" Plug 'ludovicchabant/vim-gutentags'
 Plug 'amdt/vim-niji'
 Plug 'nanotech/jellybeans.vim'
 Plug 'Yggdroot/indentLine'
-Plug 'zchee/deoplete-zsh'
-Plug 'zchee/deoplete-jedi'
-Plug 'davidhalter/jedi-vim'
 Plug 'Shougo/echodoc.vim'
 Plug 'Shougo/neco-vim'
 Plug 'vim-scripts/bash-support.vim'
@@ -71,20 +69,18 @@ Plug 'dyng/ctrlsf.vim'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'Raimondi/delimitMate'
 Plug 'andymass/vim-matchup'
-" Plug 'weirongxu/coc-explorer'
-" Any valid git URL is allowed
 Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 Plug 'albfan/vim-breakpts'
 Plug 'vim-scripts/genutils'
 Plug 'bfredl/nvim-miniyank'
 Plug 'tpope/vim-abolish'
 Plug 'junegunn/rainbow_parentheses.vim'
-Plug 'takac/vim-hardtime'
-Plug 'wincent/terminus'
+Plug 'neovimhaskell/haskell-vim'
+Plug 'alx741/vim-hindent'
+Plug 'camspiers/animate.vim'
+Plug 'camspiers/lens.vim'
+Plug 'morhetz/gruvbox'
 
-
-" Multiple Plug commands can be written in a single line using | separators
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
 " On-demand loading
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
@@ -113,7 +109,6 @@ else
 endif
 
 " Unmanaged plugin (manually installed and updated)
-Plug '~/my-prototype-plugin'
 Plug '~/.vim_runtime/sources_forked/peaksea'
 " Plug '~/.vim_runtime/sources_forked/set_tabline'
 Plug '~/.vim_runtime/sources_forked/vim-peepopen'
@@ -162,7 +157,7 @@ augroup END
 "autocmd! VimLeave * :mksession!
 "Automatically load the session when entering vim
 if filereadable(expand("./Session.vim"))
-    autocmd! VimEnter * if argc() == 0 | source ./.session.vim | endif
+    autocmd! VimEnter * if argc() == 0 | source ./Session.vim | endif
 else
     autocmd! VimEnter * if argc() == 0 | source ~/.vim/sessions/default.vim | endif
 endif
@@ -227,7 +222,7 @@ nnoremap zz :Z
 inoremap jk <esc>
 inoremap kj <esc>
 inoremap <esc> <nop>
-nnoremap <leader>? :help
+nnoremap <leader>? :help 
 nnoremap <leader>q :wq<esc>
 nnoremap <leader>X :q!<esc>
 nnoremap <leader>bb :bd<esc>
@@ -257,8 +252,8 @@ set scrolloff=2
 "use this script to help write lisp-like () 
 " autocmd filetype lisp,scheme,art setlocal equalprg=~/kit/scmindent.rkt
 
-au BufRead,BufNewFile,BufNew *.hss setl ft=haskell.script
-autocmd filetype lisp,scheme,art setlocal equalprg=~/kit/scmindent.rkt
+" au BufRead,BufNewFile,BufNew *.hss setl ft=haskell.script
+" autocmd filetype lisp,scheme,art setlocal equalprg=~/kit/scmindent.rkt
 
 augroup rainbow_lisp
   autocmd!
@@ -281,6 +276,8 @@ set statusline+=%*
 
 set tags=./tags,tags;
 
+"remove trailing space
+noremap <leader>rm :%s/\([^ ]\) *$/\1/<cr>
 
 "Z - cd to recent / frequent directories
 "-------------------------------------------------------------------
@@ -304,4 +301,34 @@ endfunction
 set background=dark
 colorscheme jellybeans
 set sessionoptions+=buffers
+" ==================END================================
+
+
+" ------------------BEGIN------------------------------
+"   ==> Haskell-vim
+let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
+let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
+let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
+let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
+let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
+let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
+let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
+
+let g:haskell_indent_if = 3
+let g:haskell_indent_do = 3
+" ==================END================================
+
+
+
+" ------------------BEGIN------------------------------
+"   ==>
+"   jsonc file comment hightlight settting
+ autocmd FileType json syntax match Comment +\/\/.\+$+
+
+" ==================END================================
+
+
+" ------------------BEGIN------------------------------
+"   ==> Len
+let g:lens#disabled = 0
 " ==================END================================

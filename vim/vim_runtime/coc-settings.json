@@ -1,0 +1,37 @@
+{
+    "list.normalMappings": {
+        "t": "action:tabe",
+        "v": "action:vsplit",
+        "s": "action:split",
+        "d": "expr:GetDeleteAction"
+    },
+    "list.insertMappings": {
+        "<C-t>": "action:tabe",
+        "<C-w>": "command:wincmd k"
+    },
+    "list.source.files.defaultOptions": ["--number-select"],
+    "languageserver": {
+        "haskell": {
+            "command": "hie-wrapper",
+            "args": ["--lsp"],
+            "rootPatterns": [
+                "*.cabal",
+                "stack.yaml",
+                "cabal.project",
+                "package.yaml"
+            ],
+            "filetypes": [
+                "hs",
+                "lhs",
+                "haskell"
+            ],
+            "initializationOptions": {
+                "languageServerHaskell": {
+                    "hlintOn": false,
+                    "maxNumberOfProblems": 10,
+                    "completionSnippetsOn": true
+                }
+            }
+        }
+    }
+}

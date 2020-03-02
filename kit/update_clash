@@ -1,0 +1,76 @@
+#!/usr/bin/env python3 
+# -*- coding: utf-8 -*-
+import os
+import requests as req
+import yaml
+import shutil
+
+url_xair='https://sub.user.x-api.icu/v2sub/v3chh?clash=1'
+url_asn='https://asnebula.xyz/link/heehKVy8wHFQ3q8M?clash=1'
+
+wdir=os.path.expanduser("~/.config/clash")
+os.chdir(wdir)
+
+r = req.get(url_xair, stream=True)
+if r.status_code == 200:
+    with open("xair.yaml",'wb') as xf:
+        r.raw.decode_content = True
+        shutil.copyfileobj(r.raw, xf)
+print("download xair.yaml OK!")
+
+
+r = req.get(url_asn, stream=True)
+if r.status_code == 200:
+    with open("asn.yaml",'wb') as af:
+        r.raw.decode_content = True
+        shutil.copyfileobj(r.raw, af)
+print("download asn.yaml OK!")
+
+with open("xair.yaml", 'r') as xf:
+    data_x = yaml.load(xf, Loader=yaml.FullLoader)
+
+with open("asn.yaml", 'r') as af:
+    data_a = yaml.load(af, Loader=yaml.FullLoader)
+
+data_x.update({'socks-port':7891})
+data_x.update({'port':7890})
+data_x.update({'redir-port':7892})
+data_x['log-level']='info'
+data_x['mode']="Rule"
+
+try:
+    names_a = [ node['name'] for node in  data_a['Proxy']]
+    names_x = [ node['name'] for node in  data_x['Proxy']]
+    data_x['Proxy']=data_x['Proxy']+data_a['Proxy']
+    data_x['Proxy Group'].append({"interval":300, "name" : "ASN UrlTest", "type":"url-test", "proxies":names_a, 'url':"http://www.gstatic.com/generate_204"})
+    data_x['Proxy Group'].append({"interval":300, "name" : "All UrlTest", "type":"url-test", "proxies":names_a + names_x, 'url':"http://www.gstatic.com/generate_204"})
+    data_x['Proxy Group'].append({ "name" : "ASN Proxy", "type":"select", "proxies":names_a})
+    for i in data_x['Proxy Group']:
+        if i['name'] == 'PROXY' or i['name'] == 'Final':
+            i['proxies'] = i['proxies'] + names_a + ['ASN UrlTest','All UrlTest','ASN Proxy']
+    print("setting OK!")
+except:
+    print("something wrong !")
+
+# for i in data_x['Proxy Group']:
+#     if i['name'] == 'PROXY':
+#         i['proxies'].insert(0, 'UrlTest')
+# print("use all_url OK!")
+
+for i in data_x['Proxy Group']:
+    if i['name'] == 'UrlTest':
+        for j in i['proxies']:
+            if '回国' in j:
+                i['proxies'].remove(j)
+
+with open('config.yaml', 'w') as xair_asn:
+    yaml.dump(data_x, xair_asn, allow_unicode=True)
+with open('/root/.config/clash/config.yaml', 'w') as xair_asn:
+    yaml.dump(data_x, xair_asn, allow_unicode=True)
+print("update config.yaml")
+
+rest_url = "http://127.0.0.1:9090/configs"
+payload = {"path": wdir+'/config.yaml'}
+r = req.put(rest_url, json=payload)
+if r.status_code == 200:
+    print("config reload OK!")

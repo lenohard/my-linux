@@ -4,16 +4,6 @@
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-
-""""""""""""""""""""""""""""""
-" => Load pathogen paths
-""""""""""""""""""""""""""""""
-" let s:vim_runtime = expand('<sfile>:p:h')."/.."
-" call pathogen#infect(s:vim_runtime.'/sources_forked/{}')
-" call pathogen#infect(s:vim_runtime.'/sources_non_forked/{}')
-" call pathogen#infect(s:vim_runtime.'/my_plugins/{}')
-" call pathogen#helptags()
-
 """"""""""""""""""""""""""""""
 " => bufExplorer plugin
 """"""""""""""""""""""""""""""
@@ -95,6 +85,7 @@ let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 let g:NERDTreeShowLineNumbers=0
+let NERDTreeShowHidden=1
 " let g:NERDTreeWinSize=35
 map <leader>nn :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark<Space>
@@ -121,7 +112,7 @@ let g:multi_cursor_quit_key            = '<Esc>'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => surround.vim config
-" Annotate strings with gettext 
+" Annotate strings with gettext
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 vmap Si S(i_<esc>f)
 au FileType mako vmap Si S"i${ _(<esc>2f"a) }<esc>
@@ -245,9 +236,10 @@ let g:airline#extensions#tabline#formatter = 'default'
 let g:airline#extensions#tabline#buffer_nr_show = 1
 " let g:airline#extensions#tabline#tabs_label = 't'
 " let g:airline#extensions#tabline#buffers_label = 'b'
+
+  " let g:airline#extensions#coc#enabled = 1
+  " let airline#extensions#coc#error_symbol = 'E:'
 " -----------------------------------------------------
-
-
 
 
 " ------------------BEGIN------------------------------
@@ -333,7 +325,8 @@ let g:ale_lint_on_enter = 0
 let g:ale_linters = {
 \   'javascript': ['jshint'],
 \   'python': ['flake8'],
-\   'go': ['go', 'golint', 'errcheck']
+\   'go': ['go', 'golint', 'errcheck'],
+\   'haskell': ['hdevtools', 'hlint', 'ghc-mod']
 \}
 " ==================END================================
 
@@ -402,7 +395,7 @@ nmap <silent> ]g <Plug>(coc-diagnostic-next)
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references
+nmap <silent> gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -469,6 +462,7 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
 " Manage extensions
 nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+nnoremap <silent> <space>m  :<C-u>CocList marketplace<cr>
 " Show commands
 nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
 " Find symbol of current document
@@ -487,19 +481,6 @@ nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
 
 
 " ------------------BEGIN------------------------------
-"   ==>miniyank
-
-" ==================END================================
-
-
-" ------------------BEGIN------------------------------
-"   ==>vim-abolish
-
-" ==================END================================
-"
-
-
-" ------------------BEGIN------------------------------
 "   ==>vim-hardtime
-let g:hardtime_default_on = 1
+let g:hardtime_default_on = 0
 " ==================END================================

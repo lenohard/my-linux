@@ -14,6 +14,7 @@ antigen bundle safe-paste
 antigen bundle vi-mode
 antigen bundle heroku
 antigen bundle pip
+antigen bundle incr
 antigen bundle lein
 antigen bundle command-not-found
 antigen bundle thefuck
@@ -28,7 +29,7 @@ antigen bundle npm
 antigen bundle z
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zdharma/history-search-multi-word
-# antigen bundle zsh-users/zsh-history-substring-search 
+# antigen bundle zsh-users/zsh-history-substring-search
 antigen bundle zsh-users/zsh-autosuggestions
 
 antigen apply
@@ -54,7 +55,7 @@ man() {
 
 
 # ------------------BEGIN-----------------------
-# os-specific 
+# os-specific
 
 if [[ -e /etc/os-release ]];
 then
@@ -79,7 +80,7 @@ fi
 
 setopt extended_glob
 source $HOME/kit/tools.sh
-export PATH="$HOME/kit/ocr:$HOME/kit:$PATH"
+export PATH="$HOME/.local/bin:$HOME/kit/ocr:$HOME/kit:$PATH"
 export EDITOR="nvim"
 
 function cdd(){
@@ -89,14 +90,14 @@ function showme()
 {
     if which nvim > /dev/null 2>&1;
     then
-        nvim "$(which $1)" 
+        nvim "$(which $1)"
     else
         vim "$(which $1)"
     fi
 }
 function findit()
 {
-    case $# in 
+    case $# in
         0 )
             echo "arguments required"
             return 0
@@ -124,7 +125,7 @@ function findout()
 {
     findit $@ | select.py
 }
-function swap()         
+function swap()
 {
     local TMPFILE=tmp.$$
     mv "$1" $TMPFILE
@@ -132,6 +133,20 @@ function swap()
     mv $TMPFILE "$2"
 }
 #function to set or unset proxy in terminal
+function pps(){
+    ids=$(pgrep -f "$1")
+    if [[ -z $ids ]];
+    then
+        echo "there is no such process"
+    else
+        ps -pf "$ids"  
+    fi
+}
+function ppkill(){
+    ps -fp $(pgrep -f "$1")
+    pkill -f  "$1"
+}
+
 function setproxy() {
     # if [[ $(uname) == Darwin ]];
     # then
@@ -145,7 +160,7 @@ function proxy_clash(){
     export https_proxy=http://127.0.0.1:7890;export http_proxy=http://127.0.0.1:7890;export all_proxy=socks5://127.0.0.1:7891
 }
 function unsetproxy() {
-    unset {http,https,ftp,all_proxy}_proxy
+    unset {http,https,ftp,all}_proxy
 }
 function help() {
     bash -c "help $1"
@@ -166,7 +181,7 @@ then
     alias z='fasd_cd -d'     # cd, same functionality as j in autojump
     alias zz='fasd_cd -d -i' # cd with interactive selection
 else
-    . /usr/local/etc/profile.d/z.sh 
+    . /usr/local/etc/profile.d/z.sh
 fi
 
 alias a='fasd -a'        # any
@@ -183,24 +198,23 @@ export R_ENVIRON_USER='/home/carl/.config/r/.Renviron'
 export AURDEST='/var/cache/pacaur/pkg'
 
 #transfer.sh, to upload file and share with a link
-transfer() { if [ $# -eq 0 ]; then echo -e "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"; return 1; fi 
-    tmpfile=$( mktemp -t transferXXX ); if tty -s; then basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g'); curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" >> $tmpfile; else curl --progress-bar --upload-file "-" "https://transfer.sh/$1" >> $tmpfile ; fi; cat $tmpfile; rm -f $tmpfile; } 
+transfer() { if [ $# -eq 0 ]; then echo -e "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"; return 1; fi
+    tmpfile=$( mktemp -t transferXXX ); if tty -s; then basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g'); curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" >> $tmpfile; else curl --progress-bar --upload-file "-" "https://transfer.sh/$1" >> $tmpfile ; fi; cat $tmpfile; rm -f $tmpfile; }
 
 
 #source /home/carl/kit/env_proxy
 plugins+=(zsh-proxychains-ng)
 
-#ssh log in to server hosted on vultr 
+#ssh log in to server hosted on vultr
 export set github="https://github.com/"
 
 #save $PS1 for restore
 export PS_="$PS1"
-# alias ssl="nohup  sslocal -s  144.202.105.34 -p 9525 -k vultr@_2018 &"
-alias ssl="nohup  sslocal -s  192.168.1.101  -p 8387 -k vultr@_2018 &"
+alias ssl="nohup  sslocal -s  149.28.123.239  -p 9293 -k vultr@_2018 > /dev/null 2>&1 &"
 alias locat="locate -Abi"
 alias pcs=proxychains4
 
-
+alias ghcd='ghc -dynamic'
 alias ucap='setxkbmap -option caps:ctrl_modifier'
 alias recap='setxkbmap -option'
 alias fixkey='xmodmap -e "keycode 112 = semicolon colon"'
@@ -208,9 +222,15 @@ alias wget_all='wget -r -np -k' #download all files in a page
 alias lld='ls -d */'
 alias git-root='cd $(git rev-parse --show-toplevel)'
 alias pacsort='pacsize| sort -rhk 2| less'
-alias weixin='google-chrome-stable -app=https://wx.qq.com'
-alias tianyi="google-chrome-stable -app=https://cloud.189.cn/main.action"
-alias baiduyun="google-chrome-stable -app=https://pan.baidu.com"
+alias pdf_fzf='evince "$(fzf)"'
+alias dj_fzf='djview4 "$(fzf)"'
+alias weixin='nohup vivaldi-stable -app=https://wx.qq.com >/dev/null 2>&1  &'
+alias yacc='nohup vivaldi-stable -app=http://yacd.haishan.me >/dev/null 2>&1 &'
+alias jupyter_ter='nohup vivaldi-stable -app=http://43.255.116.34:8888/terminals/1 2>&1 &'
+alias jupyter_rem='nohup vivaldi-stable -app=http://43.255.116.34:8888 2>&1 &'
+alias odrive='nohup vivaldi-stable -app=https://oxsayacid-my.sharepoint.com/personal/book72_ixsay_com >/dev/null 2>&1 &'
+alias tianyi="nohup vivaldi-stable -app=https://cloud.189.cn/main.action >/dev/null 2>&1"
+alias baiduyun="nohup vivaldi-stable -app=https://pan.baidu.com >/dev/null 2>&1"
 alias bdpcs="baidupcs-go"
 alias rsynccl='rsync -rv --delete /home/carl/mounts/galileo/main/  /home/carl/mounts/RACOON/Calibre_Library'
 # alias cl2gd="rclone sync ~/mounts/galileo/Calibre_Library gd_alves:library -v --no-update-modtime"
@@ -232,7 +252,7 @@ alias nl="npm list --depth=0 2>/dev/null"
 
 
 # ------------------BEGIN------------------------------
-#  ==>tmux 
+#  ==>tmux
 bindkey -s '^s^s' 'tmux set-option status'
 
 # ==================END================================
@@ -322,7 +342,7 @@ then
     eval "$(direnv hook zsh)"
 fi
 
-if which activate.sh > /dev/null 2>&1; 
+if which activate.sh > /dev/null 2>&1;
 then
     source `which activate.sh`
 fi
@@ -339,14 +359,15 @@ case "$(hostname)" in
         alias anaconda='export PATH="/opt/anaconda/bin:$PATH"'
         ZSH_THEME="rkj-repos"
         alias readbook='cd /mnt/galileo/BOOK && nohup evince "$(fzf)"'
-        alias clash='sudo nohup /home/carl/local/clash-linux-amd64-v0.16.0 &'
+        alias clash='sudo nohup /home/carl/local/clash-linux-amd64-v0.16.0  2>&1 > clash.log &'
         alias yacd='cd /home/carl/local/clash-dashboard && nohup npm start > ~/nohup.out &'
         export PATH="/home/carl/local:$PATH"
         if [ ! $TMUX ];
         then
             tmux new-session -s Home -n main -d
-            # tmux send-key -t Home:1.1 "ucap && fixkey" 'Enter'
+            # tmux send-key -t Home:1.1 "ucap && fixkey && update_clash" 'Enter'
             tmux attach-session -t Home
+            # update_clash
         fi
             ;;
         "elementary")
@@ -392,7 +413,7 @@ case "$(hostname)" in
 'iMac.wdh')
     HOMEBREW_NO_AUTO_UPDATE=1
     alias Jupyter="ssh  -f administrator@WDH 'activate ml & cd ml & jupyter notebook --no-browser'"
-    alias Ipython="ssh  administrator@WDH 'activate ml & cd ml & ipython'" 
+    alias Ipython="ssh  administrator@WDH 'activate ml & cd ml & ipython'"
     alias lizzie="java -jar ~/leela/Lizzie/lizzie.jar > /dev/null &"
     # android emulator
     function Emulator(){
@@ -407,7 +428,7 @@ export PATH=/Volumes/Fourth/Application/calibre.app/Contents/MacOS:/opt/local/bi
 export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles
 ZSH_THEME='robbyrussell'
 export ANDROID_HOME=/Volumes/Fourth/Android/sdk
-export PATH=$PATH:$ANDROID_HOME/tools 
+export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH/:$ANDROID_HOME/platform-tools
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
@@ -416,5 +437,5 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 ;;
 *)
     ZSH_THEME="af-magic"
-esac    
+esac
 # ==================END================================

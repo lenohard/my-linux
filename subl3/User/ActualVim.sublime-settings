@@ -3,7 +3,7 @@
 	{
 		"completefunc": "ActualVimComplete"
 	},
-	"enabled": true,
+	"enabled": false,
 	"large_file_disable":
 	{
 		"bytes": 52428800,
@@ -69,5 +69,3 @@
 	"settings_priority": "sublime",
 	"smooth_scroll": false
 }
-
-

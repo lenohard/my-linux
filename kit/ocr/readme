@@ -14,3 +14,8 @@ OCR.sh filename.pdf
     it will first use the content to generate a awk script, then use the awk script to write a pdf info file
     than write this info file back into the origin pdf file
 
+
+frequent regexs:
+
+'^ *([0-9]+\.[0-9]+ *[-+?a-zA-Z —]+)[. ]*([0-9]+)$'
+'^ *([0-9]* *[-+a-zA-Z —]+) *([0-9]+)$'

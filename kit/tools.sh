@@ -11,10 +11,10 @@
 
 
 #    To list the download size of several packages (leave packages blank to list all packages):
-alias pacsize='expac -s -H M "%-20n %m" | sort -rhk 2 | less '
+alias pacsize='expac -s -H "M" "%-20n %m" | sort -rhk 2 | less '
 
 #To list explicitly installed packages not in base nor base-devel with size and description:
-alias pacnbase='expac -H M "%011m\t%-20n\t%10d" $(comm -23 <(pacman -Qqen | sort) <(pacman -Qqg base base-devel | sort)) | sort -n'
+alias pacnbase='expac -H "M" "%011m\t%-20n\t%10d" $(comm -23 <(pacman -Qqen | sort) <(pacman -Qqg base base-devel | sort)) | sort -n'
 
 #clean to save space
 

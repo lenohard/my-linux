@@ -9,13 +9,12 @@ call plug#begin('~/.vim_runtime/my_plugins')
 " Plug 'tommcdo/vim-ninja-feet'
 
 " Multiple Plug commands can be written in a single line using | separators
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+" Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'voldikss/vim-mma'
 Plug 'vimlab/split-term.vim'
 Plug 'guns/vim-sexp'
 Plug 'wesQ3/vim-windowswap'
 Plug 'lervag/vimtex'
-Plug 'vim-scripts/paredit.vim'
 Plug 'vim-scripts/paredit.vim'
 Plug 'dense-analysis/ale'
 Plug 'jpalardy/vim-slime'
@@ -24,7 +23,7 @@ Plug 'mattn/emmet-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-unimpaired'
-Plug 'tomlion/vim-solidity'
+" Plug 'tomlion/vim-solidity'
 Plug 'tpope/vim-commentary'
 Plug 'chrisbra/Colorizer'
 Plug 'Shougo/unite.vim'
@@ -32,7 +31,7 @@ Plug 'tpope/vim-commentary'
 Plug 'chrisbra/Colorizer'
 Plug 'Shougo/denite.nvim'
 Plug 'mileszs/ack.vim'
-Plug 'corntrace/bufexplorer'
+" Plug 'corntrace/bufexplorer'
 Plug 'ap/vim-buftabline'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'altercation/vim-colors-solarized'
@@ -51,12 +50,11 @@ Plug 'scrooloose/snipmate-snippets'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'kana/vim-textobj-user'
 Plug 'amdt/vim-niji'
-Plug 'amdt/vim-niji'
 Plug 'nanotech/jellybeans.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'Shougo/echodoc.vim'
 Plug 'Shougo/neco-vim'
-Plug 'vim-scripts/bash-support.vim'
+" Plug 'vim-scripts/bash-support.vim'
 Plug 'tpope/vim-obsession'
 Plug 'xolox/vim-session'
 Plug 'xolox/vim-misc'
@@ -127,9 +125,9 @@ map <leader>es :so ~/.vimrc
 
 
 if has('gui_running')
-	try
+    try
         :set gfn=Ubuntu_Mono:h11:cANSI:qDRAFT
-	endtry
+    endtry
 endif
 
 "---------------
@@ -149,21 +147,27 @@ augroup numbertoggle
     autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber
 augroup END
 
-augroup TerminalStuff
-    au!
-    autocmd TermOpen * setlocal nonumber norelativenumber
-augroup END
+
 "Automatically save the session when leaving Vim
 "autocmd! VimLeave * :mksession!
+
 "Automatically load the session when entering vim
-if filereadable(expand("./Session.vim"))
-    autocmd! VimEnter * if argc() == 0 | source ./Session.vim | endif
-else
-    autocmd! VimEnter * if argc() == 0 | source ~/.vim/sessions/default.vim | endif
+" if filereadable(expand("./Session.vim"))
+"     autocmd! VimEnter * if argc() == 0 | source ./Session.vim | endif
+" elseif filereadable(expand("~/.vim/sessions/default.vim"))
+"     autocmd! VimEnter * if argc() == 0 | source ~/.vim/sessions/default.vim | endif
+" endif
+
+if has('nvim')
+    augroup TerminalStuff
+        au!
+        autocmd TermOpen * setlocal nonumber norelativenumber
+    augroup END
 endif
 
-set cursorline
+autocmd BufNewFile,BufRead *.spacemacs set filetype=lisp
 
+set cursorline
 
 set rtp+=/usr/share/powerline/bindings/vim/
 set t_Co=256
@@ -256,8 +260,8 @@ set scrolloff=2
 " autocmd filetype lisp,scheme,art setlocal equalprg=~/kit/scmindent.rkt
 
 augroup rainbow_lisp
-  autocmd!
-  autocmd FileType lisp,clojure,scheme RainbowParentheses
+    autocmd!
+    autocmd FileType lisp,clojure,scheme RainbowParentheses
 augroup END
 
 map <leader>ee :e! ~/.vim_runtime/vimrcs/basic.vim <cr>
@@ -323,7 +327,7 @@ let g:haskell_indent_do = 3
 " ------------------BEGIN------------------------------
 "   ==>
 "   jsonc file comment hightlight settting
- autocmd FileType json syntax match Comment +\/\/.\+$+
+autocmd FileType json syntax match Comment +\/\/.\+$+
 
 " ==================END================================
 
@@ -332,3 +336,4 @@ let g:haskell_indent_do = 3
 "   ==> Len
 let g:lens#disabled = 0
 " ==================END================================
+

@@ -19,27 +19,28 @@ antigen bundle lein
 antigen bundle command-not-found
 antigen bundle thefuck
 antigen bundle sublime
-# antigen bundle autojump
 antigen bundle common-aliases
 antigen bundle compleat
 antigen bundle git-extras
-antigen bundle zsh-reload
+antigen bundle zsh_reload
 antigen bundle git-flow
 antigen bundle npm
 antigen bundle z
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zdharma/history-search-multi-word
-# antigen bundle zsh-users/zsh-history-substring-search
+antigen bundle zsh-users/zsh-history-substring-search
 antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle six-ddc/zsh-proxychains-ng
+antigen bundle fasd
 
 antigen apply
 
 
-# ------------------BEGIN------------------------------
-#  ==>oh my zsh
-plugins=(zsh-reload zsh-history-substring-search)
+# # ------------------BEGIN------------------------------
+# #  ==>oh my zsh
+# plugins=(zsh-reload zsh-history-substring-search)
 
-# ==================END================================
+# # ==================END================================
 
 fpath=(/usr/local/share/zsh-completions $fpath)
 man() {
@@ -132,21 +133,21 @@ function swap()
     mv "$2" "$1"
     mv $TMPFILE "$2"
 }
-#function to set or unset proxy in terminal
-function pps(){
-    ids=$(pgrep -f "$1")
-    if [[ -z $ids ]];
-    then
-        echo "there is no such process"
-    else
-        ps -pf "$ids"  
-    fi
-}
-function ppkill(){
-    ps -fp $(pgrep -f "$1")
-    pkill -f  "$1"
-}
+# function pps(){
+#     ids=$(pgrep -f "$1")
+#     if [[ -z $ids ]];
+#     then
+#         echo "there is no such process"
+#     else
+#         ps -pf "$ids"  
+#     fi
+# }
+# function ppkill(){
+#     ps -fp $(pgrep -f "$1")
+#     pkill -f  "$1"
+# }
 
+#function to set or unset proxy in terminal
 function setproxy() {
     # if [[ $(uname) == Darwin ]];
     # then
@@ -184,13 +185,13 @@ else
     . /usr/local/etc/profile.d/z.sh
 fi
 
-alias a='fasd -a'        # any
-alias s='fasd -si'       # show / search / select
-alias d='fasd -d'        # directory
-alias f='fasd -f'        # file
-alias sd='fasd -sid'     # interactive directory selection
-alias sf='fasd -sif'     # interactive file selection
-alias vv='fasd -e vim'
+# alias a='fasd -a'        # any
+# alias s='fasd -si'       # show / search / select
+# alias d='fasd -d'        # directory
+# alias f='fasd -f'        # file
+# alias sd='fasd -sid'     # interactive directory selection
+# alias sf='fasd -sif'     # interactive file selection
+# alias vv='fasd -e vim'
 
 
 export R_ENVIRON_USER='/home/carl/.config/r/.Renviron'
@@ -202,9 +203,6 @@ transfer() { if [ $# -eq 0 ]; then echo -e "No arguments specified. Usage:\necho
     tmpfile=$( mktemp -t transferXXX ); if tty -s; then basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g'); curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" >> $tmpfile; else curl --progress-bar --upload-file "-" "https://transfer.sh/$1" >> $tmpfile ; fi; cat $tmpfile; rm -f $tmpfile; }
 
 
-#source /home/carl/kit/env_proxy
-plugins+=(zsh-proxychains-ng)
-
 #ssh log in to server hosted on vultr
 export set github="https://github.com/"
 
@@ -213,7 +211,6 @@ export PS_="$PS1"
 alias ssl="nohup  sslocal -s  149.28.123.239  -p 9293 -k vultr@_2018 > /dev/null 2>&1 &"
 alias locat="locate -Abi"
 alias pcs=proxychains4
-
 alias ghcd='ghc -dynamic'
 alias ucap='setxkbmap -option caps:ctrl_modifier'
 alias recap='setxkbmap -option'
@@ -225,7 +222,12 @@ alias pacsort='pacsize| sort -rhk 2| less'
 alias pdf_fzf='evince "$(fzf)"'
 alias dj_fzf='djview4 "$(fzf)"'
 alias weixin='nohup vivaldi-stable -app=https://wx.qq.com >/dev/null 2>&1  &'
-alias yacc='nohup vivaldi-stable -app=http://yacd.haishan.me >/dev/null 2>&1 &'
+alias navicate='nohup ~/local/navicat15-premium-cs.AppImage >/dev/null 2>&1  &'
+alias webui='nohup vivaldi-stable -app=file:///home/carl/local/webui-aria2/index.html >/dev/null 2>&1  &'
+alias a2c='nohup aria2c --conf-path=/etc/aria2/aria2.conf > ~/aria2c.log 2>&1 & ' 
+alias yacc='nohup vivaldi-stable -app=http://127.0.0.1:3000 >/dev/null 2>&1 &'
+alias netdataa='nohup vivaldi-stable -app=http://127.0.0.1:19999 >/dev/null 2>&1 &'
+alias yadd='cd /home/carl/local/yacd && nohup  node server.js >/dev/null 2>&1 &'
 alias jupyter_ter='nohup vivaldi-stable -app=http://43.255.116.34:8888/terminals/1 2>&1 &'
 alias jupyter_rem='nohup vivaldi-stable -app=http://43.255.116.34:8888 2>&1 &'
 alias odrive='nohup vivaldi-stable -app=https://oxsayacid-my.sharepoint.com/personal/book72_ixsay_com >/dev/null 2>&1 &'
@@ -243,6 +245,12 @@ alias prm=". ~/kit/prm.sh"
 alias exp='less ~/kit/experience.sh'
 alias exp-add='nvim ~/kit/experience.sh'
 alias fixmode='find . -perm 000 -exec chmod 755 {} \;'
+
+
+# ------------------BEGIN------------------------------
+#  ==>initialize
+setxkbmap -option caps:ctrl_modifier
+# ==================END================================
 
 #use beam style on start up
 printf '\033[5 q';
@@ -355,6 +363,15 @@ fi
 #  ==>Host
 
 case "$(hostname)" in
+    "xiaoxin")
+        if [ ! $TMUX ];
+        then
+            tmux new-session -s Home -n main -d
+            # tmux send-key -t Home:1.1 "ucap && fixkey && update_clash" 'Enter'
+            tmux attach-session -t Home
+            # update_clash
+        fi
+        ;;
     "dream")
         alias anaconda='export PATH="/opt/anaconda/bin:$PATH"'
         ZSH_THEME="rkj-repos"
@@ -369,47 +386,47 @@ case "$(hostname)" in
             tmux attach-session -t Home
             # update_clash
         fi
-            ;;
-        "elementary")
-            ZSH_THEME="frisk"
-            alias anaconda='export "PATH=/home/carl/anaconda3/bin:$PATH"'
-            function ml(){
-                if [ -n "$1" ] && [ "$1" = "exit" ];then
-                    cd ~
-                    export PS1="$PS_"
-                else
-                    if [ -z "$(ls -A ~/wdh)" ]; then
-                        echo "Trying"
-                        if [ ! $(sudo mount /home/carl/wdh) ]; then
-                            echo "OK"
-                        else
-                            echo "......"
-                        fi
-                    else
-                        cd ~/wdh/ml/
-                        export PS1="%{$fg[yellow]%}(WDH_ml) $PS1"
-                    fi
-                fi
-            }
-        alias cdy='cd /mnt/share/racoon && pwd=${PWD} && sudo caddy -conf /usr/local/caddy/Caddyfile &; cd "$pwd" '
-        alias cby='calibre-server /mnt/share/racoon/Calibre_Library --userdb /home/carl/.config/calibre/user.sqlite --enable-auth &'
-        alias jpy='mount ~/wdh ; anaconda && jupyter notebook &'
         ;;
-    "WDH")
-        unsetopt BG_NICE
-        alias docker='docker.exe'
-        alias gvim='gvim.exe'
-        alias nvim-qt='nvim-qt.exe'
-        alias anaconda='export "PATH=/mnt/e/.anaconda3/bin:$PATH"'
-        alias host='sudo ~/kit/update_hosts.sh'
-        export set  home='/mnt/c/Users/Administrator'
-        alias CD="cd $home"
-        ZSH_THEME="ys"
-        # ZSH_THEME="spaceship"
-        function ssho(){
-            ssh $(nmblookup ${1} | awk '{print $1}')
+    "elementary")
+        ZSH_THEME="frisk"
+        alias anaconda='export "PATH=/home/carl/anaconda3/bin:$PATH"'
+        function ml(){
+            if [ -n "$1" ] && [ "$1" = "exit" ];then
+                cd ~
+                export PS1="$PS_"
+            else
+                if [ -z "$(ls -A ~/wdh)" ]; then
+                    echo "Trying"
+                    if [ ! $(sudo mount /home/carl/wdh) ]; then
+                        echo "OK"
+                    else
+                        echo "......"
+                    fi
+                else
+                    cd ~/wdh/ml/
+                    export PS1="%{$fg[yellow]%}(WDH_ml) $PS1"
+                fi
+            fi
         }
+    alias cdy='cd /mnt/share/racoon && pwd=${PWD} && sudo caddy -conf /usr/local/caddy/Caddyfile &; cd "$pwd" '
+    alias cby='calibre-server /mnt/share/racoon/Calibre_Library --userdb /home/carl/.config/calibre/user.sqlite --enable-auth &'
+    alias jpy='mount ~/wdh ; anaconda && jupyter notebook &'
     ;;
+"WDH")
+    unsetopt BG_NICE
+    alias docker='docker.exe'
+    alias gvim='gvim.exe'
+    alias nvim-qt='nvim-qt.exe'
+    alias anaconda='export "PATH=/mnt/e/.anaconda3/bin:$PATH"'
+    alias host='sudo ~/kit/update_hosts.sh'
+    export set  home='/mnt/c/Users/Administrator'
+    alias CD="cd $home"
+    ZSH_THEME="ys"
+    # ZSH_THEME="spaceship"
+    function ssho(){
+        ssh $(nmblookup ${1} | awk '{print $1}')
+    }
+;;
 'iMac.wdh')
     HOMEBREW_NO_AUTO_UPDATE=1
     alias Jupyter="ssh  -f administrator@WDH 'activate ml & cd ml & jupyter notebook --no-browser'"
@@ -438,4 +455,62 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 *)
     ZSH_THEME="af-magic"
 esac
+# ==================END================================
+
+
+
+# ------------------BEGIN------------------------------
+#  ==>percol utilized alias
+alias perps='ps aux | percol | awk "{ print $2 }"'
+alias perpkill='ps aux | percol | awk "{ print $2 }" | xargs kill'
+
+function ppgrep() {
+    if [[ $1 == "" ]]; then
+        PERCOL=percol
+    else
+        PERCOL="percol --query $1"
+    fi
+    ps aux | eval $PERCOL | awk '{ print $2 }'
+}
+
+function ppkill() {
+    if [[ $1 =~ "^-" ]]; then
+        QUERY=""            # options only
+    else
+        QUERY=$1            # with a query
+        [[ $# > 0 ]] && shift
+    fi
+    ppgrep $QUERY | xargs kill $*
+}
+
+function exists { which $1 &> /dev/null }
+
+if exists percol; then
+    function percol_select_history() {
+        local tac
+        exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
+        BUFFER=$(fc -l -n 1 | eval $tac | percol --query "$LBUFFER")
+        CURSOR=$#BUFFER         # move cursor
+        zle -R -c               # refresh
+    }
+
+    zle -N percol_select_history
+    bindkey '^R' percol_select_history
+fi
+
+function pattach() {
+    if [[ $1 == "" ]]; then
+        PERCOL=percol
+    else
+        PERCOL="percol --query $1"
+    fi
+
+    sessions=$(tmux ls)
+    [ $? -ne 0 ] && return
+
+    session=$(echo $sessions | eval $PERCOL | cut -d : -f 1)
+    if [[ -n "$session" ]]; then
+        tmux att -t $session
+    fi
+}
 # ==================END================================

@@ -5,6 +5,7 @@ python3
 fasd
 ack-grep
 ack
+lua
 beets(python)
 ycm:(build-essential camke python3 python-dev) ./install.py --clane-completer
 todotxt-cli
@@ -33,7 +34,7 @@ ncdu
 bro 
 cheat  #pip
 tldr
-multitai
+multitail
 diff-so-fancy
 node
 glances
@@ -43,9 +44,12 @@ ctags /linux and windows
 zsh-dircolor_solarizald
 sslocal // shadows-libv
 clang gcc g++
+bat
+netdata
+percol
 
 #font
-ubunt-mono
+ubuntu-mono
 Colaborate
 Source_code_pro
 robot
@@ -56,3 +60,6 @@ ubuntu.18
 arch
 pip
 node
+
+scoop config proxy 127.0.0.1:7890
+scoop bucket add extras

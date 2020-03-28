@@ -247,11 +247,6 @@ alias exp-add='nvim ~/kit/experience.sh'
 alias fixmode='find . -perm 000 -exec chmod 755 {} \;'
 
 
-# ------------------BEGIN------------------------------
-#  ==>initialize
-setxkbmap -option caps:ctrl_modifier
-# ==================END================================
-
 #use beam style on start up
 printf '\033[5 q';
 alias ng="sudo npm list -g --depth=0 2>/dev/null"
@@ -494,8 +489,8 @@ if exists percol; then
         zle -R -c               # refresh
     }
 
-    zle -N percol_select_history
-    bindkey '^R' percol_select_history
+zle -N percol_select_history
+bindkey '^R' percol_select_history
 fi
 
 function pattach() {
@@ -513,4 +508,24 @@ function pattach() {
         tmux att -t $session
     fi
 }
+# ==================END================================
+
+# ------------------BEGIN------------------------------
+#  ==>wsl specific
+if grep -q Microsoft /proc/version; then
+
+    [[ -z "$TMUX" && -n "$USE_TMUX" ]] && {
+        [[ -n "$ATTACH_ONLY" ]] && {
+        tmux a 2>/dev/null || {
+        cd && exec tmux
+    }
+exit
+}
+
+tmux new-window -c "$PWD" 2>/dev/null && exec tmux a
+exec tmux
+}
+else
+    setxkbmap -option caps:ctrl_modifier
+fi
 # ==================END================================

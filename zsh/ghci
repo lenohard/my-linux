@@ -1,0 +1,18 @@
+:set prompt "\ESC[38;5;208m\STXλ >\ESC[m\STX "
+
+:set -ferror-spans -freverse-errors -fprint-expanded-synonyms
+:seti -XFlexibleContexts
+:seti -XFlexibleInstances
+:seti -XOverloadedStrings
+
+:set -package pretty-simple
+:def! pretty \ _ -> pure ":set -interactive-print Text.Pretty.Simple.pPrint"
+:pretty
+
+:seti -XNoImplicitPrelude
+import Protolude -- or any other preferred prelude
+
+
+:def hoogle \s -> return $ ":! hoogle --count=15 \"" ++ s ++ "\""
+:def doc \x -> return $ ":!hoogle --info \"" ++ x ++ "\""
+:def hlint const . return $ ":! hlint \"src\""

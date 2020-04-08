@@ -1,0 +1,6 @@
+[user]
+	name = lenohard
+	email = mathestics@gmail.com
+	mail = mathestics@gmail.com
+[core]
+	editor = /usr/bin/vim

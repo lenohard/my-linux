@@ -26,11 +26,10 @@ Plug 'tpope/vim-unimpaired'
 " Plug 'tomlion/vim-solidity'
 Plug 'tpope/vim-commentary'
 Plug 'chrisbra/Colorizer'
-Plug 'Shougo/unite.vim'
+" Plug 'Shougo/unite.vim'
 Plug 'tpope/vim-commentary'
 Plug 'chrisbra/Colorizer'
-Plug 'Shougo/denite.nvim'
-Plug 'mileszs/ack.vim'
+" Plug 'mileszs/ack.vim'
 " Plug 'corntrace/bufexplorer'
 Plug 'ap/vim-buftabline'
 Plug 'ctrlpvim/ctrlp.vim'
@@ -41,7 +40,7 @@ Plug 'airblade/vim-gitgutter'
 " Plug 'itchyny/lightline.vim'
 " Plug 'maximbaz/lightline-ale'
 Plug 'yuttie/comfortable-motion.vim'
-Plug 'vim-scripts/mru.vim'
+" Plug 'vim-scripts/mru.vim'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'wellle/targets.vim'
 Plug 'maxbrunsfeld/vim-yankstack'
@@ -98,9 +97,11 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
 
 if has('nvim')
+    Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     Plug 'Vigemus/iron.nvim'
 else
+    Plug 'Shougo/denite.nvim'
     Plug 'Shougo/deoplete.nvim'
     Plug 'roxma/nvim-yarp'
     Plug 'roxma/vim-hug-neovim-rpc'

@@ -85,9 +85,14 @@ fi
 
 setopt extended_glob
 source $HOME/kit/tools.sh
-export PATH="$HOME/.local/bin:$HOME/kit/ocr:$HOME/kit:$PATH"
+export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$HOME/kit/ocr:$HOME/kit:$PATH"
 export EDITOR="nvim"
 
+function list_all() {
+    emulate -L zsh
+    ls -a
+}
+chpwd_functions=(${chpwd_functions[@]} "list_all")
 function cdd(){
     cd $@ && ls
 }
@@ -226,8 +231,9 @@ alias pacsort='pacsize| sort -rhk 2| less'
 alias pdf_fzf='evince "$(fzf)"'
 alias dj_fzf='djview4 "$(fzf)"'
 alias weixin='nohup vivaldi-stable -app=https://wx.qq.com >/dev/null 2>&1  &'
-alias navicate='nohup ~/local/navicat15-premium-cs.AppImage >/dev/null 2>&1  &'
+alias navicate='nohup ~/local/navicat15-premium-cs-patched.AppImage >/dev/null 2>&1  &'
 alias webui='nohup vivaldi-stable -app=file:///home/carl/local/webui-aria2/index.html >/dev/null 2>&1  &'
+alias ximalaya='nohup vivaldi-stable -app=https://www.ximalaya.com >/dev/null 2>&1  &'
 alias a2c='nohup aria2c --conf-path=/etc/aria2/aria2.conf > ~/aria2c.log 2>&1 & ' 
 alias yacc='nohup vivaldi-stable -app=http://127.0.0.1:3000 >/dev/null 2>&1 &'
 alias netdataa='nohup vivaldi-stable -app=http://127.0.0.1:19999 >/dev/null 2>&1 &'

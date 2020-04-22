@@ -43,13 +43,13 @@ let g:ctrlp_max_height = 20
 let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
 
 if executable('ag')
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  " HatTip: http://robots.thoughtbot.com/faster-grepping-in-vim and
-  " @ethanmuller
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+    " HatTip: http://robots.thoughtbot.com/faster-grepping-in-vim and
+    " @ethanmuller
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
+    " ag is fast enough that CtrlP doesn't need to cache
+    let g:ctrlp_use_caching = 0
 endif
 
 """"""""""""""""""""""""""""""
@@ -93,7 +93,7 @@ map <leader>nf :NERDTreeFind<cr>
 map <leader>nc :NERDTreeCWD<cr>
 autocmd FileType nerdtree setlocal nocursorline
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType")
-    \&& b:NERDTreeType == "primary") | q | endif
+            \&& b:NERDTreeType == "primary") | q | endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => vim-multiple-cursors
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -237,8 +237,8 @@ let g:airline#extensions#tabline#buffer_nr_show = 1
 " let g:airline#extensions#tabline#tabs_label = 't'
 " let g:airline#extensions#tabline#buffers_label = 'b'
 
-  " let g:airline#extensions#coc#enabled = 1
-  " let airline#extensions#coc#error_symbol = 'E:'
+" let g:airline#extensions#coc#enabled = 1
+" let airline#extensions#coc#error_symbol = 'E:'
 " -----------------------------------------------------
 
 
@@ -323,11 +323,11 @@ let g:ale_set_highlights = 0
 " Only run linting when saving the file
 let g:ale_lint_on_enter = 0
 let g:ale_linters = {
-\   'javascript': ['jshint'],
-\   'python': ['flake8'],
-\   'go': ['go', 'golint', 'errcheck'],
-\   'haskell': ['hdevtools', 'hlint', 'ghc-mod']
-\}
+            \   'javascript': ['jshint'],
+            \   'python': ['flake8'],
+            \   'go': ['go', 'golint', 'errcheck'],
+            \   'haskell': ['hdevtools', 'hlint', 'ghc-mod']
+            \}
 " ==================END================================
 
 " ------------------BEGIN------------------------------
@@ -369,14 +369,14 @@ set signcolumn=yes
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
@@ -401,11 +401,11 @@ nmap <silent> gr <Plug>(coc-references)
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
+    if (index(['vim','help'], &filetype) >= 0)
+        execute 'h '.expand('<cword>')
+    else
+        call CocAction('doHover')
+    endif
 endfunction
 
 " Highlight symbol under cursor on CursorHold
@@ -419,11 +419,11 @@ xmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
 
 augroup mygroup
-  autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+    autocmd!
+    " Setup formatexpr specified filetype(s).
+    autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+    " Update signature help on jump placeholder
+    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
 " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
@@ -483,4 +483,50 @@ nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
 " ------------------BEGIN------------------------------
 "   ==>vim-hardtime
 let g:hardtime_default_on = 0
+" ==================END================================
+
+" ------------------BEGIN------------------------------
+"   ==>Unite
+nnoremap <silent> ,g :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
+if executable('pt')
+    let g:unite_source_grep_command = 'pt'
+    let g:unite_source_grep_default_opts = '--nogroup --nocolor'
+    let g:unite_source_grep_recursive_opt = ''
+    let g:unite_source_grep_encoding = 'utf-8'
+endif
+" ==================END================================
+
+
+" ------------------BEGIN------------------------------
+"   ==>Denite
+" Pt command on grep source
+
+if executable('pt')
+    call denite#custom#var('grep', 'command', ['pt'])
+    call denite#custom#var('grep', 'default_opts',
+                \ ['-i', '--nogroup', '--nocolor', '--smart-case'])
+    call denite#custom#var('grep', 'recursive_opts', [])
+    call denite#custom#var('grep', 'pattern_opt', [])
+    call denite#custom#var('grep', 'separator', ['--'])
+    call denite#custom#var('grep', 'final_opts', [])
+else
+    call denite#custom#var('file_rec', 'command',
+                \ ['grep', '--follow', '--nocolor', '--nogroup', '-g', ''])
+endif
+
+" allow grep source filtering on either path or text
+call denite#custom#source('grep', 'converters', ['converter_abbr_word'])
+
+call denite#custom#map('insert', '<C-h>', '<denite:move_to_first_line>', 'noremap')
+call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
+call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'noremap')
+call denite#custom#map('insert', '<C-l>', '<denite:move_to_last_line>', 'noremap')
+
+call denite#custom#option('default', 'prompt', '>')
+call denite#custom#option('default', 'cursor_wrap', v:true)
+
+nnoremap <C-p> :Denite -direction=topleft file_rec<CR>
+nnoremap <space>/ :Denite -direction=topleft grep<CR>
+nnoremap <space>f :Denite -direction=topleft -no-quit -mode=normal grep:.<CR>
+nnoremap <space>s :Denite -direction=topleft buffer<CR>
 " ==================END================================

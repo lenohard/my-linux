@@ -10,6 +10,10 @@ call plug#begin('~/.vim_runtime/my_plugins')
 
 " Multiple Plug commands can be written in a single line using | separators
 " Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+" Plug 'naoyuki1019/vim-autoupload'
+Plug 'embear/vim-foldsearch'
+Plug 'eshion/vim-sync'
+Plug 'skywind3000/asyncrun.vim'
 Plug 'voldikss/vim-mma'
 Plug 'vimlab/split-term.vim'
 Plug 'guns/vim-sexp'
@@ -29,7 +33,7 @@ Plug 'chrisbra/Colorizer'
 " Plug 'Shougo/unite.vim'
 Plug 'tpope/vim-commentary'
 Plug 'chrisbra/Colorizer'
-" Plug 'mileszs/ack.vim'
+Plug 'mileszs/ack.vim'
 " Plug 'corntrace/bufexplorer'
 Plug 'ap/vim-buftabline'
 Plug 'ctrlpvim/ctrlp.vim'
@@ -169,7 +173,8 @@ endif
 autocmd BufNewFile,BufRead *.spacemacs set filetype=lisp
 
 set cursorline
-
+set smartcase
+set ignorecase
 set rtp+=/usr/share/powerline/bindings/vim/
 set t_Co=256
 
@@ -208,6 +213,7 @@ nnoremap Nt yat%
 nnoremap <leader>zf :set foldmethod=indent<cr>
 nnoremap <leader>zF :set foldmethod=manual<cr>
 tnoremap kj <c-\><c-n>
+tnoremap jk <c-\><c-n>
 tnoremap <expr> <C-R> '<C-\><C-N>"'.nr2char(getchar()).'pi'
 tnoremap <A-h> <C-\><C-N><C-w>h
 tnoremap <A-j> <C-\><C-N><C-w>j

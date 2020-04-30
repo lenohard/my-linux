@@ -30,13 +30,13 @@ data_x['mode']="Rule"
 for i in data_x['Proxy Group']:
     if i['name'] == 'UrlTest':
         for j in i['proxies']:
-            if '回国' in j:
+            if '回国' in j or '免费' in j  or '基础'  in j:
                 i['proxies'].remove(j)
 
 with open('config.yaml', 'w') as xair_asn:
     yaml.dump(data_x, xair_asn, allow_unicode=True)
-with open('/root/.config/clash/config.yaml', 'w') as xair_asn:
-    yaml.dump(data_x, xair_asn, allow_unicode=True)
+# with open('/root/.config/clash/config.yaml', 'w') as xair_asn:
+#     yaml.dump(data_x, xair_asn, allow_unicode=True)
 print("update config.yaml")
 
 rest_url = "http://127.0.0.1:9090/configs"

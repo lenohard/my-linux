@@ -164,13 +164,22 @@ function setproxy() {
     # else
     #     ;
     # fi
-    export {http,https,ftp}_proxy="${2-socks5}://127.0.0.1:${PORT-1080}"
+    if [[ -n $2 ]];
+    then
+        export http_proxy="http://127.0.0.1:${2}"
+        export https_proxy="http://127.0.0.1:${2}"
+    fi
+
+    export all_proxy="socks5://127.0.0.1:$1"
 }
 function proxy_clash(){
-    export https_proxy=http://127.0.0.1:7890;export http_proxy=http://127.0.0.1:7890;export all_proxy=socks5://127.0.0.1:7891
+    export https_proxy=http://127.0.0.1:7890;
+    export http_proxy=http://127.0.0.1:7890;
+    # export all_proxy=socks5://127.0.0.1:7891
+    export ALL_PROXY=socks5://127.0.0.1:7891
 }
 function unsetproxy() {
-    unset {http,https,ftp,all}_proxy
+    unset {http,https,ftp,all,ALL}_proxy
 }
 function help() {
     bash -c "help $1"
@@ -369,26 +378,36 @@ fi
 
 case "$(hostname)" in
     "xiaoxin")
-        if [ ! $TMUX ];
-        then
-            tmux new-session -s Home -n main -d
-            # tmux send-key -t Home:1.1 "ucap && fixkey && update_clash" 'Enter'
-            tmux attach-session -t Home
-            # update_clash
-        fi
-        function setwine(){
-            if [[ $1 == "" ]]; then
-                export WINEARCH=win64 
-                export WINEPREFIX=/home/carl/.wine
-            else
-                export WINEARCH=win32 
-                export WINEPREFIX=/home/carl/.local/share/wineprefixes/"$1"
-            fi
+        alias clash='sudo nohup /home/carl/local/clash-linux-amd64-v0.16.0  > ~/clash.log 2>&1  &'
+        function blight(){
+            sudo xbacklight  -set $1
         }
-    function unsetwine(){
+    function sblight(){
+        float i=$(cat /sys/class/backlight/amdgpu_bl0/brightness)
+        float j=255
+        integer k=$((i / j * 100))
+        echo $k%
+    }
+if [ ! $TMUX ];
+then
+    tmux new-session -s Home -n main -d
+    # tmux send-key -t Home:1.1 "ucap && fixkey && update_clash" 'Enter'
+    tmux attach-session -t Home
+    # update_clash
+fi
+function setwine(){
+    if [[ $1 == "" ]]; then
         export WINEARCH=win64 
         export WINEPREFIX=/home/carl/.wine
-    }
+    else
+        export WINEARCH=win32 
+        export WINEPREFIX=/home/carl/.local/share/wineprefixes/"$1"
+    fi
+}
+function unsetwine(){
+    export WINEARCH=win64 
+    export WINEPREFIX=/home/carl/.wine
+}
 ;;
 "dream")
     alias anaconda='export PATH="/opt/anaconda/bin:$PATH"'

@@ -4,15 +4,6 @@
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-""""""""""""""""""""""""""""""
-" => bufExplorer plugin
-""""""""""""""""""""""""""""""
-let g:bufExplorerDefaultHelp=0
-let g:bufExplorerShowRelativePath=1
-let g:bufExplorerFindActive=1
-let g:bufExplorerSortBy='name'
-map <leader>o :BufExplorer<cr>
-
 
 """"""""""""""""""""""""""""""
 " => MRU plugin
@@ -34,8 +25,8 @@ nmap <c-n> <Plug>yankstack_substitute_newer_paste
 """"""""""""""""""""""""""""""
 let g:ctrlp_working_path_mode = 0
 
-map <leader>b :CtrlPBuffer<cr>
-map <leader>m :CtrlPMRUFiles<cr>
+map <leader>b<SPACE> :CtrlPBuffer<cr>
+map <leader>M :CtrlPMRUFiles<cr>
 " map <c-b> :CtrlPBuffer<cr>
 nnoremap <leader>j :CtrlPMixed<CR>
 
@@ -293,6 +284,7 @@ endif
 let g:slime_python_ipython=1
 nmap <c-c>l <Plug>SlimeLineSend
 nmap <c-c>c <Plug>SlimeMotionSend
+let g:slime_haskell_ghci_add_let = 0
 " ==================END================================
 
 
@@ -497,36 +489,7 @@ endif
 " ==================END================================
 
 
+
 " ------------------BEGIN------------------------------
-"   ==>Denite
-" Pt command on grep source
-
-" if executable('pt')
-"     call denite#custom#var('grep', 'command', ['pt'])
-"     call denite#custom#var('grep', 'default_opts',
-"                 \ ['-i', '--nogroup', '--nocolor', '--smart-case'])
-"     call denite#custom#var('grep', 'recursive_opts', [])
-"     call denite#custom#var('grep', 'pattern_opt', [])
-"     call denite#custom#var('grep', 'separator', ['--'])
-"     call denite#custom#var('grep', 'final_opts', [])
-" else
-"     call denite#custom#var('file_rec', 'command',
-"                 \ ['grep', '--follow', '--nocolor', '--nogroup', '-g', ''])
-" endif
-
-" " allow grep source filtering on either path or text
-" call denite#custom#source('grep', 'converters', ['converter_abbr_word'])
-
-" call denite#custom#map('insert', '<C-h>', '<denite:move_to_first_line>', 'noremap')
-" call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>', 'noremap')
-" call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>', 'noremap')
-" call denite#custom#map('insert', '<C-l>', '<denite:move_to_last_line>', 'noremap')
-
-" call denite#custom#option('default', 'prompt', '>')
-" call denite#custom#option('default', 'cursor_wrap', v:true)
-
-" nnoremap <C-p> :Denite -direction=topleft file_rec<CR>
-" nnoremap <space>/ :Denite -direction=topleft grep<CR>
-" nnoremap <space>f :Denite -direction=topleft -no-quit -mode=normal grep:.<CR>
-" nnoremap <space>s :Denite -direction=topleft buffer<CR>
+"   ==> vim-sync
 " ==================END================================

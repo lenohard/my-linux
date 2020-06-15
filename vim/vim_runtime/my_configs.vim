@@ -11,6 +11,7 @@ call plug#begin('~/.vim_runtime/my_plugins')
 " Multiple Plug commands can be written in a single line using | separators
 " Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 " Plug 'naoyuki1019/vim-autoupload'
+Plug 'kshenoy/vim-signature'
 Plug 'embear/vim-foldsearch'
 Plug 'eshion/vim-sync'
 Plug 'skywind3000/asyncrun.vim'
@@ -27,22 +28,19 @@ Plug 'mattn/emmet-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-unimpaired'
-" Plug 'tomlion/vim-solidity'
+Plug 'tomlion/vim-solidity'
 Plug 'tpope/vim-commentary'
 Plug 'chrisbra/Colorizer'
 " Plug 'Shougo/unite.vim'
 Plug 'tpope/vim-commentary'
 Plug 'chrisbra/Colorizer'
 Plug 'mileszs/ack.vim'
-" Plug 'corntrace/bufexplorer'
 Plug 'ap/vim-buftabline'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'altercation/vim-colors-solarized'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'airblade/vim-gitgutter'
-" Plug 'itchyny/lightline.vim'
-" Plug 'maximbaz/lightline-ale'
 Plug 'yuttie/comfortable-motion.vim'
 " Plug 'vim-scripts/mru.vim'
 Plug 'michaeljsmith/vim-indent-object'
@@ -57,7 +55,6 @@ Plug 'nanotech/jellybeans.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'Shougo/echodoc.vim'
 Plug 'Shougo/neco-vim'
-" Plug 'vim-scripts/bash-support.vim'
 Plug 'tpope/vim-obsession'
 Plug 'xolox/vim-session'
 Plug 'xolox/vim-misc'
@@ -97,7 +94,8 @@ Plug 'tpope/vim-sensible'
 Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
 
 " Plugin outside ~/.vim/plugged with post-update hook
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
 
 if has('nvim')
@@ -191,12 +189,7 @@ iabbrev seperate -----------------------------------------
 nmap <leader>Se o------------------BEGIN------------------------------<c-c>0gcc
 nmap <leader>SE o==================END================================<c-c>0gcc
 nmap <leader>se ojkx,Seojkx,SE2ko ==><c-c>A
-" nmap <leader>Si :SyntasticToggleMode<cr>
 nmap <leader>py 0:.,/^$/ s/^.*: //<cr>
-" nnoremap nb /-BEGIN<cr>0
-" nnoremap Nb ?-BEGIN<cr>0
-" nnoremap ne /=END<cr>$
-" nnoremap Ne ?=END<cr>$
 nnoremap <leader>ds j?-BEGIN<cr>0d/=END<cr>dd
 nnoremap <leader>re :e!<cr>
 " ==================END================================
@@ -234,7 +227,9 @@ inoremap jk <esc>
 inoremap kj <esc>
 inoremap <esc> <nop>
 nnoremap <leader>? :help 
-nnoremap <leader>q :wq<esc>
+nnoremap <leader>qw :bp<bar>sp<bar>bn<bar>bd<CR>
+nnoremap <leader>qq :wq<esc>
+nnoremap <leader>qa :wqa<esc>
 nnoremap <leader>X :q!<esc>
 nnoremap <leader>bb :bd<esc>
 nnoremap <leader>BB :bd!<esc>
@@ -257,6 +252,8 @@ nnoremap <Leader>0 :10b<CR>
 nnoremap <cr> <esc>
 "enable y to copy/paste selected text
 set clipboard^=unnamed,unnamedplus
+
+nnoremap <leader>M :<C-u>marks<CR>
 
 set scrolloff=2
 
@@ -344,3 +341,16 @@ autocmd FileType json syntax match Comment +\/\/.\+$+
 let g:lens#disabled = 0
 " ==================END================================
 
+
+
+" ------------------BEGIN------------------------------
+"   ==> package.yaml haskell
+autocmd BufWritePost package.yaml call Hpack()
+
+function Hpack()
+  let err = system('hpack ' . expand('%'))
+  if v:shell_error
+    echo err
+  endif
+endfunction
+" ==================END================================

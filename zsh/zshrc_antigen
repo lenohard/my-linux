@@ -88,14 +88,16 @@ source $HOME/kit/tools.sh
 export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$HOME/kit/ocr:$HOME/kit:$PATH"
 export EDITOR="nvim"
 
-function list_all() {
-    emulate -L zsh
-    ls -a
+auto-ls () {
+    emulate -L zsh;
+    hash gls >/dev/null 2>&1 && CLICOLOR_FORCE=1 gls -aFh --color --group-directories-first || ls
 }
-chpwd_functions=(${chpwd_functions[@]} "list_all")
+chpwd_functions=( auto-ls $chpwd_functions )
+
 function cdd(){
     cd $@ && ls
 }
+
 function showme()
 {
     if which nvim > /dev/null 2>&1;
@@ -105,6 +107,7 @@ function showme()
         vim "$(which $1)"
     fi
 }
+
 function findit()
 {
     case $# in
@@ -123,18 +126,18 @@ function findit()
             return 0
     esac
 }
-function findv()
-{
-    nvim "$(findit $@ | select.py)"
-}
-function findc()
-{
-    cd "$(dirname "$(findit $@ | select.py)")"
-}
-function findout()
-{
-    findit $@ | select.py
-}
+# function findv()
+# {
+#     nvim "$(findit $@ | select.py)"
+# }
+# function findc()
+# {
+#     cd "$(dirname "$(findit $@ | select.py)")"
+# }
+# function findout()
+# {
+#     findit $@ | select.py
+# }
 function swap()
 {
     local TMPFILE=tmp.$$
@@ -170,8 +173,9 @@ function setproxy() {
         export https_proxy="http://127.0.0.1:${2}"
     fi
 
-    export all_proxy="socks5://127.0.0.1:$1"
+    export ALL_PROXY="socks5://127.0.0.1:$1"
 }
+
 function proxy_clash(){
     export https_proxy=http://127.0.0.1:7890;
     export http_proxy=http://127.0.0.1:7890;
@@ -179,7 +183,8 @@ function proxy_clash(){
     export ALL_PROXY=socks5://127.0.0.1:7891
 }
 function unsetproxy() {
-    unset {http,https,ftp,all,ALL}_proxy
+    unset {http,https,ftp,all}_proxy
+    unset ALL_PROXY
 }
 function help() {
     bash -c "help $1"
@@ -242,11 +247,24 @@ alias dj_fzf='djview4 "$(fzf)"'
 alias weixin='nohup vivaldi-stable -app=https://wx.qq.com >/dev/null 2>&1  &'
 alias navicate='nohup ~/local/navicat15-premium-cs-patched.AppImage >/dev/null 2>&1  &'
 alias webui='nohup vivaldi-stable -app=file:///home/carl/local/webui-aria2/index.html >/dev/null 2>&1  &'
+
+alias whatsmyip="wget -qO- http://ipecho.net/plain ; echo"
+alias localip="ip a | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'"
+
+alias radioabcnews="mplayer -playlist http://www.abc.net.au/res/streaming/audio/mp3/news_radio.pls" #
+alias radiobbcnews="mplayer -playlist http://minnesota.publicradio.org/tools/play/streams/news.pls" #
+alias radiorn="mplayer -playlist http://www.abc.net.au/res/streaming/audio/mp3/radio_national.pls" #
+alias radiojjj="mplayer -playlist  http://www.abc.net.au/res/streaming/audio/mp3/triplej.pls" #
+alias radiobbcnews="mplayer -playlist http://minnesota.publicradio.org/tools/play/streams/news.pls" #
+alias radiosleepbot="mplayer -playlist http://sleepbot.com/ambience/cgi/listen.cgi/listen.pls" # Sleepbot Environmental Broadcast 56K MP3
+
 alias ximalaya='nohup vivaldi-stable -app=https://www.ximalaya.com >/dev/null 2>&1  &'
 alias a2c='nohup aria2c --conf-path=/etc/aria2/aria2.conf > ~/aria2c.log 2>&1 & ' 
 alias yacc='nohup vivaldi-stable -app=http://127.0.0.1:3000 >/dev/null 2>&1 &'
 alias netdataa='nohup vivaldi-stable -app=http://127.0.0.1:19999 >/dev/null 2>&1 &'
-alias yadd='cd /home/carl/local/yacd && nohup  node server.js >/dev/null 2>&1 &'
+alias wifion='nmcli radio wifi on'
+alias suspendw='nmcli radio wifi off && systemctl suspend'
+alias yadd='cd /home/carl/local/yacd && nohup  yarn start >/dev/null 2>&1 &'
 alias jupyter_ter='nohup vivaldi-stable -app=http://43.255.116.34:8888/terminals/1 2>&1 &'
 alias jupyter_rem='nohup vivaldi-stable -app=http://43.255.116.34:8888 2>&1 &'
 alias odrive='nohup vivaldi-stable -app=https://oxsayacid-my.sharepoint.com/personal/book72_ixsay_com >/dev/null 2>&1 &'

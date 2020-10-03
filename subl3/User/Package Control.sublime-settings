@@ -3,9 +3,12 @@
 	"in_process_packages":
 	[
 	],
+	"install_prereleases":
+	[
+		"NeoVintageous"
+	],
 	"installed_packages":
 	[
-		"ActualVim",
 		"Alignment",
 		"AngularJS",
 		"Autoprefixer",
@@ -13,6 +16,7 @@
 		"C++ Snippets",
 		"C++ Starting Kit",
 		"ChineseLocalizations",
+		"Codecs33",
 		"ConvertToUTF8",
 		"CTags",
 		"DocBlockr",
@@ -28,6 +32,7 @@
 		"HTML-CSS-JS Prettify",
 		"IPython Notebook",
 		"LaTeXTools",
+		"NeoVintageous",
 		"Package Control",
 		"SFTP",
 		"SideBarEnhancements",
@@ -36,6 +41,8 @@
 		"Sync Settings",
 		"Tagify",
 		"Terminal",
-		"Theme - Soda"
+		"Theme - Soda",
+		"ToggleNeoVintageous",
+		"Vuejs Complete Package"
 	]
 }

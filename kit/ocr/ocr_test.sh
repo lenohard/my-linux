@@ -10,12 +10,18 @@ then
     awk -i inplace '!seen[$0]++' content            # remove duplicate lines
     if grep offset content >> /dev/null 2>&1;
     then
-        exit
+        echo "offset exist"
     else
         read -p "OFFSET ? : " offset
         awk -i inplace -v ost="$offset" 'BEGINFILE{print "offset    "ost}{print}' content
     fi
 
+    if grep "$1" ~/kit/ocr/readme -F >> /dev/null 2>&1;
+    then
+        echo "pattern exist"
+    else
+        echo "$1" >> ~/kit/ocr/readme
+    fi
 else
     exit
 fi

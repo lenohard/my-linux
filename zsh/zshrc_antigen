@@ -32,6 +32,7 @@ antigen bundle zsh-users/zsh-history-substring-search
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle six-ddc/zsh-proxychains-ng #<esc> + p
 antigen bundle fasd
+# antigen bundle hschne/fzf-git
 
 antigen apply
 
@@ -85,7 +86,7 @@ fi
 
 setopt extended_glob
 source $HOME/kit/tools.sh
-export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$HOME/kit/ocr:$HOME/kit:$PATH"
+export PATH="$HOME/.elan/bin:$HOME/.cargo/bin:$HOME/.local/bin:$HOME/kit/ocr:$HOME/kit/ocr/tools/:$HOME/kit:$PATH"
 export EDITOR="nvim"
 
 auto-ls () {
@@ -176,6 +177,12 @@ function setproxy() {
     export ALL_PROXY="socks5://127.0.0.1:$1"
 }
 
+function sproxy() {
+    export http_proxy="http://127.0.0.1:${1}"
+    export https_proxy="http://127.0.0.1:${2}"
+
+}
+
 function proxy_clash(){
     export https_proxy=http://127.0.0.1:7890;
     export http_proxy=http://127.0.0.1:7890;
@@ -242,8 +249,6 @@ alias wget_all='wget -r -np -k' #download all files in a page
 alias lld='ls -d */'
 alias git-root='cd $(git rev-parse --show-toplevel)'
 alias pacsort='pacsize| sort -rhk 2| less'
-alias pdf_fzf='evince "$(fzf)"'
-alias dj_fzf='djview4 "$(fzf)"'
 alias weixin='nohup vivaldi-stable -app=https://wx.qq.com >/dev/null 2>&1  &'
 alias navicate='nohup ~/local/navicat15-premium-cs-patched.AppImage >/dev/null 2>&1  &'
 alias webui='nohup vivaldi-stable -app=file:///home/carl/local/webui-aria2/index.html >/dev/null 2>&1  &'
@@ -396,7 +401,7 @@ fi
 
 case "$(hostname)" in
     "xiaoxin")
-        alias clash='sudo nohup /home/carl/local/clash-linux-amd64-v0.16.0  > ~/clash.log 2>&1  &'
+        alias rand='sed "$(shuf -i 1-2559 -n 1)p;d" seagate'
         function blight(){
             sudo xbacklight  -set $1
         }
@@ -588,4 +593,96 @@ exec tmux
 else
     setxkbmap -option caps:ctrl_modifier
 fi
+# ==================END================================
+
+
+
+# ------------------BEGIN------------------------------
+#  ==> minio-client
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/bin/mcli mcli
+# ==================END================================
+
+
+
+# ------------------BEGIN------------------------------
+#  ==> fzf
+#determines search program for fzf
+if type ag &> /dev/null; then
+    export FZF_DEFAULT_COMMAND='ag -p ~/.gitignore -g ""'
+fi
+#refer rg over ag
+if type rg &> /dev/null; then
+    export FZF_DEFAULT_COMMAND='rg --files --hidden'
+fi
+
+source /usr/share/fzf/key-bindings.zsh
+source /usr/share/fzf/completion.zsh
+
+export FZF_COMPLETION_TRIGGER=''
+bindkey '^T' fzf-completion
+bindkey '^I' $fzf_default_completion
+
+alias pdf_fzf='evince "$(fzf)"'
+alias dj_fzf='djview4 "$(fzf)"'
+alias efzf='ebook-viewer "$(fzf)"'
+
+ctrlp() {
+  dir="$(find -type d | grep -v .git | grep -v node_modules | fzf)";
+  [[ -d "$dir" ]] && cd $dir;
+  zle reset-prompt  
+}
+
+zle -N ctrlp
+bindkey ",cd" ctrlp
+
+
+ctrlp2() {
+  dir="$(find -type d | grep -v .git | grep -v node_modules | fzf)";
+  LBUFFER="${LBUFFER} $dir "
+  zle reset-prompt  
+}
+
+zle -N ctrlp2
+bindkey ",j" ctrlp2
+
+alias pac="pacman -Slq | fzf --multi --preview 'pacman -Si {1}' | xargs -ro sudo pacman -S"
+# ==================END================================
+
+
+
+# ------------------BEGIN------------------------------
+#  ==>  current editor buffer tricks
+copy2x(){
+  echo "$BUFFER" | xclip -selection clipboard
+}
+zle -N copy2x
+bindkey ",p" copy2x
+
+
+output2x() {
+  LBUFFER="${LBUFFER} | tee /dev/tty | xclip -selection clipboard"
+  zle reset-prompt  
+}
+
+zle -N output2x
+bindkey ",pp" output2x
+
+# eval-memoi caches the command in redis
+rclonef () {
+	local paths=("${(@f)$(memoi_expire=${rfExpire:-$((3600*24))} eval-memoi rclone lsf --recursive "${1}:" | fzf)}")
+	local i
+	for i in $paths[@]
+	do
+		rclone copy "${1}:$i" "$2"
+	done
+}
+
+# ==================END================================
+
+# ------------------BEGIN------------------------------
+#  ==> ripgrep
+
+export RIPGREP_CONFIG_PATH='/home/carl/.ripgreprc'
+
 # ==================END================================

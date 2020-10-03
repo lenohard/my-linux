@@ -1,9 +1,17 @@
 {
 	"color_scheme": "Packages/Dracula Color Scheme/Dracula.tmTheme",
+	"font_size": 10,
 	"ignored_packages":
 	[
-		"Vintag"
+		"Six",
+		"Vintage",
+		"Vintageous"
 	],
+	"neovintageous_build_version": 11100,
 	"soda_folder_icons": true,
-	"theme": "Default.sublime-theme"
+	"theme": "Default.sublime-theme",
+	"vintageous_use_ctrl_keys": false,
+	"vintageous_use_super_keys": null,
+	"vintageous_i_escape_jk":true,
+	"vintageous_i_escape_jj":true,
 }

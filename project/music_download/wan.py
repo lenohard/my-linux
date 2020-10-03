@@ -1,12 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import requests
+import time
 import argparse
 import os
 from mutagen.easyid3 import EasyID3
 from mutagen.id3 import ID3, APIC, TIT2, TPE1, TRCK, TALB, USLT, error
 from pathlib import Path
 from pyfzf.pyfzf import FzfPrompt
+from collections import deque
+
 
 fzf = FzfPrompt()
 home = str(Path.home())
@@ -22,6 +25,8 @@ parser.add_argument("-n", "--number",default=0, type=int, help="number of music 
 parser.add_argument("-a", "--all",action="store_true", help="download all")
 parser.add_argument("-I", "--interactive", default=True, action="store_true", help="interactive with fzf (default)")
 parser.add_argument("-o", "--online",action="store_true", help="the first 1000 in ids.txt in order of times of liking")
+parser.add_argument("-D", "--database",action="store_true", help="rewrite database")
+parser.add_argument("-m", "--dbfile",default="database", help="database file name, effective only when -D (--database) exists")
 
 
 args = parser.parse_args()
@@ -35,6 +40,9 @@ if args.dir:
     if dire[-1] != '/':
         dire = dire+'/'
 
+if args.database:
+    database = args.dbfile
+
 
 # dire = '/home/carl/wan_music/'
 
@@ -43,14 +51,16 @@ if not directory.exists():
     print("目录不存在, 为您创建目录{}".format(dire))
     os.mkdir(dire)
 
-# Url = 'http://127.0.0.1:3000'
-Url = 'http://www.acoin18.com:3000'
+Url = 'http://127.0.0.1:3000'
+# Url = 'http://www.acoin18.com:3000'
 
 m_likes = '/likelist'
 m_login = '/login/cellphone'
 m_check = '/check/music'
 m_detail = '/song/detail'
 m_url = '/song/url'
+
+history = "log"
 
 def login(phone, password):
     p_login = {'phone':phone, 'password':password}
@@ -80,6 +90,14 @@ def likes(id):
     p_likes = {'uid':id}
     return session.get(Url+m_likes, params=p_likes).json()['ids']
 
+def database(id):
+    b = likes(id)
+    with open(database, 'a') as f:
+        for i in b:
+            s = "{}, {}, {}\n".format(i['name'], i['al']['name'], i['ar']['name'])
+            f.write(s)
+
+
 
 def download(id):
     u = url(id)[0]['url']
@@ -94,6 +112,7 @@ def download(id):
     fn = name+'.mp3'
     file = os.path.join(dire, fn)
     print("downloading {}".format(name))
+    tm = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) 
     try:
         r = requests.get(u)
         pr = requests.get(pu)
@@ -104,6 +123,9 @@ def download(id):
         with open(file,  'wb') as f:
             f.write(r.content)
             print("{}/{} 下载完成!".format(name, id))
+        with open(history,  'a') as f:
+            info = "{}, {}, {}\n".format(name, id, tm)
+            f.write(info)
     try:
         audio = EasyID3(file)
         audio['title'] = info['name']
@@ -119,7 +141,20 @@ def download(id):
     except:
         print("为 {}/{} 增添封面失败, 跳过".format(id, name))
 
+def tail(filename, n=10):
+    'Return the last n lines of a file'
+    with open(filename) as f:
+        return deque(f, n) 
+
 start = args.start
+
+
+if(os.path.exists(history)):
+    last_line = tail(history, n=1)
+    # import ipdb; ipdb.set_trace();
+    print("最近的下载信息是\n{}".format(last_line[0]))
+else:
+    print("找不到最近的下载记录")
 
 if args.all:
     a = login(phone, password)
@@ -135,6 +170,17 @@ if args.all:
     else:
         N = len(ids)
 else:
+    if args.database:
+        a = login(phone, password)
+        if a.status_code == 200:
+            uid = a.json()['profile']['userId']
+            print("您已经成功登录")
+        else:
+            print('something wrong, please contact the administrator')
+            exit(0)
+    database(uid)
+    exit(0)
+else:
     if args.online:
         with open('ids.txt', 'r') as f:
             lines = f.read().splitlines()
@@ -142,7 +188,7 @@ else:
             for x in lines:
                 ids.append(x.split(':::')[0])
             if args.end:
-                N = end
+                N = args.end
             else:
                 if args.number:
                     N = start + args.number
@@ -154,7 +200,7 @@ else:
             for i in range(len(lines)):
                 lines[i] = "{:>4}:::{}".format(i, lines[i])
             if args.interactive:
-                lines = fzf.prompt(lines, "--multi")
+                lines = fzf.prompt(lines, "--multi --height 70% --border")
             ids=[]
             for x in lines:
                 ids.append(x.split(':::')[1])

@@ -19,8 +19,9 @@ aparse() {
 }
 aparse "$@"
 
+
 i="$1"
-o=${2:-$(basename $i .djvu).pdf}
+o=${2:-$(basename "$i" .djvu).pdf}
 if [ -f  "$o" ]; then
     echo "file $o exists, override [Y/n]?"
     read ans

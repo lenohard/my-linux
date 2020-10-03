@@ -1,6 +1,3 @@
-Step 0:
-if the file is djvu format you can use dj2pdf.sh to convert it into pdf before processing.
-
 Step 1:
 ocr_rec.sh filename.pdf first last  # first last to indicate the start and end page of the contents
     generated tmp file "result.txt" include the recognized text.
@@ -11,13 +8,15 @@ ocr_test.sh 'regex' # test the regex to extract correcsponding info if ok it wil
     and rank start from 1 not 0
 
 Step 3:
-merge.sh filename.pdf
+merge.sh filename.pdf/djvu
     it will first use the content to generate a awk script, then use the awk script to write a pdf info file
     than write this info file back into the origin pdf file
     it generate a new pdf with the capitized filename of origin name 
 
 
 frequent regexs:
-
 '^ *([0-9]+\.[0-9]+ *[-+?a-zA-Z —]+)[. ]*([0-9]+)$'
 '^ *([0-9]* *[-+a-zA-Z —]+) *([0-9]+)$'
+^(Part.*)\ +(-?[0-9]+)$
+^ *([a-zA-Z‘’ —]+)[. ]*([-0-9]+)$
+^ *([0-9a-zA-Z,?‘’ —]+[^0-9-])[. ]*([-0-9]+)$

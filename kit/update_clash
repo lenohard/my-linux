@@ -27,7 +27,7 @@ data_x.update({'redir-port':7892})
 data_x['log-level']='info'
 data_x['mode']="Rule"
 
-for i in data_x['Proxy Group']:
+for i in data_x['proxy-groups']:
     if i['name'] == 'UrlTest':
         for j in i['proxies']:
             if '回国' in j or '免费' in j  or '基础'  in j:

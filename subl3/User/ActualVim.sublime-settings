@@ -14,7 +14,7 @@
 		"--cmd",
 		"let g:actualvim = 1"
 	],
-	"neovim_path": "",
+	"neovim_path": "/usr/bin/nvim",
 	"settings":
 	{
 		"sublime":

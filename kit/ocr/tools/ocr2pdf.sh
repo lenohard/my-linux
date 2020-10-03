@@ -1,22 +1,4 @@
 #!/bin/bash -
-#===============================================================================
-#
-#          FILE: ocr2pdf.sh
-#
-#         USAGE: ./ocr2pdf.sh filename
-#
-#   DESCRIPTION: convert unsearchable pdf to searchable pdf using tesseract
-#
-#       OPTIONS: ---
-#  REQUIREMENTS: ---
-#          BUGS: ---
-#         NOTES: ---
-#        AUTHOR: YOUR NAME (),
-#  ORGANIZATION:
-#       CREATED: 11/12/2018 10:49
-#      REVISION:  ---
-#===============================================================================
-
 set -e
 if [[ $# == 3 ]]; then
     f=$2

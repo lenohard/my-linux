@@ -12,7 +12,12 @@ Plug 'eshion/vim-sync'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'kshenoy/vim-signature'
 Plug 'mileszs/ack.vim'
+Plug 'nazo/pt.vim'
 Plug 'alx741/vim-hindent'
+Plug 'posva/vim-vue'
+Plug 'ronakg/quickr-preview.vim'
+Plug 'lifepillar/vim-solarized8'
+Plug 'tomlion/vim-solidity'
 
 
 """"""""""""""""""""""""""""""
@@ -25,7 +30,7 @@ map <leader>B :CtrlPBuffer<cr>
 map <leader>M :CtrlPMRUFiles<cr>
 
 let g:ctrlp_max_height = 20
-let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
+" let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
 
 if executable('ag')
     " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
@@ -130,7 +135,7 @@ function! s:check_back_space() abort
     return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 " Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
+inoremap <silent><expr> <c-t> coc#refresh()
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
@@ -228,6 +233,7 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>)
 
 nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
+
 " ==================END================================
 
 
@@ -243,4 +249,29 @@ let g:haskell_backpack = 1                " to enable highlighting of backpack k
 
 let g:haskell_indent_if = 3
 let g:haskell_indent_do = 3
+" ==================END================================
+
+" ------------------BEGIN------------------------------
+"  ==> vim-session
+let g:session_autoload = 'no'
+let g:session_autosave = 'no'
+set sessionoptions+=buffers
+" ==================END================================
+
+
+
+" ------------------BEGIN------------------------------
+"   ==> quicker-preview
+let g:quickr_preview_on_cursor = 1
+" ==================END================================
+
+
+
+" ------------------BEGIN------------------------------
+"   ==> solarized8
+let g:solarized_termtrans = 0
+let g:solarized_diffmode = "low"
+let g:solarized_enable_extra_hi_groups = 1
+let g:solarized_statusline = "flat"
+let g:solarized_visibility = "high"
 " ==================END================================

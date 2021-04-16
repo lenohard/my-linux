@@ -36,7 +36,7 @@ dotGHCI_myPrompt promptString ms _ = do
                          then '~':drop (length home) pwd
                          else pwd
 :}
-:set prompt-function dotGHCI_myPrompt " \ESC[38;5;208m\STXλ >\ESC[m\STX" 
+:set prompt-function dotGHCI_myPrompt " \ESC[38;5;208m\STXλ >\ESC[m\STX"
 :set prompt-cont-function dotGHCI_myPrompt "∷"
 
 dotGHCI_escapeShellArg arg = "'" ++ concatMap (\c -> if c == '\'' then "'\\''" else [c]) arg ++ "'"

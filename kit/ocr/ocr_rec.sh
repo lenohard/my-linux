@@ -21,7 +21,7 @@ fi
 
 for file in image*;
 do
-    n="${file:5:2}"
+    n="${file:6:3}"
     tesseract "$file" tmp"$n" --oem 3 --psm 6 -l ${4:-eng}
 done
 

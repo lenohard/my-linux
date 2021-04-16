@@ -5,7 +5,7 @@ import requests as req
 import yaml
 import shutil
 
-url_xair='https://sub.user.x-api.icu/v2sub/v3chh?clash=1'
+url_xair='https://sub.user.x-api.icu/v2sub/9B7NyAd4SgVg?clash=1'
 
 wdir=os.path.expanduser("~/.config/clash")
 os.chdir(wdir)

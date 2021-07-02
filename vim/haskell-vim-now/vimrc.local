@@ -104,7 +104,7 @@ map <leader>bd :Bclose<cr>:tabclose<cr>gT
 map <leader>ba :bufdo bd<cr>
 
 map <leader>l :bnext<cr>
-map <leader>h :bprevious<cr>
+map <leader>hh :bprevious<cr>
 nnoremap 0 ^
 
 set ssop-=options    " do not store global and local values in a session

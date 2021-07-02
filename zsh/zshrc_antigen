@@ -387,28 +387,6 @@ bindkey -M vicmd '^V' edit-command-line
 # ==================END================================
 
 # ------------------BEGIN------------------------------
-#  ==>fzf
-# tmux split
-export FZF_TMUX=1
-
-# Using highlight (http://www.andre-simon.de/doku/highlight/en/highlight.html)
-export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
-
-#full screen mode
-# export FZF_DEFAULT_OPTS='--no-height --no-reverse'
-
-#Commands that are too long are not fully visible on screen. We can use --preview option to display the full command on the preview window. In the following example, we bind ? key for toggling the preview window.
-export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
-
-fzf-history-widget-accept() {
-fzf-history-widget
-zle accept-line
-}
-zle     -N     fzf-history-widget-accept
-bindkey '^X^R' fzf-history-widget-accept
-# ==================END================================
-
-# ------------------BEGIN------------------------------
 #  ==>autosuggestions
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=30
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=32'
@@ -653,6 +631,28 @@ fi
 #  ==> minio-client
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/bin/mcli mcli
+# ==================END================================
+
+# ------------------BEGIN------------------------------
+#  ==>fzf
+# tmux split
+export FZF_TMUX=1
+
+# Using highlight (http://www.andre-simon.de/doku/highlight/en/highlight.html)
+export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
+
+#full screen mode
+# export FZF_DEFAULT_OPTS='--no-height --no-reverse'
+
+#Commands that are too long are not fully visible on screen. We can use --preview option to display the full command on the preview window. In the following example, we bind ? key for toggling the preview window.
+export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
+
+fzf-history-widget-accept() {
+fzf-history-widget
+zle accept-line
+}
+zle     -N     fzf-history-widget-accept
+bindkey '^X^R' fzf-history-widget-accept
 # ==================END================================
 
 

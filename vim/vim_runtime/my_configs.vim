@@ -225,7 +225,7 @@ nnoremap zz :Z
 inoremap jk <esc>
 inoremap kj <esc>
 inoremap <esc> <nop>
-nnoremap <leader>? :help 
+nnoremap <leader>? :help
 nnoremap <leader>qw :bp<bar>sp<bar>bn<bar>bd<CR>
 nnoremap <leader>qq :wq<esc>
 nnoremap <leader>qa :wqa<esc>
@@ -256,7 +256,7 @@ nnoremap <leader>M :<C-u>marks<CR>
 
 set scrolloff=2
 
-"use this script to help write lisp-like () 
+"use this script to help write lisp-like ()
 " autocmd filetype lisp,scheme,art setlocal equalprg=~/kit/scmindent.rkt
 
 " au BufRead,BufNewFile,BufNew *.hss setl ft=haskell.script
@@ -268,6 +268,7 @@ augroup rainbow_lisp
 augroup END
 
 map <leader>ee :e! ~/.vim_runtime/vimrcs/basic.vim <cr>
+map <leader>e :e! ~/.vim_runtime/my_configs.vim <cr>
 map <leader>ex :e! ~/.vim_runtime/vimrcs/extended.vim <cr>
 map <leader>ep :e! ~/.vim_runtime/vimrcs/plugins_config.vim<cr>
 set ssop-=options    " do not store global and local values in a session

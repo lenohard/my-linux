@@ -44,15 +44,15 @@ antigen apply
 
 fpath=(/usr/local/share/zsh-completions $fpath)
 man() {
-  env LESS_TERMCAP_mb=$'\E[01;31m' \
-    LESS_TERMCAP_md=$'\E[01;38;5;74m' \
-    LESS_TERMCAP_me=$'\E[0m' \
-    LESS_TERMCAP_se=$'\E[0m' \
-    LESS_TERMCAP_so=$'\E[38;5;246m' \
-    LESS_TERMCAP_ue=$'\E[0m' \
-    LESS_TERMCAP_us=$'\E[04;38;5;146m' \
-    man "$@"
-  }
+    env LESS_TERMCAP_mb=$'\E[01;31m' \
+        LESS_TERMCAP_md=$'\E[01;38;5;74m' \
+        LESS_TERMCAP_me=$'\E[0m' \
+        LESS_TERMCAP_se=$'\E[0m' \
+        LESS_TERMCAP_so=$'\E[38;5;246m' \
+        LESS_TERMCAP_ue=$'\E[0m' \
+        LESS_TERMCAP_us=$'\E[04;38;5;146m' \
+        man "$@"
+    }
 
 
 # ------------------BEGIN-----------------------
@@ -60,25 +60,25 @@ man() {
 
 if [[ -e /etc/os-release ]];
 then
-  os=$(cat /etc/os-release | grep '^ID=' | cut -c4- | tr '[:upper:]' '[:lower:]')
-  if [ -n "$os" ];then
-    case "$os" in
-      "arch")
-        alias syslog='sudo journalctl -r'
-        alias logmonitor='sudo journalctl -f'
-        ;;
-      "manjaro")
-        alias syslog='sudo journalctl -r'
-        alias logmonitor='sudo journalctl -f'
-        ;;
-      "ubuntu"|"elementary")
-        alias syslog='sudo less /var/log/syslog'
-        alias logmonitor='sudo tail -f /var/log/syslog'
-        ;;
-      *)
-        ;;
-    esac
-  fi
+    os=$(cat /etc/os-release | grep '^ID=' | cut -c4- | tr '[:upper:]' '[:lower:]')
+    if [ -n "$os" ];then
+        case "$os" in
+            "arch")
+                alias syslog='sudo journalctl -r'
+                alias logmonitor='sudo journalctl -f'
+                ;;
+            "manjaro")
+                alias syslog='sudo journalctl -r'
+                alias logmonitor='sudo journalctl -f'
+                ;;
+            "ubuntu"|"elementary")
+                alias syslog='sudo less /var/log/syslog'
+                alias logmonitor='sudo tail -f /var/log/syslog'
+                ;;
+            *)
+                ;;
+        esac
+    fi
 fi
 
 # ==================END=========================
@@ -95,36 +95,36 @@ hash gls >/dev/null 2>&1 && CLICOLOR_FORCE=1 gls -aFh --color --group-directorie
 chpwd_functions=( auto-ls $chpwd_functions )
 
 function cdd(){
-  cd $@ && ls
+    cd $@ && ls
 }
 
 function showme()
 {
-  if which nvim > /dev/null 2>&1;
-  then
-    nvim "$(which $1)"
-  else
-    vim "$(which $1)"
-  fi
+    if which nvim > /dev/null 2>&1;
+    then
+        nvim "$(which $1)"
+    else
+        vim "$(which $1)"
+    fi
 }
 
 function findit()
 {
-  case $# in
-    0 )
-      echo "arguments required"
-      return 0
-      ;;
-    1 )
-      find "$PWD" -iname "*$1*"
-      ;;
-    2 )
-      find "$(realpath $2)" -iname "*$1*"
-      ;;
-    * )
-      echo ":find PARTEN [path]"
-      return 0
-  esac
+    case $# in
+        0 )
+            echo "arguments required"
+            return 0
+            ;;
+        1 )
+            find "$PWD" -iname "*$1*"
+            ;;
+        2 )
+            find "$(realpath $2)" -iname "*$1*"
+            ;;
+        * )
+            echo ":find PARTEN [path]"
+            return 0
+    esac
 }
 # function findv()
 # {
@@ -140,10 +140,10 @@ function findit()
 # }
 function swap()
 {
-  local TMPFILE=tmp.$$
-  mv "$1" $TMPFILE
-  mv "$2" "$1"
-  mv $TMPFILE "$2"
+    local TMPFILE=tmp.$$
+    mv "$1" $TMPFILE
+    mv "$2" "$1"
+    mv $TMPFILE "$2"
 }
 # function pps(){
 #     ids=$(pgrep -f "$1")
@@ -161,57 +161,44 @@ function swap()
 
 #function to set or unset proxy in terminal
 function setproxy() {
-  # if [[ $(uname) == Darwin ]];
-  # then
-  #     ;
-  # else
-  #     ;
-  # fi
-  if [[ -n $2 ]];
-  then
-    export http_proxy="http://127.0.0.1:${2}"
-    export https_proxy="http://127.0.0.1:${2}"
-  fi
-
-  export ALL_PROXY="socks5://127.0.0.1:$1"
+    export {http,https,ftp,all}_proxy="${1-http}://127.0.0.1:${2-7890}"
 }
 
 function sproxy() {
-  export http_proxy="http://127.0.0.1:${1}"
-  export https_proxy="http://127.0.0.1:${2}"
+    export http_proxy="http://127.0.0.1:${1}"
+    export https_proxy="http://127.0.0.1:${2}"
 
 }
 
 function proxy_clash(){
-  export https_proxy=http://127.0.0.1:7890;
-  export http_proxy=http://127.0.0.1:7890;
-  # export all_proxy=socks5://127.0.0.1:7891
-  export ALL_PROXY=socks5://127.0.0.1:7891
+    export https_proxy=http://127.0.0.1:7890;
+    export http_proxy=http://127.0.0.1:7890;
+    # export all_proxy=socks5://127.0.0.1:7891
+    export ALL_PROXY=socks5://127.0.0.1:7891
 }
 function unsetproxy() {
-  unset {http,https,ftp,all}_proxy
-  unset ALL_PROXY
+    unset {http,https,ftp,all}_proxy
 }
 function help() {
-  bash -c "help $1"
+    bash -c "help $1"
 }
 function color(){
-  for i in {0..255} ; do
-    printf "\x1b[38;5;${i}m%3d " "${i}"
-    if (( $i == 15 )) || (( $i > 15 )) && (( ($i-15) % 12 == 0 )); then
-      echo;
-    fi
-  done
+    for i in {0..255} ; do
+        printf "\x1b[38;5;${i}m%3d " "${i}"
+        if (( $i == 15 )) || (( $i > 15 )) && (( ($i-15) % 12 == 0 )); then
+            echo;
+        fi
+    done
 }
 
 if [[ ! $(hostname) == 'iMac.wdh' ]];
 then
-  plugins+=(fasd)
-  eval "$(fasd --init auto)"
-  alias z='fasd_cd -d'     # cd, same functionality as j in autojump
-  alias zz='fasd_cd -d -i' # cd with interactive selection
+    plugins+=(fasd)
+    eval "$(fasd --init auto)"
+    alias z='fasd_cd -d'     # cd, same functionality as j in autojump
+    alias zz='fasd_cd -d -i' # cd with interactive selection
 else
-  . /usr/local/etc/profile.d/z.sh
+    . /usr/local/etc/profile.d/z.sh
 fi
 
 # alias a='fasd -a'        # any
@@ -223,13 +210,13 @@ fi
 # alias vv='fasd -e vim'
 
 
-export R_ENVIRON_USER='/home/carl/.config/r/.Renviron'
+export R_ENVIRON_USER='~/.config/r/.Renviron'
 
 export AURDEST='/var/cache/pacaur/pkg'
 
 #transfer.sh, to upload file and share with a link
 transfer() { if [ $# -eq 0 ]; then echo -e "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"; return 1; fi
-  tmpfile=$( mktemp -t transferXXX ); if tty -s; then basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g'); curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" >> $tmpfile; else curl --progress-bar --upload-file "-" "https://transfer.sh/$1" >> $tmpfile ; fi; cat $tmpfile; rm -f $tmpfile; }
+    tmpfile=$( mktemp -t transferXXX ); if tty -s; then basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g'); curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" >> $tmpfile; else curl --progress-bar --upload-file "-" "https://transfer.sh/$1" >> $tmpfile ; fi; cat $tmpfile; rm -f $tmpfile; }
 
 
 #ssh log in to server hosted on vultr
@@ -314,20 +301,20 @@ bindkey -s '\es' 'sudo '
 
 # to viins with alt-e and from viminsert to emacs mode with alt-e too
 function _toggle-keymap {
-  if ! bindkey | grep 'vi-join' > /dev/null 3>&1; then
-    bindkey -e
-    RPROMPT='[emacs]'
-    zle reset-prompt
-    printf '\033[5 q';
-  else
-    bindkey -v
-    printf '\033[3 q';
-    bindkey "jk" vi-cmd-mode
-    bindkey "\ee" _toggle-keymap
-    zle -U ''
-    RPROMPT='[vim]'
-    zle reset-prompt
-  fi
+    if ! bindkey | grep 'vi-join' > /dev/null 3>&1; then
+        bindkey -e
+        RPROMPT='[emacs]'
+        zle reset-prompt
+        printf '\033[5 q';
+    else
+        bindkey -v
+        printf '\033[3 q';
+        bindkey "jk" vi-cmd-mode
+        bindkey "\ee" _toggle-keymap
+        zle -U ''
+        RPROMPT='[vim]'
+        zle reset-prompt
+    fi
 }
 # switch to emacs mode when in vicmd mode
 function _toggle-keymap2 {
@@ -343,14 +330,14 @@ cursor_block="\e[2 q"
 cursor_line="\e[6 q"
 
 if [[ ! -z "$cursor_block" && ! -z "$cursor_line" ]]; then
-  # Change cursor shape when vi mode changes
-  function zle-keymap-select zle-line-init {
-  case $KEYMAP in
-    vicmd)      print -n -- "$cursor_block" ;;
-    viins|main) print -n -- "$cursor_line" ;;
-  esac
-  zle reset-prompt
-  zle -R
+    # Change cursor shape when vi mode changes
+    function zle-keymap-select zle-line-init {
+    case $KEYMAP in
+        vicmd)      print -n -- "$cursor_block" ;;
+        viins|main) print -n -- "$cursor_line" ;;
+    esac
+    zle reset-prompt
+    zle -R
 }
 
   # Change cursor shape when line editing is finished
@@ -413,12 +400,12 @@ setopt SHARE_HISTORY
 #  ==> autoenv or direnv
 if which direnv > /dev/null 2>&1;
 then
-  eval "$(direnv hook zsh)"
+    eval "$(direnv hook zsh)"
 fi
 
 if which activate.sh > /dev/null 2>&1;
 then
-  source `which activate.sh`
+    source `which activate.sh`
 fi
 # ==================END================================
 
@@ -429,106 +416,121 @@ fi
 #  ==>Host
 
 case "$(hostname)" in
-  "xiaoxin")
-    alias rand='sed "$(shuf -i 1-2559 -n 1)p;d" seagate'
-    function blight(){
-      sudo xbacklight  -set $1
+    "Snow-Crash")
+        alias admin='cd /mnt/c/Users/Admin/'
+        alias project='cd /mnt/d/Projects'
+        export PATH="~/local:$PATH"
+        alias clash='nohup /usr/bin/clash -d ~/local/clash 2>&1 > clash.log &'
+        ZSH_THEME="rkj-repos"
+        alias yacd='cd ~/local/clash-dashboard && nohup npm start > ~/nohup.out &'
+        if [ ! $TMUX ];
+        then
+            tmux new-session -s Home -n main -d
+            # tmux send-key -t Home:1.1 "ucap && fixkey && update_clash" 'Enter'
+            tmux attach-session -t Home
+            # update_clash
+        fi
+        ;;
+    "xiaoxin")
+        alias rand='sed "$(shuf -i 1-2559 -n 1)p;d" seagate'
+        function blight(){
+            sudo xbacklight  -set $1
+        }
+    function sblight(){
+        float i=$(cat /sys/class/backlight/amdgpu_bl0/brightness)
+        float j=255
+        integer k=$((i / j * 100))
+        echo $k%
     }
-  function sblight(){
-    float i=$(cat /sys/class/backlight/amdgpu_bl0/brightness)
-    float j=255
-    integer k=$((i / j * 100))
-    echo $k%
-  }
 if [ ! $TMUX ];
 then
-  tmux new-session -s Home -n main -d
-  # tmux send-key -t Home:1.1 "ucap && fixkey && update_clash" 'Enter'
-  tmux attach-session -t Home
-  # update_clash
-fi
-function setwine(){
-  if [[ $1 == "" ]]; then
-    export WINEARCH=win64 
-    export WINEPREFIX=/home/carl/.wine
-  else
-    export WINEARCH=win32 
-    export WINEPREFIX=/home/carl/.local/share/wineprefixes/"$1"
-  fi
-}
-function unsetwine(){
-  export WINEARCH=win64 
-  export WINEPREFIX=/home/carl/.wine
-}
-;;
-"dream")
-  alias anaconda='export PATH="/opt/anaconda/bin:$PATH"'
-  ZSH_THEME="rkj-repos"
-  alias readbook='cd /mnt/galileo/BOOK && nohup evince "$(fzf)"'
-  alias clash='sudo nohup /home/carl/local/clash-linux-amd64-v0.16.0  2>&1 > clash.log &'
-  alias yacd='cd /home/carl/local/clash-dashboard && nohup npm start > ~/nohup.out &'
-  export PATH="/home/carl/local:$PATH"
-  if [ ! $TMUX ];
-  then
     tmux new-session -s Home -n main -d
     # tmux send-key -t Home:1.1 "ucap && fixkey && update_clash" 'Enter'
     tmux attach-session -t Home
     # update_clash
-  fi
-  ;;
-"elementary")
-  ZSH_THEME="frisk"
-  alias anaconda='export "PATH=/home/carl/anaconda3/bin:$PATH"'
-  function ml(){
-    if [ -n "$1" ] && [ "$1" = "exit" ];then
-      cd ~
-      export PS1="$PS_"
+fi
+function setwine(){
+    if [[ $1 == "" ]]; then
+        export WINEARCH=win64 
+        export WINEPREFIX=/home/carl/.wine
     else
-      if [ -z "$(ls -A ~/wdh)" ]; then
-        echo "Trying"
-        if [ ! $(sudo mount /home/carl/wdh) ]; then
-          echo "OK"
-        else
-          echo "......"
-        fi
-      else
-        cd ~/wdh/ml/
-        export PS1="%{$fg[yellow]%}(WDH_ml) $PS1"
-      fi
+        export WINEARCH=win32 
+        export WINEPREFIX=/home/carl/.local/share/wineprefixes/"$1"
     fi
-  }
+}
+function unsetwine(){
+    export WINEARCH=win64 
+    export WINEPREFIX=/home/carl/.wine
+}
+;;
+"dream")
+    alias anaconda='export PATH="/opt/anaconda/bin:$PATH"'
+    ZSH_THEME="rkj-repos"
+    alias readbook='cd /mnt/galileo/BOOK && nohup evince "$(fzf)"'
+    alias clash='sudo nohup /home/carl/local/clash-linux-amd64-v0.16.0  2>&1 > clash.log &'
+    alias yacd='cd /home/carl/local/clash-dashboard && nohup npm start > ~/nohup.out &'
+    export PATH="/home/carl/local:$PATH"
+    if [ ! $TMUX ];
+    then
+        tmux new-session -s Home -n main -d
+        # tmux send-key -t Home:1.1 "ucap && fixkey && update_clash" 'Enter'
+        tmux attach-session -t Home
+        # update_clash
+    fi
+    ;;
+"elementary")
+    ZSH_THEME="frisk"
+    alias anaconda='export "PATH=/home/carl/anaconda3/bin:$PATH"'
+    function ml(){
+        if [ -n "$1" ] && [ "$1" = "exit" ];then
+            cd ~
+            export PS1="$PS_"
+        else
+            if [ -z "$(ls -A ~/wdh)" ]; then
+                echo "Trying"
+                if [ ! $(sudo mount /home/carl/wdh) ]; then
+                    echo "OK"
+                else
+                    echo "......"
+                fi
+            else
+                cd ~/wdh/ml/
+                export PS1="%{$fg[yellow]%}(WDH_ml) $PS1"
+            fi
+        fi
+    }
 alias cdy='cd /mnt/share/racoon && pwd=${PWD} && sudo caddy -conf /usr/local/caddy/Caddyfile &; cd "$pwd" '
 alias cby='calibre-server /mnt/share/racoon/Calibre_Library --userdb /home/carl/.config/calibre/user.sqlite --enable-auth &'
 alias jpy='mount ~/wdh ; anaconda && jupyter notebook &'
 ;;
 "WDH")
-  unsetopt BG_NICE
-  alias docker='docker.exe'
-  alias gvim='gvim.exe'
-  alias nvim-qt='nvim-qt.exe'
-  alias anaconda='export "PATH=/mnt/e/.anaconda3/bin:$PATH"'
-  alias host='sudo ~/kit/update_hosts.sh'
-  export set  home='/mnt/c/Users/Administrator'
-  alias CD="cd $home"
-  ZSH_THEME="ys"
-  # ZSH_THEME="spaceship"
-  function ssho(){
-    ssh $(nmblookup ${1} | awk '{print $1}')
-  }
+    unsetopt BG_NICE
+    alias docker='docker.exe'
+    alias gvim='gvim.exe'
+    alias nvim-qt='nvim-qt.exe'
+    alias anaconda='export "PATH=/mnt/e/.anaconda3/bin:$PATH"'
+    alias host='sudo ~/kit/update_hosts.sh'
+    export set  home='/mnt/c/Users/Administrator'
+    alias CD="cd $home"
+    ZSH_THEME="ys"
+    # ZSH_THEME="spaceship"
+    function ssho(){
+        ssh $(nmblookup ${1} | awk '{print $1}')
+    }
 ;;
 'iMac.wdh')
-  HOMEBREW_NO_AUTO_UPDATE=1
-  alias Jupyter="ssh  -f administrator@WDH 'activate ml & cd ml & jupyter notebook --no-browser'"
-  alias Ipython="ssh  administrator@WDH 'activate ml & cd ml & ipython'"
-  alias lizzie="java -jar ~/leela/Lizzie/lizzie.jar > /dev/null &"
-  # android emulator
-  function Emulator(){
-    cd /Volumes/Fourth/Android/sdk/tools
-    /Volumes/Fourth/Android/sdk/tools/emulator $@
-  }
+    HOMEBREW_NO_AUTO_UPDATE=1
+    alias Jupyter="ssh  -f administrator@WDH 'activate ml & cd ml & jupyter notebook --no-browser'"
+    alias Ipython="ssh  administrator@WDH 'activate ml & cd ml & ipython'"
+    alias lizzie="java -jar ~/leela/Lizzie/lizzie.jar > /dev/null &"
+    # android emulator
+    function Emulator(){
+        cd /Volumes/Fourth/Android/sdk/tools
+        /Volumes/Fourth/Android/sdk/tools/emulator $@
+    }
 
 function pipi(){
-  python3 -m pip install $@
+    python3 -m pip install $@
 }
 export PATH=/Volumes/Fourth/Application/calibre.app/Contents/MacOS:/opt/local/bin:/opt/local/sbin:$PATH
 export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles
@@ -542,7 +544,7 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 # alias anaconda='export PATH="/Volumes/Fourth/Anaconda/anaconda3/bin:$PATH"'
 ;;
 *)
-  ZSH_THEME="af-magic"
+    ZSH_THEME="af-magic"
 esac
 # ==================END================================
 
@@ -554,53 +556,53 @@ alias perps='ps aux | percol | awk "{ print $2 }"'
 alias perpkill='ps aux | percol | awk "{ print $2 }" | xargs kill'
 
 function ppgrep() {
-  if [[ $1 == "" ]]; then
-    PERCOL=percol
-  else
-    PERCOL="percol --query $1"
-  fi
-  ps aux | eval $PERCOL | awk '{ print $2 }'
+    if [[ $1 == "" ]]; then
+        PERCOL=percol
+    else
+        PERCOL="percol --query $1"
+    fi
+    ps aux | eval $PERCOL | awk '{ print $2 }'
 }
 
 function ppkill() {
-  if [[ $1 =~ "^-" ]]; then
-    QUERY=""            # options only
-  else
-    QUERY=$1            # with a query
-    [[ $# > 0 ]] && shift
-  fi
-  ppgrep $QUERY | xargs kill $*
+    if [[ $1 =~ "^-" ]]; then
+        QUERY=""            # options only
+    else
+        QUERY=$1            # with a query
+        [[ $# > 0 ]] && shift
+    fi
+    ppgrep $QUERY | xargs kill $*
 }
 
 function exists { which $1 &> /dev/null }
 
 if exists percol; then
-  function percol_select_history() {
-    local tac
-    exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
-    BUFFER=$(fc -l -n 1 | eval $tac | percol --query "$LBUFFER")
-    CURSOR=$#BUFFER         # move cursor
-    zle -R -c               # refresh
-  }
+    function percol_select_history() {
+        local tac
+        exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
+        BUFFER=$(fc -l -n 1 | eval $tac | percol --query "$LBUFFER")
+        CURSOR=$#BUFFER         # move cursor
+        zle -R -c               # refresh
+    }
 
 zle -N percol_select_history
 bindkey '^R' percol_select_history
 fi
 
 function pattach() {
-  if [[ $1 == "" ]]; then
-    PERCOL=percol
-  else
-    PERCOL="percol --query $1"
-  fi
+    if [[ $1 == "" ]]; then
+        PERCOL=percol
+    else
+        PERCOL="percol --query $1"
+    fi
 
-  sessions=$(tmux ls)
-  [ $? -ne 0 ] && return
+    sessions=$(tmux ls)
+    [ $? -ne 0 ] && return
 
-  session=$(echo $sessions | eval $PERCOL | cut -d : -f 1)
-  if [[ -n "$session" ]]; then
-    tmux att -t $session
-  fi
+    session=$(echo $sessions | eval $PERCOL | cut -d : -f 1)
+    if [[ -n "$session" ]]; then
+        tmux att -t $session
+    fi
 }
 # ==================END================================
 
@@ -608,11 +610,11 @@ function pattach() {
 #  ==>wsl specific
 if grep -q Microsoft /proc/version; then
 
-  [[ -z "$TMUX" && -n "$USE_TMUX" ]] && {
-    [[ -n "$ATTACH_ONLY" ]] && {
-    tmux a 2>/dev/null || {
-    cd && exec tmux
-  }
+    [[ -z "$TMUX" && -n "$USE_TMUX" ]] && {
+        [[ -n "$ATTACH_ONLY" ]] && {
+        tmux a 2>/dev/null || {
+        cd && exec tmux
+    }
 exit
 }
 
@@ -620,7 +622,7 @@ tmux new-window -c "$PWD" 2>/dev/null && exec tmux a
 exec tmux
 }
 else
-  setxkbmap -option caps:ctrl_modifier
+    setxkbmap -option caps:ctrl_modifier
 fi
 
 # ==================END================================
@@ -661,11 +663,11 @@ bindkey '^X^R' fzf-history-widget-accept
 #  ==> fzf
 #determines search program for fzf
 if type ag &> /dev/null; then
-  export FZF_DEFAULT_COMMAND='ag -p ~/.gitignore -g ""'
+    export FZF_DEFAULT_COMMAND='ag -p ~/.gitignore -g ""'
 fi
 #refer rg over ag
 if type rg &> /dev/null; then
-  export FZF_DEFAULT_COMMAND='rg --files --hidden'
+    export FZF_DEFAULT_COMMAND='rg --files --hidden'
 fi
 
 source /usr/share/fzf/key-bindings.zsh
@@ -680,9 +682,9 @@ alias dj_fzf='djview4 "$(fzf)"'
 alias efzf='ebook-viewer "$(fzf)"'
 
 ctrlp() {
-  dir="$(find -type d | grep -v .git | grep -v node_modules | fzf)";
-  [[ -d "$dir" ]] && cd $dir;
-  zle reset-prompt  
+    dir="$(find -type d | grep -v .git | grep -v node_modules | fzf)";
+    [[ -d "$dir" ]] && cd $dir;
+    zle reset-prompt  
 }
 
 zle -N ctrlp
@@ -690,9 +692,9 @@ bindkey ",cd" ctrlp
 
 
 ctrlp2() {
-  dir="$(find -type d | grep -v .git | grep -v node_modules | fzf)";
-  LBUFFER="${LBUFFER} $dir "
-  zle reset-prompt  
+    dir="$(find -type d | grep -v .git | grep -v node_modules | fzf)";
+    LBUFFER="${LBUFFER} $dir "
+    zle reset-prompt  
 }
 
 zle -N ctrlp2
@@ -706,15 +708,15 @@ alias pac="pacman -Slq | fzf --multi --preview 'pacman -Si {1}' | xargs -ro sudo
 # ------------------BEGIN------------------------------
 #  ==>  current editor buffer tricks
 copy2x(){
-  echo "$BUFFER" | xclip -selection clipboard
+    echo "$BUFFER" | xclip -selection clipboard
 }
 zle -N copy2x
 bindkey ",p" copy2x
 
 
 output2x() {
-  LBUFFER="${LBUFFER} | tee /dev/tty | xclip -selection clipboard"
-  zle reset-prompt  
+    LBUFFER="${LBUFFER} | tee /dev/tty | xclip -selection clipboard"
+    zle reset-prompt  
 }
 
 zle -N output2x
@@ -722,12 +724,12 @@ bindkey ",pp" output2x
 
 # eval-memoi caches the command in redis
 rclonef () {
-  local paths=("${(@f)$(memoi_expire=${rfExpire:-$((3600*24))} eval-memoi rclone lsf --recursive "${1}:" | fzf)}")
-  local i
-  for i in $paths[@]
-  do
-    rclone copy "${1}:$i" "$2"
-  done
+    local paths=("${(@f)$(memoi_expire=${rfExpire:-$((3600*24))} eval-memoi rclone lsf --recursive "${1}:" | fzf)}")
+    local i
+    for i in $paths[@]
+    do
+        rclone copy "${1}:$i" "$2"
+    done
 }
 
 # ==================END================================
@@ -735,19 +737,14 @@ rclonef () {
 # ------------------BEGIN------------------------------
 #  ==> ripgrep
 
-export RIPGREP_CONFIG_PATH='/home/carl/.ripgreprc'
+export RIPGREP_CONFIG_PATH='~/.ripgreprc'
 
 # ==================END================================
 
 
 
-# ------------------BEGIN------------------------------
-#  ==> kitty
-autoload -Uz compinit
-compinit
-# Completion for kitty
-kitty + complete setup zsh | source /dev/stdin
-# ==================END================================
 if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
+    eval "$(pyenv init -)"
 fi
+
+

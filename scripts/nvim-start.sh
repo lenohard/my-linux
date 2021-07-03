@@ -15,5 +15,6 @@ if [ -d ~/.config/nvim ] || [ -h ~/config/nvim ];then
 fi
 
 [ -d ~/.config ] || mkdir ~/.config
+ln -s $ROOT/vim/vim_runtime $HOME/.vim_runtime
 ln -s $ROOT/vim/vim_runtime $HOME/.config/nvim
 echo ' you have to install python3 and run "pip3 install pynvim" to enable some plugins '

@@ -164,18 +164,12 @@ function setproxy() {
     export {http,https,ftp,all}_proxy="${1-http}://127.0.0.1:${2-7890}"
 }
 
-function sproxy() {
-    export http_proxy="http://127.0.0.1:${1}"
-    export https_proxy="http://127.0.0.1:${2}"
-
-}
-
-function proxy_clash(){
-    export https_proxy=http://127.0.0.1:7890;
-    export http_proxy=http://127.0.0.1:7890;
-    # export all_proxy=socks5://127.0.0.1:7891
-    export ALL_PROXY=socks5://127.0.0.1:7891
-}
+# function proxy_clash(){
+#     export https_proxy=http://127.0.0.1:7890;
+#     export http_proxy=http://127.0.0.1:7890;
+#     # export all_proxy=socks5://127.0.0.1:7891
+#     export ALL_PROXY=socks5://127.0.0.1:7891
+# }
 function unsetproxy() {
     unset {http,https,ftp,all}_proxy
 }
@@ -213,11 +207,6 @@ fi
 export R_ENVIRON_USER='~/.config/r/.Renviron'
 
 export AURDEST='/var/cache/pacaur/pkg'
-
-#transfer.sh, to upload file and share with a link
-transfer() { if [ $# -eq 0 ]; then echo -e "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"; return 1; fi
-    tmpfile=$( mktemp -t transferXXX ); if tty -s; then basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g'); curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" >> $tmpfile; else curl --progress-bar --upload-file "-" "https://transfer.sh/$1" >> $tmpfile ; fi; cat $tmpfile; rm -f $tmpfile; }
-
 
 #ssh log in to server hosted on vultr
 export set github="https://github.com/"
@@ -430,6 +419,7 @@ case "$(hostname)" in
             tmux attach-session -t Home
             # update_clash
         fi
+        setproxy http 7890
         ;;
     "xiaoxin")
         alias rand='sed "$(shuf -i 1-2559 -n 1)p;d" seagate'
@@ -442,27 +432,27 @@ case "$(hostname)" in
         integer k=$((i / j * 100))
         echo $k%
     }
-if [ ! $TMUX ];
-then
-    tmux new-session -s Home -n main -d
-    # tmux send-key -t Home:1.1 "ucap && fixkey && update_clash" 'Enter'
-    tmux attach-session -t Home
-    # update_clash
-fi
-function setwine(){
-    if [[ $1 == "" ]]; then
+    if [ ! $TMUX ];
+    then
+        tmux new-session -s Home -n main -d
+        # tmux send-key -t Home:1.1 "ucap && fixkey && update_clash" 'Enter'
+        tmux attach-session -t Home
+        # update_clash
+    fi
+    function setwine(){
+        if [[ $1 == "" ]]; then
+            export WINEARCH=win64 
+            export WINEPREFIX=/home/carl/.wine
+        else
+            export WINEARCH=win32 
+            export WINEPREFIX=/home/carl/.local/share/wineprefixes/"$1"
+        fi
+    }
+    function unsetwine(){
         export WINEARCH=win64 
         export WINEPREFIX=/home/carl/.wine
-    else
-        export WINEARCH=win32 
-        export WINEPREFIX=/home/carl/.local/share/wineprefixes/"$1"
-    fi
-}
-function unsetwine(){
-    export WINEARCH=win64 
-    export WINEPREFIX=/home/carl/.wine
-}
-;;
+    }
+    ;;
 "dream")
     alias anaconda='export PATH="/opt/anaconda/bin:$PATH"'
     ZSH_THEME="rkj-repos"
@@ -499,10 +489,10 @@ function unsetwine(){
             fi
         fi
     }
-alias cdy='cd /mnt/share/racoon && pwd=${PWD} && sudo caddy -conf /usr/local/caddy/Caddyfile &; cd "$pwd" '
-alias cby='calibre-server /mnt/share/racoon/Calibre_Library --userdb /home/carl/.config/calibre/user.sqlite --enable-auth &'
-alias jpy='mount ~/wdh ; anaconda && jupyter notebook &'
-;;
+    alias cdy='cd /mnt/share/racoon && pwd=${PWD} && sudo caddy -conf /usr/local/caddy/Caddyfile &; cd "$pwd" '
+    alias cby='calibre-server /mnt/share/racoon/Calibre_Library --userdb /home/carl/.config/calibre/user.sqlite --enable-auth &'
+    alias jpy='mount ~/wdh ; anaconda && jupyter notebook &'
+    ;;
 "WDH")
     unsetopt BG_NICE
     alias docker='docker.exe'
@@ -517,7 +507,7 @@ alias jpy='mount ~/wdh ; anaconda && jupyter notebook &'
     function ssho(){
         ssh $(nmblookup ${1} | awk '{print $1}')
     }
-;;
+    ;;
 'iMac.wdh')
     HOMEBREW_NO_AUTO_UPDATE=1
     alias Jupyter="ssh  -f administrator@WDH 'activate ml & cd ml & jupyter notebook --no-browser'"
@@ -529,20 +519,20 @@ alias jpy='mount ~/wdh ; anaconda && jupyter notebook &'
         /Volumes/Fourth/Android/sdk/tools/emulator $@
     }
 
-function pipi(){
-    python3 -m pip install $@
-}
-export PATH=/Volumes/Fourth/Application/calibre.app/Contents/MacOS:/opt/local/bin:/opt/local/sbin:$PATH
-export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles
-ZSH_THEME='robbyrussell'
-export ANDROID_HOME=/Volumes/Fourth/Android/sdk
-export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/tools/bin
-export PATH=$PATH/:$ANDROID_HOME/platform-tools
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-# export PATH="/Volumes/Fourth/Anaconda/anaconda3/bin:$PATH"  # commented out by conda initialize
-# alias anaconda='export PATH="/Volumes/Fourth/Anaconda/anaconda3/bin:$PATH"'
-;;
+    function pipi(){
+        python3 -m pip install $@
+    }
+    export PATH=/Volumes/Fourth/Application/calibre.app/Contents/MacOS:/opt/local/bin:/opt/local/sbin:$PATH
+    export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles
+    ZSH_THEME='robbyrussell'
+    export ANDROID_HOME=/Volumes/Fourth/Android/sdk
+    export PATH=$PATH:$ANDROID_HOME/tools
+    export PATH=$PATH:$ANDROID_HOME/tools/bin
+    export PATH=$PATH/:$ANDROID_HOME/platform-tools
+    test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+    # export PATH="/Volumes/Fourth/Anaconda/anaconda3/bin:$PATH"  # commented out by conda initialize
+    # alias anaconda='export PATH="/Volumes/Fourth/Anaconda/anaconda3/bin:$PATH"'
+    ;;
 *)
     ZSH_THEME="af-magic"
 esac
@@ -608,22 +598,22 @@ function pattach() {
 
 # ------------------BEGIN------------------------------
 #  ==>wsl specific
-if grep -q Microsoft /proc/version; then
 
-    [[ -z "$TMUX" && -n "$USE_TMUX" ]] && {
-        [[ -n "$ATTACH_ONLY" ]] && {
-        tmux a 2>/dev/null || {
-        cd && exec tmux
-    }
-exit
-}
+# if grep -q Microsoft /proc/version; then
+#     [[ -z "$TMUX" && -n "$USE_TMUX" ]] && {
+#         [[ -n "$ATTACH_ONLY" ]] && {
+#         tmux a 2>/dev/null || {
+#         cd && exec tmux
+#     }
+#     exit
+# }
 
-tmux new-window -c "$PWD" 2>/dev/null && exec tmux a
-exec tmux
-}
-else
-    setxkbmap -option caps:ctrl_modifier
-fi
+# tmux new-window -c "$PWD" 2>/dev/null && exec tmux a
+#     exec tmux
+# }
+# else
+#     setxkbmap -option caps:ctrl_modifier
+# fi
 
 # ==================END================================
 
@@ -744,7 +734,12 @@ export RIPGREP_CONFIG_PATH='~/.ripgreprc'
 
 
 if command -v pyenv 1>/dev/null 2>&1; then
-    eval "$(pyenv init -)"
+    eval "$(pyenv init -)" 1>/dev/null 2>&1
 fi
 
 
+if [ -d  "$HOME/.nvm" ]; then
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+fi

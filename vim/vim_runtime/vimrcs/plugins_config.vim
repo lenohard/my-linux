@@ -4,14 +4,6 @@
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-
-""""""""""""""""""""""""""""""
-" => MRU plugin
-""""""""""""""""""""""""""""""
-let MRU_Max_Entries = 400
-" map <leader>f :MRU<CR>
-
-
 """"""""""""""""""""""""""""""
 " => YankStack
 """"""""""""""""""""""""""""""
@@ -25,8 +17,8 @@ nmap <c-n> <Plug>yankstack_substitute_newer_paste
 """"""""""""""""""""""""""""""
 let g:ctrlp_working_path_mode = 0
 
-map <leader>b<SPACE> :CtrlPBuffer<cr>
-map <leader>M :CtrlPMRUFiles<cr>
+map <leader>B :CtrlPBuffer<cr>
+map <leader>mm :CtrlPMRUFiles<cr>
 " map <c-b> :CtrlPBuffer<cr>
 nnoremap <leader>j :CtrlPMixed<CR>
 
@@ -110,34 +102,6 @@ au FileType mako vmap Si S"i${ _(<esc>2f"a) }<esc>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => lightline
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" let g:lightline = {
-"       \ 'colorscheme': 'wombat',
-"       \ }
-
-" let g:lightline = {
-"       \ 'colorscheme': 'wombat',
-"       \ 'active': {
-"       \   'left': [ ['mode', 'paste'],
-"       \             ['fugitive', 'readonly', 'filename', 'modified'] ],
-"       \   'right': [ [ 'lineinfo' ], ['percent'] ]
-"       \ },
-"       \ 'component': {
-"       \   'readonly': '%{&filetype=="help"?"":&readonly?"🔒":""}',
-"       \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
-"       \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
-"       \ },
-"       \ 'component_visible_condition': {
-"       \   'readonly': '(&filetype!="help"&& &readonly)',
-"       \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
-"       \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
-"       \ },
-"       \ 'separator': { 'left': ' ', 'right': ' ' },
-"       \ 'subseparator': { 'left': ' ', 'right': ' ' }
-"       \ }
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Vimroom
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:goyo_width=100
@@ -153,63 +117,10 @@ let g:go_fmt_command = "goimports"
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Syntastic (syntax checker)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" let g:syntastic_error_symbol = 's'
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
-" let g:syntastic_check_on_wq = 0
-" let g:syntastic_disabled_filetypes=['java']
-
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Git gutter (Git diff)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:gitgutter_enabled=0
 nnoremap <silent> <leader>d :GitGutterToggle<cr>
-
-
-
-"" ------------------BEGIN------------------------------
-""=> startify
-
-"let g:startify_skiplist = [
-"            \ 'COMMIT_EDITMSG',
-"            \ $VIMRUNTIME .'/doc',
-"            \ 'bundle/.*/doc',
-"            \ ]
-"let g:startify_files_number = 10
-"let g:startify_custom_indices = ['a', 'd', 'f', 'g', 'h']
-"let g:startify_change_to_dir = 0
-"let g:startify_custom_header = []
-
-"hi StartifyBracket ctermfg=240
-"hi StartifyFooter  ctermfg=111
-"hi StartifyHeader  ctermfg=203
-"hi StartifyPath    ctermfg=245
-"hi StartifySlash   ctermfg=240
-
-"" Show Startify
-"autocmd VimEnter *
-"            \ if !argc() |
-"            \   Startify |
-"            \   execute "normal \<c-w>w" |
-"            \ endif
-"" Keep NERDTree from opening a split when startify is open
-"autocmd FileType startify setlocal buftype=
-
-"let g:startify_recursive_dir = 1
-"" ==================END================================
-
-" ------------------BEGIN------------------------------
-" ==> deoplete
-" let g:deoplete#enable_at_startup = 1
-
-" ==================END================================
-
-
 
 " -----------------------------------------------------
 let g:GitGutterEnable=1
@@ -254,25 +165,10 @@ let g:buftabline_indicators= 1
 
 " ------------------BEGIN------------------------------
 "  ==> vim-session
-let g:session_autoload = 'no'
+let g:session_autoload = 'yes'
 let g:session_autosave = 'no'
 set sessionoptions+=buffers
 " ==================END================================
-
-" ------------------BEGIN------------------------------
-"   ==> Jedi
-" let g:jedi#use_tabs_not_buffers = 0  " use buffers instead of tabs
-" let g:jedi#show_call_signatures = "1"
-" let g:jedi#goto_command = "<leader>]"
-" let g:jedi#goto_definitions_command = "<leader>ga"
-" let g:jedi#goto_assignments = "<leader>gg"
-" let g:jedi#documentation_command = "K"
-" let g:jedi#usages_command = "<leader>u"
-" let g:jedi#completions_command = "<C-Space>"
-" let g:jedi#rename_command = "<localleader>r"
-
-" ==================END================================
-
 
 " ------------------BEGIN------------------------------
 "   ==>vim-slime
@@ -332,7 +228,6 @@ nmap     <leader>fp <Plug>CtrlSFPwordPath
 nnoremap <leader>fo :CtrlSFOpen<CR>
 nnoremap <leader>ft :CtrlSFToggle<CR>
 inoremap <leader>ft <Esc>:CtrlSFToggle<CR>
-
 " ==================END================================
 
 
@@ -433,6 +328,10 @@ xmap af <Plug>(coc-funcobj-a)
 omap if <Plug>(coc-funcobj-i)
 omap af <Plug>(coc-funcobj-a)
 
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
+vmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
 " Use <C-d> for select selections ranges, needs server support, like: coc-tsserver, coc-python
 nmap <silent> <C-d> <Plug>(coc-range-select)
 xmap <silent> <C-d> <Plug>(coc-range-select)
@@ -489,7 +388,9 @@ endif
 " ==================END================================
 
 
-
 " ------------------BEGIN------------------------------
-"   ==> vim-sync
+"   ==>MatchUp
+let g:matchup_transmute_enabled = 1
+let g:matchup_matchparen_deferred = 1
+
 " ==================END================================

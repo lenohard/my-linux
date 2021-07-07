@@ -31,7 +31,6 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tomlion/vim-solidity'
 Plug 'tpope/vim-commentary'
 Plug 'chrisbra/Colorizer'
-" Plug 'Shougo/unite.vim'
 Plug 'tpope/vim-commentary'
 Plug 'chrisbra/Colorizer'
 Plug 'mileszs/ack.vim'
@@ -42,7 +41,6 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'airblade/vim-gitgutter'
 Plug 'yuttie/comfortable-motion.vim'
-" Plug 'vim-scripts/mru.vim'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'wellle/targets.vim'
 Plug 'maxbrunsfeld/vim-yankstack'
@@ -77,6 +75,10 @@ Plug 'alx741/vim-hindent'
 Plug 'camspiers/animate.vim'
 Plug 'camspiers/lens.vim'
 Plug 'morhetz/gruvbox'
+Plug 'yuezk/vim-js'
+Plug 'posva/vim-vue'
+ 
+
 
 
 " On-demand loading
@@ -88,9 +90,6 @@ Plug 'tpope/vim-sensible'
 
 " Using a tagged release; wildcard allowed (requires git 1.9.2 or above)
 "Plug 'fatih/vim-go', { 'tag': '*' }
-
-" Plugin options
-Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
 
 " Plugin outside ~/.vim/plugged with post-update hook
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -255,6 +254,8 @@ set clipboard^=unnamed,unnamedplus
 nnoremap <leader>M :<C-u>marks<CR>
 
 set scrolloff=2
+" syntax sync fromstart
+packadd! matchit
 
 "use this script to help write lisp-like ()
 " autocmd filetype lisp,scheme,art setlocal equalprg=~/kit/scmindent.rkt

@@ -19,6 +19,10 @@ Plug 'posva/vim-vue'
 Plug 'ronakg/quickr-preview.vim'
 Plug 'lifepillar/vim-solarized8'
 Plug 'tomlion/vim-solidity'
+Plug 'nanotech/jellybeans.vim'
+Plug 'vim-airline/vim-airline-themes'
+
+
 
 
 """"""""""""""""""""""""""""""
@@ -100,6 +104,11 @@ let g:slime_haskell_ghci_add_let = 0
 
 " airline config
 " -----------------------------------------------------
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+let g:airline_powerline_fonts = 1
+let g:airline_symbols.space = "_"
 let g:airline#extensions#tabline#enabled = 0
 " let g:airline#extensions#tabline#left_sep = ' '
 " let g:airline#extensions#tabline#formatter='unique_tail_improved'
@@ -276,3 +285,7 @@ let g:solarized_enable_extra_hi_groups = 1
 let g:solarized_statusline = "flat"
 let g:solarized_visibility = "high"
 " ==================END================================
+
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif

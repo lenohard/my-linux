@@ -4,8 +4,7 @@ source ~/.antigen.zsh
 
 # Load the oh-my-zsh's library.
 antigen use oh-my-zsh
-# Load the theme
-antigen theme rkj-repos
+
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
 antigen bundle extract
 antigen bundle gitfast
@@ -33,6 +32,9 @@ antigen bundle six-ddc/zsh-proxychains-ng #<esc> + p
 antigen bundle fasd
 antigen bundle Aloxaf/fzf-tab
 # antigen bundle hschne/fzf-git
+
+
+antigen theme rkj-repos
 
 antigen apply
 
@@ -408,9 +410,11 @@ case "$(hostname)" in
     "Snow-Crash")
         alias admin='cd /mnt/c/Users/Admin/'
         alias project='cd /mnt/d/Projects'
+        alias vim=nvim
+        export PROMPT="%{$fg_bold[blue]%}┌─[%{$fg_bold[green]%}%n%b%{$fg[black]%}@%{$fg[cyan]%}%m%{$fg_bold[blue]%}]%{$reset_color%} - %{$fg_bold[blue]%}[%{$fg_bold[white]%}%~%{$fg_bold[blue]%}]%{$reset_color%} - %{$fg_bold[blue]%}[%b%{$fg[yellow]%}%D{%Y-%m-%d %I:%M:%S}%b%{$fg_bold[blue]%}]
+%{$fg_bold[blue]%}└─[%{$fg_bold[magenta]%}%?$(retcode)%{$fg_bold[blue]%}] %{$reset_color%}"
         export PATH="~/local:$PATH"
         alias clash='nohup /usr/bin/clash -d ~/local/clash 2>&1 > clash.log &'
-        ZSH_THEME="rkj-repos"
         alias yacd='cd ~/local/clash-dashboard && nohup npm start > ~/nohup.out &'
         if [ ! $TMUX ];
         then
@@ -534,7 +538,7 @@ case "$(hostname)" in
     # alias anaconda='export PATH="/Volumes/Fourth/Anaconda/anaconda3/bin:$PATH"'
     ;;
 *)
-    ZSH_THEME="af-magic"
+    ;;
 esac
 # ==================END================================
 

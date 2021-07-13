@@ -77,8 +77,8 @@ Plug 'camspiers/lens.vim'
 Plug 'morhetz/gruvbox'
 Plug 'yuezk/vim-js'
 Plug 'posva/vim-vue'
+Plug 'preservim/nerdcommenter'
  
-
 
 
 " On-demand loading
@@ -235,7 +235,6 @@ nnoremap <c-w>v :vsplit<cr>
 nnoremap <c-w>s :split<cr>
 nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
 nnoremap <leader>cd :cd %:h<cr>
-nnoremap <leader>bf :BufExplorer<cr>
 nnoremap <localleader>P :%!python -m json.tool
 nnoremap <Leader>1 :1b<CR>
 nnoremap <Leader>2 :2b<CR>

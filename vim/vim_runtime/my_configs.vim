@@ -45,7 +45,6 @@ Plug 'michaeljsmith/vim-indent-object'
 Plug 'wellle/targets.vim'
 Plug 'maxbrunsfeld/vim-yankstack'
 Plug 'amix/vim-zenroom2'
-Plug 'scrooloose/snipmate-snippets'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'kana/vim-textobj-user'
 Plug 'amdt/vim-niji'
@@ -78,7 +77,12 @@ Plug 'morhetz/gruvbox'
 Plug 'yuezk/vim-js'
 Plug 'posva/vim-vue'
 Plug 'preservim/nerdcommenter'
- 
+elug 'kevinoid/vim-jsonc'
+Plug 'pangloss/vim-javascript'    " JavaScript support
+Plug 'leafgarland/typescript-vim' " TypeScript syntax
+Plug 'maxmellon/vim-jsx-pretty'   " JS and JSX syntax
+Plug 'jparise/vim-graphql'        " GraphQL syntax
+
 
 
 " On-demand loading
@@ -203,7 +207,6 @@ nnoremap N[ ya[%
 nnoremap Nt yat%
 nnoremap <leader>zf :set foldmethod=indent<cr>
 nnoremap <leader>zF :set foldmethod=manual<cr>
-tnoremap kj <c-\><c-n>
 tnoremap jk <c-\><c-n>
 tnoremap <expr> <C-R> '<C-\><C-N>"'.nr2char(getchar()).'pi'
 tnoremap <A-h> <C-\><C-N><C-w>h
@@ -250,6 +253,9 @@ nnoremap <cr> <esc>
 "enable y to copy/paste selected text
 set clipboard^=unnamed,unnamedplus
 
+nnoremap <c-6> :buffer #<CR>
+
+nnoremap <leader>so gg=G<c-o>
 nnoremap <leader>M :<C-u>marks<CR>
 
 set scrolloff=2
@@ -348,9 +354,29 @@ let g:lens#disabled = 0
 autocmd BufWritePost package.yaml call Hpack()
 
 function Hpack()
-  let err = system('hpack ' . expand('%'))
-  if v:shell_error
-    echo err
-  endif
+    let err = system('hpack ' . expand('%'))
+    if v:shell_error
+        echo err
+    endif
 endfunction
 " ==================END================================
+
+
+" open file under cursor with relative path (full path is gf)
+nnoremap <silent> <F8> :let mycurf=expand("<cfile>")<cr><c-w>p:execute("e ".mycurf)<cr>
+
+" wsl specific
+let s:clip = '/mnt/c/Windows/System32/clip.exe'  " change this path according to your mount point
+
+if executable(s:clip)
+
+    augroup WSLYank
+
+        autocmd!
+
+        autocmd TextYankPost * if v:event.operator ==# 'y' | call system(s:clip, @0) | endif
+
+    augroup END
+
+endif
+

@@ -20,3 +20,5 @@
 	helper = store
 [http]
 [https]
+[init]
+	defaultBranch = master

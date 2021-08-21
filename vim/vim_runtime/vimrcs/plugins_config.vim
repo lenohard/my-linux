@@ -9,8 +9,9 @@
 """"""""""""""""""""""""""""""
 let g:yankstack_yank_keys = ['y', 'd']
 
-nmap <c-p> <Plug>yankstack_substitute_older_paste
+nmap <c-[> <Plug>yankstack_substitute_older_paste
 nmap <c-n> <Plug>yankstack_substitute_newer_paste
+
 
 """"""""""""""""""""""""""""""
 " => CTRL-P
@@ -41,12 +42,6 @@ endif
 " Enable all functions in all modes
 let g:user_zen_mode='a'
 
-
-""""""""""""""""""""""""""""""
-" => snipMate (beside <TAB> support <CTRL-j>)
-""""""""""""""""""""""""""""""
-ino <c-j> <c-r>=snipMate#TriggerSnippet()<cr>
-snor <c-j> <esc>i<right><c-r>=snipMate#TriggerSnippet()<cr>
 
 
 """"""""""""""""""""""""""""""
@@ -368,6 +363,9 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>)
 
 nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
+
+
+let g:coc_global_extensions = [ 'coc-tsserver', 'coc-json' ]
 " ==================END================================
 
 

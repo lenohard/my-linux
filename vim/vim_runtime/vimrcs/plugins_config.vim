@@ -12,28 +12,6 @@ let g:yankstack_yank_keys = ['y', 'd']
 nmap <c-p> <Plug>yankstack_substitute_older_paste
 nmap <c-n> <Plug>yankstack_substitute_newer_paste
 
-""""""""""""""""""""""""""""""
-" => CTRL-P
-""""""""""""""""""""""""""""""
-let g:ctrlp_working_path_mode = 0
-
-map <leader>B :CtrlPBuffer<cr>
-map <leader>mm :CtrlPMRUFiles<cr>
-" map <c-b> :CtrlPBuffer<cr>
-nnoremap <leader>j :CtrlPMixed<CR>
-
-let g:ctrlp_max_height = 20
-let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
-
-if executable('ag')
-    " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-    " HatTip: http://robots.thoughtbot.com/faster-grepping-in-vim and
-    " @ethanmuller
-    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-
-    " ag is fast enough that CtrlP doesn't need to cache
-    let g:ctrlp_use_caching = 0
-endif
 
 """"""""""""""""""""""""""""""
 " => ZenCoding
@@ -116,15 +94,6 @@ nnoremap <silent> <leader>z :Goyo<cr>
 let g:go_fmt_command = "goimports"
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Git gutter (Git diff)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:gitgutter_enabled=0
-nnoremap <silent> <leader>d :GitGutterToggle<cr>
-
-" -----------------------------------------------------
-let g:GitGutterEnable=1
-" -----------------------------------------------------
 
 " airline config
 " -----------------------------------------------------
@@ -368,6 +337,7 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>)
 
 nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-tsserver']
 " ==================END================================
 
 

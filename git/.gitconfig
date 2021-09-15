@@ -17,6 +17,6 @@
 [credentials]
 	helper = cache
 [credential]
-	helper = store
+	helper = cache
 [http]
 [https]

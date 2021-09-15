@@ -35,17 +35,40 @@ Plug 'tpope/vim-commentary'
 Plug 'chrisbra/Colorizer'
 Plug 'mileszs/ack.vim'
 Plug 'ap/vim-buftabline'
+
 Plug 'ctrlpvim/ctrlp.vim'
+"{{{
+    let g:ctrlp_working_path_mode = 0
+
+    let g:ctrlp_map = ''
+    map <leader>mm :CtrlPMRUFiles<cr>
+    " map <c-b> :CtrlPBuffer<cr>
+    nnoremap <leader>j :CtrlPMixed<CR>
+
+    let g:ctrlp_max_height = 20
+    let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
+
+    if executable('ag')
+        " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+        " HatTip: http://robots.thoughtbot.com/faster-grepping-in-vim and
+        " @ethanmuller
+        " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+        " ag is fast enough that CtrlP doesn't need to cache
+        let g:ctrlp_use_caching = 0
+    endif
+"}}}
+
+Plug 'codota/tabnine-vim'
+
 Plug 'altercation/vim-colors-solarized'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
-Plug 'airblade/vim-gitgutter'
 Plug 'yuttie/comfortable-motion.vim'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'wellle/targets.vim'
 Plug 'maxbrunsfeld/vim-yankstack'
 Plug 'amix/vim-zenroom2'
-Plug 'scrooloose/snipmate-snippets'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'kana/vim-textobj-user'
 Plug 'amdt/vim-niji'
@@ -77,23 +100,63 @@ Plug 'camspiers/lens.vim'
 Plug 'morhetz/gruvbox'
 Plug 'yuezk/vim-js'
 Plug 'posva/vim-vue'
- 
-
-
-
-" On-demand loading
+Plug 'preservim/nerdcommenter'
+Plug 'pangloss/vim-javascript'    " JavaScript support
+Plug 'leafgarland/typescript-vim' " TypeScript syntax
+Plug 'maxmellon/vim-jsx-pretty'   " JS and JSX syntax
+Plug 'jparise/vim-graphql'        " GraphQL syntax
+Plug 'neoclide/jsonc.vim'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 Plug 'tpope/vim-sensible'
-" Using a non-master branch
-" Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 
-" Using a tagged release; wildcard allowed (requires git 1.9.2 or above)
-"Plug 'fatih/vim-go', { 'tag': '*' }
-
-" Plugin outside ~/.vim/plugged with post-update hook
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+" {{{
+  let g:fzf_nvim_statusline = 0 " disable statusline overwriting
+
+  nnoremap <silent> <leader>p :Files<CR>
+  nnoremap <silent> <c-p> :Files<CR>
+  nnoremap <silent> <leader>pp :GFiles<CR>
+  nnoremap <silent> <leader>bb :Buffers<CR>
+  nnoremap <silent> <leader>A :Windows<CR>
+  nnoremap <silent> <leader>; :BLines<CR>
+  nnoremap <silent> <leader>o :BTags<CR>
+  nnoremap <silent> <leader>O :Tags<CR>
+  nnoremap <silent> <leader>? :History<CR>
+  nnoremap <silent> <leader>/ :execute 'Ag ' . input('Ag/')<CR>
+  nnoremap <silent> <leader>. :AgIn 
+
+  nnoremap <silent> K :call SearchWordWithAg()<CR>
+  vnoremap <silent> K :call SearchVisualSelectionWithAg()<CR>
+  nnoremap <silent> <leader>gl :Commits<CR>
+  nnoremap <silent> <leader>ga :BCommits<CR>
+  nnoremap <silent> <leader>ft :Filetypes<CR>
+
+  imap <C-x><C-f> <plug>(fzf-complete-file-ag)
+  imap <C-x><C-l> <plug>(fzf-complete-line)
+
+  function! SearchWordWithAg()
+    execute 'Ag' expand('<cword>')
+  endfunction
+
+  function! SearchVisualSelectionWithAg() range
+    let old_reg = getreg('"')
+    let old_regtype = getregtype('"')
+    let old_clipboard = &clipboard
+    set clipboard&
+    normal! ""gvy
+    let selection = getreg('"')
+    call setreg('"', old_reg, old_regtype)
+    let &clipboard = old_clipboard
+    execute 'Ag' selection
+  endfunction
+
+  function! SearchWithAgInDirectory(...)
+    call fzf#vim#ag(join(a:000[1:], ' '), extend({'dir': a:1}, g:fzf#vim#default_layout))
+  endfunction
+  command! -nargs=+ -complete=dir AgIn call SearchWithAgInDirectory(<f-args>)
+" }}}
+
 Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
 
 if has('nvim')
@@ -107,9 +170,7 @@ else
     Plug 'roxma/vim-hug-neovim-rpc'
 endif
 
-" Unmanaged plugin (manually installed and updated)
 Plug '~/.vim_runtime/sources_forked/peaksea'
-" Plug '~/.vim_runtime/sources_forked/set_tabline'
 Plug '~/.vim_runtime/sources_forked/vim-peepopen'
 Plug '~/.vim_runtime/sources_forked/vim-irblack-forked'
 
@@ -203,7 +264,6 @@ nnoremap N[ ya[%
 nnoremap Nt yat%
 nnoremap <leader>zf :set foldmethod=indent<cr>
 nnoremap <leader>zF :set foldmethod=manual<cr>
-tnoremap kj <c-\><c-n>
 tnoremap jk <c-\><c-n>
 tnoremap <expr> <C-R> '<C-\><C-N>"'.nr2char(getchar()).'pi'
 tnoremap <A-h> <C-\><C-N><C-w>h
@@ -224,7 +284,6 @@ nnoremap zz :Z
 inoremap jk <esc>
 inoremap kj <esc>
 inoremap <esc> <nop>
-nnoremap <leader>? :help
 nnoremap <leader>qw :bp<bar>sp<bar>bn<bar>bd<CR>
 nnoremap <leader>qq :wq<esc>
 nnoremap <leader>qa :wqa<esc>
@@ -235,7 +294,6 @@ nnoremap <c-w>v :vsplit<cr>
 nnoremap <c-w>s :split<cr>
 nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
 nnoremap <leader>cd :cd %:h<cr>
-nnoremap <leader>bf :BufExplorer<cr>
 nnoremap <localleader>P :%!python -m json.tool
 nnoremap <Leader>1 :1b<CR>
 nnoremap <Leader>2 :2b<CR>
@@ -251,6 +309,9 @@ nnoremap <cr> <esc>
 "enable y to copy/paste selected text
 set clipboard^=unnamed,unnamedplus
 
+nnoremap <c-6> :buffer #<CR>
+
+nnoremap <leader>so gg=G<c-o>
 nnoremap <leader>M :<C-u>marks<CR>
 
 set scrolloff=2
@@ -349,9 +410,29 @@ let g:lens#disabled = 0
 autocmd BufWritePost package.yaml call Hpack()
 
 function Hpack()
-  let err = system('hpack ' . expand('%'))
-  if v:shell_error
-    echo err
-  endif
+    let err = system('hpack ' . expand('%'))
+    if v:shell_error
+        echo err
+    endif
 endfunction
 " ==================END================================
+
+
+" open file under cursor with relative path (full path is gf)
+nnoremap <silent> <F8> :let mycurf=expand("<cfile>")<cr><c-w>p:execute("e ".mycurf)<cr>
+
+" wsl specific
+let s:clip = '/mnt/c/Windows/System32/clip.exe'  " change this path according to your mount point
+
+if executable(s:clip)
+
+    augroup WSLYank
+
+        autocmd!
+
+        autocmd TextYankPost * if v:event.operator ==# 'y' | call system(s:clip, @0) | endif
+
+    augroup END
+
+endif
+

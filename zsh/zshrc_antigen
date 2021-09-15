@@ -5,7 +5,7 @@ source ~/.antigen.zsh
 # Load the oh-my-zsh's library.
 antigen use oh-my-zsh
 # Load the theme
-antigen theme rkj-repos
+antigen theme frisk
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
 antigen bundle extract
 antigen bundle gitfast
@@ -85,7 +85,7 @@ fi
 
 setopt extended_glob
 source $HOME/kit/tools.sh
-export PATH="$HOME/.yarn/bin:$HOME/.elan/bin:$HOME/.cargo/bin:$HOME/.local/bin:$HOME/kit/ocr:$HOME/kit/ocr/tools/:$HOME/kit:$PATH"
+export PATH="$HOME/local:$HOME/develop/fabric-samples/bin:$HOME/.yarn/bin:$HOME/.elan/bin:$HOME/.cargo/bin:$HOME/.local/bin:$HOME/kit/ocr:$HOME/kit/ocr/tools/:$HOME/kit:$PATH"
 export EDITOR="nvim"
 
 auto-ls () {
@@ -399,7 +399,9 @@ fi
 # ==================END================================
 
 
-
+new_line() {
+   printf "\n>>"
+}
 
 # ------------------BEGIN------------------------------
 #  ==>Host
@@ -408,9 +410,8 @@ case "$(hostname)" in
     "Snow-Crash")
         alias admin='cd /mnt/c/Users/Admin/'
         alias project='cd /mnt/d/Projects'
-        export PATH="~/local:$PATH"
-        alias clash='nohup /usr/bin/clash -d ~/local/clash 2>&1 > clash.log &'
-        ZSH_THEME="rkj-repos"
+        export PS1="%{$fg[blue]%}%/%{$reset_color%} $(bzr_prompt_info)%{$fg[white]%}[%n@%m]%{$reset_color%} %{$fg[white]%}[%T]%{$reset_color%}%{$fg_bold[black]%}$(new_line)%{$reset_color%}"
+        alias clash='nohup /usr/bin/clash -d ~/local/clash 2>&1 > ~/clash.log &'
         alias yacd='cd ~/local/clash-dashboard && nohup npm start > ~/nohup.out &'
         if [ ! $TMUX ];
         then
@@ -457,7 +458,7 @@ case "$(hostname)" in
     alias anaconda='export PATH="/opt/anaconda/bin:$PATH"'
     ZSH_THEME="rkj-repos"
     alias readbook='cd /mnt/galileo/BOOK && nohup evince "$(fzf)"'
-    alias clash='sudo nohup /home/carl/local/clash-linux-amd64-v0.16.0  2>&1 > clash.log &'
+    alias clash='sudo nohup /home/carl/local/clash-linux-amd64-v0.16.0  2>&1 > ~/clash.log &'
     alias yacd='cd /home/carl/local/clash-dashboard && nohup npm start > ~/nohup.out &'
     export PATH="/home/carl/local:$PATH"
     if [ ! $TMUX ];

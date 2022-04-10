@@ -134,7 +134,7 @@ let g:buftabline_indicators= 1
 
 " ------------------BEGIN------------------------------
 "  ==> vim-session
-let g:session_autoload = 'yes'
+let g:session_autoload = 'no'
 let g:session_autosave = 'no'
 set sessionoptions+=buffers
 " ==================END================================
@@ -254,7 +254,7 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+nnoremap <silent> <leader>K :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
     if (index(['vim','help'], &filetype) >= 0)
@@ -337,7 +337,7 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>)
 
 nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
-let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-tsserver']
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-tsserver', 'coc-prettier']
 " ==================END================================
 
 
@@ -364,3 +364,10 @@ let g:matchup_transmute_enabled = 1
 let g:matchup_matchparen_deferred = 1
 
 " ==================END================================
+
+" ------------------BEGIN------------------------------
+"   ==>LLPreview
+let g:livepreview_engine = 'xelatex' 
+let g:livepreview_use_biber = 1
+" ==================END================================
+

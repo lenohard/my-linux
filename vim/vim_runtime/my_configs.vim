@@ -20,6 +20,7 @@ Plug 'vimlab/split-term.vim'
 Plug 'guns/vim-sexp'
 Plug 'wesQ3/vim-windowswap'
 Plug 'lervag/vimtex'
+Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
 Plug 'vim-scripts/paredit.vim'
 Plug 'dense-analysis/ale'
 Plug 'jpalardy/vim-slime'
@@ -35,6 +36,8 @@ Plug 'tpope/vim-commentary'
 Plug 'chrisbra/Colorizer'
 Plug 'mileszs/ack.vim'
 Plug 'ap/vim-buftabline'
+Plug 'elihunter173/dirbuf.nvim'
+Plug 'JuliaEditorSupport/julia-vim'
 
 Plug 'ctrlpvim/ctrlp.vim'
 "{{{
@@ -59,8 +62,8 @@ Plug 'ctrlpvim/ctrlp.vim'
     endif
 "}}}
 
-Plug 'codota/tabnine-vim'
-
+" Plug 'codota/tabnine-vim'
+Plug 'github/copilot.vim'
 Plug 'altercation/vim-colors-solarized'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
@@ -117,7 +120,7 @@ Plug 'junegunn/fzf.vim'
   nnoremap <silent> <leader>p :Files<CR>
   nnoremap <silent> <c-p> :Files<CR>
   nnoremap <silent> <leader>pp :GFiles<CR>
-  nnoremap <silent> <leader>bb :Buffers<CR>
+  nnoremap <silent> <leader>bf :Buffers<CR>
   nnoremap <silent> <leader>A :Windows<CR>
   nnoremap <silent> <leader>; :BLines<CR>
   nnoremap <silent> <leader>o :BTags<CR>

@@ -33,6 +33,7 @@ antigen bundle six-ddc/zsh-proxychains-ng #<esc> + p
 antigen bundle fasd
 antigen bundle Aloxaf/fzf-tab
 # antigen bundle hschne/fzf-git
+antigen bundle darvid/zsh-poetry
 
 antigen apply
 
@@ -423,6 +424,7 @@ case "$(hostname)" in
         setproxy http 7890
         ;;
     "xiaoxin")
+        alias ios='ifus -o allow_other ~/ios && ifuse --list-apps'
         alias rand='sed "$(shuf -i 1-2559 -n 1)p;d" seagate'
         function blight(){
             sudo xbacklight  -set $1
@@ -662,7 +664,9 @@ if type rg &> /dev/null; then
 fi
 
 source /usr/share/fzf/key-bindings.zsh
-source /usr/share/fzf/completion.zsh
+# source /usr/share/fzf/completion.zsh
+
+export HISTTIMEFORMAT="%d/%m/%y %T "
 
 export FZF_COMPLETION_TRIGGER=''
 bindkey '^T' fzf-completion
@@ -671,6 +675,17 @@ bindkey '^I' $fzf_default_completion
 alias pdf_fzf='evince "$(fzf)"'
 alias dj_fzf='djview4 "$(fzf)"'
 alias efzf='ebook-viewer "$(fzf)"'
+
+pdfzf(){
+    name=$(fzf -m "$@")
+    if [[ -n "$name" && $name =~ .*\.pdf ]]; then
+        nohup okular "$name" &
+    elif [[ -n "$name" && $name =~ .*\.djvu ]]; then
+        nohup djview4 "$name" &
+    elif [[ -n "$name" && ($name =~ .*\.epub || $name =~ .*\.mobi) ]]; then
+        nohup ebook-viewer "$name" &
+    fi
+}
 
 ctrlp() {
     dir="$(find -type d | grep -v .git | grep -v node_modules | fzf)";
@@ -713,6 +728,14 @@ output2x() {
 zle -N output2x
 bindkey ",pp" output2x
 
+pc4() {
+    LBUFFER="proxychains4 ${LBUFFER}"
+    zle reset-prompt  
+}
+
+zle -N pc4
+bindkey ",px" pc4
+
 # eval-memoi caches the command in redis
 rclonef () {
     local paths=("${(@f)$(memoi_expire=${rfExpire:-$((3600*24))} eval-memoi rclone lsf --recursive "${1}:" | fzf)}")
@@ -744,3 +767,22 @@ if [ -d  "$HOME/.nvm" ]; then
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 fi
+
+# export PATH="$HOME/.poetry/bin:/opt/miniconda/bin:$PATH"  # commented out by conda initialize
+stty stop undef 2>/dev/null; stty start undef 2>/dev/null
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/opt/miniconda/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/opt/miniconda/etc/profile.d/conda.sh" ]; then
+        . "/opt/miniconda/etc/profile.d/conda.sh"
+    else
+        export PATH="/opt/miniconda/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+

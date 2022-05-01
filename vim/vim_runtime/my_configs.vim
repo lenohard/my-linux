@@ -32,12 +32,12 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tomlion/vim-solidity'
 Plug 'tpope/vim-commentary'
 Plug 'chrisbra/Colorizer'
-Plug 'tpope/vim-commentary'
 Plug 'chrisbra/Colorizer'
 Plug 'mileszs/ack.vim'
 Plug 'ap/vim-buftabline'
 Plug 'elihunter173/dirbuf.nvim'
 Plug 'JuliaEditorSupport/julia-vim'
+Plug 'tpope/vim-fugitive'
 
 Plug 'ctrlpvim/ctrlp.vim'
 "{{{

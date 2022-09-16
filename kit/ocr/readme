@@ -13,6 +13,9 @@ merge.sh filename.pdf/djvu
     than write this info file back into the origin pdf file
     it generate a new pdf with the capitized filename of origin name 
 
+// dont need to use \. to mean literal . use [.] instead
+
+step 2 require dependency of fzf cmd if you want to use auto select previous archived regex, it will be activated when you run 'ocr_test' directly without a regex input
 
 frequent regexs:
 '^ *([0-9]+\.[0-9]+ *[-+?a-zA-Z —]+)[. ]*([0-9]+)$'
@@ -28,3 +31,6 @@ frequent regexs:
 ^([0-9].*)[ ]+([-0-9]+)$
 ^ *([a-zA-Z‘’: —]+)[. ]*([-0-9]+)$
 ^ *([0-9]* *[-+:,.a-zA-Z' —]+) *([0-9]+)$
+^([0-9]+ +.*)[ ]+([-0-9]+)$
+^([^0-9].*)[ ]+([-0-9]+)$
+^([0-9]+[.][0-9]+ +.*)[ ]+([-0-9]+)$

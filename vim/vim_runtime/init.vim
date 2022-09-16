@@ -13,6 +13,8 @@ source ~/.config/nvim/my_configs.vim
 catch
 endtry
 
+lua require('plugins')
+
 if @% == ""
   bd
 endif

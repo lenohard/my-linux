@@ -9,3 +9,9 @@
 -4. app_list:fasd(install from different repositoaries)
 -5. mirror fron tsun
 -6. os speicif config in zshrc
+
+
+
+windows:
+zoxide 
+scoop + proxy

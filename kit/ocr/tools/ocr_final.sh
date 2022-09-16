@@ -15,5 +15,5 @@ EOF
 mv tmp "${name}".bm
 mv tmp.info "${name^^}".info
 pdftk "$1" update_info "${name^^}".info output "${name^^}".pdf
-
-
+rm "${name}".pdf
+mv "${name^^}".pdf "${name}".pdf

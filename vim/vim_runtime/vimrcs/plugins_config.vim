@@ -371,3 +371,8 @@ let g:livepreview_engine = 'xelatex'
 let g:livepreview_use_biber = 1
 " ==================END================================
 
+" ------------------BEGIN------------------------------
+"   ==>vim-matlab
+let g:matlab_server_launcher = 'tmux'
+" ==================END================================
+

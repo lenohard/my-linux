@@ -86,8 +86,12 @@ fi
 
 setopt extended_glob
 source $HOME/kit/tools.sh
-export PATH="$HOME/local:$HOME/develop/fabric-samples/bin:$HOME/.yarn/bin:$HOME/.elan/bin:$HOME/.cargo/bin:$HOME/.local/bin:$HOME/kit/ocr:$HOME/kit/ocr/tools/:$HOME/kit:$PATH"
+export PATH="$HOME/local/matlab/bin:$HOME/.bun/bin/:$HOME/local:$HOME/develop/fabric-samples/bin:$HOME/.yarn/bin:$HOME/.elan/bin:$HOME/.cargo/bin:$HOME/.local/bin:$HOME/kit/ocr:$HOME/kit/ocr/tools/:$HOME/kit:$PATH"
 export EDITOR="nvim"
+
+[[ -f ~/.config/xmodmap/xmodmap.conf ]] && xmodmap ~/.config/xmodmap/xmodmap.conf
+alias matlab="export LD_PRELOAD=/lib64/libfreetype.so && ~/local/matlab/bin/matlab"
+alias matlab_cli="export LD_PRELOAD=/lib64/libfreetype.so && ~/local/matlab/bin/matlab -nodesktop -nosplash"
 
 auto-ls () {
 emulate -L zsh;
@@ -194,15 +198,19 @@ then
     alias zz='fasd_cd -d -i' # cd with interactive selection
 else
     . /usr/local/etc/profile.d/z.sh
+    plugins+=(fasd)
+    eval "$(fasd --init auto)"
+    alias z='fasd_cd -d'     # cd, same functionality as j in autojump
+    alias zz='fasd_cd -d -i' # cd with interactive selection
 fi
 
-# alias a='fasd -a'        # any
-# alias s='fasd -si'       # show / search / select
-# alias d='fasd -d'        # directory
-# alias f='fasd -f'        # file
-# alias sd='fasd -sid'     # interactive directory selection
-# alias sf='fasd -sif'     # interactive file selection
-# alias vv='fasd -e vim'
+alias a='fasd -a'        # any
+alias s='fasd -si'       # show / search / select
+alias d='fasd -d'        # directory
+alias f='fasd -f'        # file
+alias sd='fasd -sid'     # interactive directory selection
+alias sf='fasd -sif'     # interactive file selection
+alias vv='fasd -e vim'
 
 
 export R_ENVIRON_USER='~/.config/r/.Renviron'
@@ -437,7 +445,10 @@ case "$(hostname)" in
     }
     if [ ! $TMUX ];
     then
-        tmux new-session -s Home -n main -d
+        if [[ ! $(tmux list-sessions | grep Home) ]];
+        then
+            tmux new-session -s Home -n main -d
+        fi
         # tmux send-key -t Home:1.1 "ucap && fixkey && update_clash" 'Enter'
         tmux attach-session -t Home
         # update_clash
@@ -687,6 +698,37 @@ pdfzf(){
     fi
 }
 
+ocrfzf(){
+    name=$(fzf -m "$@")
+    if [[ -n "$name" && $name =~ .*\.pdf ]]; then
+        nohup okular "$name" &  1>/dev/null 2>&1
+        RESTORE=""
+        vared -p 'start new OCR project with this file?[y/n]: \n' -c tmp
+        if [[ ${tmp:u} == 'Y' ]]; then
+            vared -p 'project name: ' -c dir
+            mkdir ~/Documents/ocr/${dir}
+            mv $name ~/Documents/ocr/${dir}/
+            echo "current location is ${pwd}"
+            echo "#!/bin/bash
+                  mv ${name} ${pwd}/" > ~/Documents/ocr/${dir}/restore.sh
+            cd ~/Documents/ocr/${dir}
+        fi
+    elif [[ -n "$name" && $name =~ .*\.djvu ]]; then
+        nohup djview4 "$name" &
+        vared -p 'start new OCR project with this file?[y/n]' -c tmp
+        if [[ ${tmp:u} == 'Y' ]]; then
+            vared -p 'project name' -c dir
+            mkdir ~/Documents/${dir}
+            mv $name ~/Documents/${dir}/
+            echo "current location is ${pwd}"
+            echo ${pwd} > ~/Documents/${dir}/restore.sh
+            cd ~/Documents
+        fi
+    elif [[ -n "$name" && ($name =~ .*\.epub || $name =~ .*\.mobi) ]]; then
+        nohup ebook-viewer "$name" &
+    fi
+}
+
 ctrlp() {
     dir="$(find -type d | grep -v .git | grep -v node_modules | fzf)";
     [[ -d "$dir" ]] && cd $dir;
@@ -729,7 +771,7 @@ zle -N output2x
 bindkey ",pp" output2x
 
 pc4() {
-    LBUFFER="proxychains4 ${LBUFFER}"
+    LBUFFER="proxychains4 -q ${LBUFFER}"
     zle reset-prompt  
 }
 
@@ -771,21 +813,6 @@ fi
 # export PATH="$HOME/.poetry/bin:/opt/miniconda/bin:$PATH"  # commented out by conda initialize
 stty stop undef 2>/dev/null; stty start undef 2>/dev/null
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/opt/miniconda/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/opt/miniconda/etc/profile.d/conda.sh" ]; then
-        . "/opt/miniconda/etc/profile.d/conda.sh"
-    else
-        export PATH="/opt/miniconda/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-conda deactivate
-# <<< conda initialize <<<
 
 [ -z "$NVM_DIR" ] && export NVM_DIR="$HOME/.nvm"
 source /usr/share/nvm/nvm.sh
@@ -793,3 +820,10 @@ source /usr/share/nvm/bash_completion
 source /usr/share/nvm/install-nvm-exec
 
 export RSTUDIO_CHROMIUM_ARGUMENTS="--no-sandbox"
+
+# bun completions
+[ -s "/home/carl/.bun/_bun" ] && source "/home/carl/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

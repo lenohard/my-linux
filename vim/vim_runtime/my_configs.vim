@@ -38,6 +38,7 @@ Plug 'ap/vim-buftabline'
 Plug 'elihunter173/dirbuf.nvim'
 Plug 'JuliaEditorSupport/julia-vim'
 Plug 'tpope/vim-fugitive'
+" Plug 'daeyun/vim-matlab'
 
 Plug 'ctrlpvim/ctrlp.vim'
 "{{{
@@ -63,7 +64,6 @@ Plug 'ctrlpvim/ctrlp.vim'
 "}}}
 
 " Plug 'codota/tabnine-vim'
-Plug 'github/copilot.vim'
 Plug 'altercation/vim-colors-solarized'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
@@ -72,7 +72,7 @@ Plug 'michaeljsmith/vim-indent-object'
 Plug 'wellle/targets.vim'
 Plug 'maxbrunsfeld/vim-yankstack'
 Plug 'amix/vim-zenroom2'
-Plug 'terryma/vim-multiple-cursors'
+" Plug 'terryma/vim-multiple-cursors'
 Plug 'kana/vim-textobj-user'
 Plug 'amdt/vim-niji'
 Plug 'nanotech/jellybeans.vim'
@@ -118,7 +118,10 @@ Plug 'junegunn/fzf.vim'
   let g:fzf_nvim_statusline = 0 " disable statusline overwriting
 
   nnoremap <silent> <leader>p :Files<CR>
+
   nnoremap <silent> <c-p> :Files<CR>
+  nnoremap <silent> <c-s> :w<CR>
+  inoremap <silent> <c-s> <esc>:w<CR>
   nnoremap <silent> <leader>pp :GFiles<CR>
   nnoremap <silent> <leader>bf :Buffers<CR>
   nnoremap <silent> <leader>A :Windows<CR>
@@ -128,6 +131,8 @@ Plug 'junegunn/fzf.vim'
   nnoremap <silent> <leader>? :History<CR>
   nnoremap <silent> <leader>/ :execute 'Ag ' . input('Ag/')<CR>
   nnoremap <silent> <leader>. :AgIn 
+
+
 
   nnoremap <silent> K :call SearchWordWithAg()<CR>
   vnoremap <silent> K :call SearchVisualSelectionWithAg()<CR>
@@ -309,6 +314,8 @@ nnoremap <Leader>8 :8b<CR>
 nnoremap <Leader>9 :9b<CR>
 nnoremap <Leader>0 :10b<CR>
 nnoremap <cr> <esc>
+
+nnoremap <leader>gv :Gvsplit :%
 "enable y to copy/paste selected text
 set clipboard^=unnamed,unnamedplus
 

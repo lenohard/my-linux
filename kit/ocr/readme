@@ -1,9 +1,10 @@
 Step 1:
-ocr_rec.sh filename.pdf first last  # first last to indicate the start and end page of the contents
+rec_ocr.sh filename.pdf first last [tc] # first last to indicate the start and end page of the contents
     generated tmp file "result.txt" include the recognized text.
+    tc tell the script to preprocess the image with textcleaner
 
 Step 2:
-ocr_test.sh 'regex' # test the regex to extract correcsponding info if ok it will insert the regext into 
+test_ocr.sh 'regex' # test the regex to extract correcsponding info if ok it will insert the regext into 
     file "content" which have the " regex   layer " info. You can try manay times to insert enough rules
     and rank start from 1 not 0
 
@@ -34,3 +35,29 @@ frequent regexs:
 ^([0-9]+ +.*)[ ]+([-0-9]+)$
 ^([^0-9].*)[ ]+([-0-9]+)$
 ^([0-9]+[.][0-9]+ +.*)[ ]+([-0-9]+)$
+
+PageLabelBegin
+PageLabelNewIndex: 1
+PageLabelStart: 1
+PageLabelPrefix: C
+PageLabelNumStyle: NoNumber
+PageLabelBegin
+PageLabelNewIndex: 2
+PageLabelStart: 1
+PageLabelNumStyle: LowercaseRomanNumerals
+PageLabelBegin
+PageLabelNewIndex: 18
+PageLabelStart: 1
+PageLabelNumStyle: DecimalArabicNumerals
+PageLabelBegin
+PageLabelNewIndex: 1154
+PageLabelStart: 1
+PageLabelPrefix: Plates
+PageLabelNumStyle: NoNumber
+
+##todo
+add check.py
+regex group and usage tip
+regex frequency record and sort
+transport to python
+scan and match and count to infer and then recommend regex

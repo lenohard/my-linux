@@ -1,0 +1,13 @@
+#!/bin/env python
+import re
+import sys
+import os
+
+with open(sys.argv[1], 'r') as file:
+    lines = file.readlines()
+    for line in lines:
+        f = line.split(":::");
+        m = re.match(sys.argv[2].strip(), f[0].strip(), re.IGNORECASE)
+        if(m):
+            print("{}   ,   {}".format(m[1], m[2]))
+

@@ -7,6 +7,8 @@ if [ -d ~/kit ]; then
     rm ~/kit -rf
 fi
 ln -s $(dirname $PWD)/kit ~/kit
+ln -s $(dirname $PWD)/kit/key-bindings.zsh ~/local/key-bindings.zsh
+ln -s $(dirname $PWD)/kit/completion.zsh ~/local/completion.zsh
 echo "creating link  ok"
 
 # ------------------BEGIN------------------------------
@@ -17,6 +19,6 @@ then
     git clone https://github.com/clvv/fasd.git tmp_fasd
     cd tmp_fasd
     sudo make install
-    cd ../..; rm -rf tmp_fasd 
+    cd ../..; rm -rf tmp_fasd
 fi
 # ==================END================================

@@ -5,7 +5,7 @@ source ~/.antigen.zsh
 # Load the oh-my-zsh's library.
 antigen use oh-my-zsh
 # Load the theme
-antigen theme frisk
+antigen theme candy
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
 antigen bundle extract
 antigen bundle gitfast
@@ -34,6 +34,7 @@ antigen bundle fasd
 antigen bundle Aloxaf/fzf-tab
 # antigen bundle hschne/fzf-git
 antigen bundle darvid/zsh-poetry
+antigen bundle aubreypwd/zsh-plugin-reload@1.0.0
 
 antigen apply
 
@@ -86,7 +87,7 @@ fi
 
 setopt extended_glob
 source $HOME/kit/tools.sh
-export PATH="$HOME/local:$HOME/develop/fabric-samples/bin:$HOME/.yarn/bin:$HOME/.elan/bin:$HOME/.cargo/bin:$HOME/.local/bin:$HOME/kit/ocr:$HOME/kit/ocr/tools/:$HOME/kit:$PATH"
+export PATH="$HOME/local:/opt/homebrew/bin:/opt/homebrew/sbin:$HOME/.yarn/bin:$HOME/.elan/bin:$HOME/.cargo/bin:$HOME/.local/bin:$HOME/kit/ocr:$HOME/kit/ocr/tools/:$HOME/kit:$PATH"
 export EDITOR="nvim"
 
 auto-ls () {
@@ -186,15 +187,10 @@ function color(){
     done
 }
 
-if [[ ! $(hostname) == 'iMac.wdh' ]];
-then
-    plugins+=(fasd)
-    eval "$(fasd --init auto)"
-    alias z='fasd_cd -d'     # cd, same functionality as j in autojump
-    alias zz='fasd_cd -d -i' # cd with interactive selection
-else
-    . /usr/local/etc/profile.d/z.sh
-fi
+plugins+=(fasd)
+eval "$(fasd --init auto)"
+alias z='fasd_cd -d'     # cd, same functionality as j in autojump
+alias zz='fasd_cd -d -i' # cd with interactive selection
 
 # alias a='fasd -a'        # any
 # alias s='fasd -si'       # show / search / select
@@ -291,27 +287,27 @@ bindkey -s '\es' 'sudo '
 
 # to viins with alt-e and from viminsert to emacs mode with alt-e too
 function _toggle-keymap {
-    if ! bindkey | grep 'vi-join' > /dev/null 3>&1; then
-        bindkey -e
-        RPROMPT='[emacs]'
-        zle reset-prompt
-        printf '\033[5 q';
-    else
-        bindkey -v
-        printf '\033[3 q';
-        bindkey "jk" vi-cmd-mode
-        bindkey "\ee" _toggle-keymap
-        zle -U ''
-        RPROMPT='[vim]'
-        zle reset-prompt
-    fi
-}
-# switch to emacs mode when in vicmd mode
-function _toggle-keymap2 {
+if ! bindkey | grep 'vi-join' > /dev/null 3>&1; then
     bindkey -e
     RPROMPT='[emacs]'
     zle reset-prompt
     printf '\033[5 q';
+else
+    bindkey -v
+    printf '\033[3 q';
+    bindkey "jk" vi-cmd-mode
+    bindkey "\ee" _toggle-keymap
+    zle -U ''
+    RPROMPT='[vim]'
+    zle reset-prompt
+fi
+}
+# switch to emacs mode when in vicmd mode
+function _toggle-keymap2 {
+bindkey -e
+RPROMPT='[emacs]'
+zle reset-prompt
+printf '\033[5 q';
 }
 zle -N emacs _toggle-keymap2
 bindkey -M vicmd '^[e' emacs
@@ -401,7 +397,7 @@ fi
 
 
 new_line() {
-   printf "\n>>"
+    printf "\n>>"
 }
 
 # ------------------BEGIN------------------------------
@@ -429,119 +425,134 @@ case "$(hostname)" in
         function blight(){
             sudo xbacklight  -set $1
         }
-    function sblight(){
-        float i=$(cat /sys/class/backlight/amdgpu_bl0/brightness)
-        float j=255
-        integer k=$((i / j * 100))
-        echo $k%
-    }
-    if [ ! $TMUX ];
-    then
-        tmux new-session -s Home -n main -d
-        # tmux send-key -t Home:1.1 "ucap && fixkey && update_clash" 'Enter'
-        tmux attach-session -t Home
-        # update_clash
-    fi
-    function setwine(){
-        if [[ $1 == "" ]]; then
+        function sblight(){
+            float i=$(cat /sys/class/backlight/amdgpu_bl0/brightness)
+            float j=255
+            integer k=$((i / j * 100))
+            echo $k%
+        }
+        if [ ! $TMUX ];
+        then
+            tmux new-session -s Home -n main -d
+            # tmux send-key -t Home:1.1 "ucap && fixkey && update_clash" 'Enter'
+            tmux attach-session -t Home
+            # update_clash
+        fi
+        function setwine(){
+            if [[ $1 == "" ]]; then
+                export WINEARCH=win64 
+                export WINEPREFIX=/home/carl/.wine
+            else
+                export WINEARCH=win32 
+                export WINEPREFIX=/home/carl/.local/share/wineprefixes/"$1"
+            fi
+        }
+        function unsetwine(){
             export WINEARCH=win64 
             export WINEPREFIX=/home/carl/.wine
-        else
-            export WINEARCH=win32 
-            export WINEPREFIX=/home/carl/.local/share/wineprefixes/"$1"
+        }
+        ;;
+    "dream")
+        alias anaconda='export PATH="/opt/anaconda/bin:$PATH"'
+        ZSH_THEME="rkj-repos"
+        alias readbook='cd /mnt/galileo/BOOK && nohup evince "$(fzf)"'
+        alias clash='sudo nohup /home/carl/local/clash-linux-amd64-v0.16.0  2>&1 > ~/clash.log &'
+        alias yacd='cd /home/carl/local/clash-dashboard && nohup npm start > ~/nohup.out &'
+        export PATH="/home/carl/local:$PATH"
+        if [ ! $TMUX ];
+        then
+            tmux new-session -s Home -n main -d
+            # tmux send-key -t Home:1.1 "ucap && fixkey && update_clash" 'Enter'
+            tmux attach-session -t Home
+            # update_clash
         fi
-    }
-    function unsetwine(){
-        export WINEARCH=win64 
-        export WINEPREFIX=/home/carl/.wine
-    }
-    ;;
-"dream")
-    alias anaconda='export PATH="/opt/anaconda/bin:$PATH"'
-    ZSH_THEME="rkj-repos"
-    alias readbook='cd /mnt/galileo/BOOK && nohup evince "$(fzf)"'
-    alias clash='sudo nohup /home/carl/local/clash-linux-amd64-v0.16.0  2>&1 > ~/clash.log &'
-    alias yacd='cd /home/carl/local/clash-dashboard && nohup npm start > ~/nohup.out &'
-    export PATH="/home/carl/local:$PATH"
-    if [ ! $TMUX ];
-    then
-        tmux new-session -s Home -n main -d
-        # tmux send-key -t Home:1.1 "ucap && fixkey && update_clash" 'Enter'
-        tmux attach-session -t Home
-        # update_clash
-    fi
-    ;;
-"elementary")
-    ZSH_THEME="frisk"
-    alias anaconda='export "PATH=/home/carl/anaconda3/bin:$PATH"'
-    function ml(){
-        if [ -n "$1" ] && [ "$1" = "exit" ];then
-            cd ~
-            export PS1="$PS_"
-        else
-            if [ -z "$(ls -A ~/wdh)" ]; then
-                echo "Trying"
-                if [ ! $(sudo mount /home/carl/wdh) ]; then
-                    echo "OK"
-                else
-                    echo "......"
-                fi
+        ;;
+    "elementary")
+        ZSH_THEME="frisk"
+        alias anaconda='export "PATH=/home/carl/anaconda3/bin:$PATH"'
+        function ml(){
+            if [ -n "$1" ] && [ "$1" = "exit" ];then
+                cd ~
+                export PS1="$PS_"
             else
-                cd ~/wdh/ml/
-                export PS1="%{$fg[yellow]%}(WDH_ml) $PS1"
+                if [ -z "$(ls -A ~/wdh)" ]; then
+                    echo "Trying"
+                    if [ ! $(sudo mount /home/carl/wdh) ]; then
+                        echo "OK"
+                    else
+                        echo "......"
+                    fi
+                else
+                    cd ~/wdh/ml/
+                    export PS1="%{$fg[yellow]%}(WDH_ml) $PS1"
+                fi
             fi
+        }
+        alias cdy='cd /mnt/share/racoon && pwd=${PWD} && sudo caddy -conf /usr/local/caddy/Caddyfile &; cd "$pwd" '
+        alias cby='calibre-server /mnt/share/racoon/Calibre_Library --userdb /home/carl/.config/calibre/user.sqlite --enable-auth &'
+        alias jpy='mount ~/wdh ; anaconda && jupyter notebook &'
+        ;;
+    "WDH")
+        unsetopt BG_NICE
+        alias docker='docker.exe'
+        alias gvim='gvim.exe'
+        alias nvim-qt='nvim-qt.exe'
+        alias anaconda='export "PATH=/mnt/e/.anaconda3/bin:$PATH"'
+        alias host='sudo ~/kit/update_hosts.sh'
+        export set  home='/mnt/c/Users/Administrator'
+        alias CD="cd $home"
+        ZSH_THEME="ys"
+        # ZSH_THEME="spaceship"
+        function ssho(){
+            ssh $(nmblookup ${1} | awk '{print $1}')
+        }
+        ;;
+    'PlatoMac')
+        echo "PlatoMac"
+        antigen theme candy
+        HOMEBREW_NO_AUTO_UPDATE=1
+        alias Jupyter="ssh  -f administrator@WDH 'activate ml & cd ml & jupyter notebook --no-browser'"
+        alias Ipython="ssh  administrator@WDH 'activate ml & cd ml & ipython'"
+        # alias lizzie="java -jar ~/leela/Lizzie/lizzie.jar > /dev/null &"
+        # # android emulator
+        # function Emulator(){
+        #     cd /Volumes/Fourth/Android/sdk/tools
+        #     /Volumes/Fourth/Android/sdk/tools/emulator $@
+        # }
+
+        function pipi(){
+            python3 -m pip install $@
+        }
+        test -e "${HOME}/.lterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+        # export PATH="/Volumes/Fourth/Anaconda/anaconda3/bin:$PATH"  # commented out by conda initialize
+        # alias anaconda='export PATH="/Volumes/Fourth/Anaconda/anaconda3/bin:$PATH"'
+        # HomeBrew
+        export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
+        export PATH="/usr/local/bin:$PATH"
+        export PATH="/usr/local/sbin:$PATH"
+        # HomeBrew END
+        #
+        export NVM_DIR="$HOME/.nvm"
+        [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+        [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+        #alias for cnpm
+        alias cnpm="npm --registry=https://registry.npmmirror.com \
+            --cache=$HOME/.npm/.cache/cnpm \
+            --disturl=https://npmmirror.com/mirrors/node \
+            --userconfig=$HOME/.cnpmrc"
+        if [ ! $TMUX ];
+        then
+            tmux new-session -s Home -n main -d
+            # tmux send-key -t Home:1.1 "ucap && fixkey && update_clash" 'Enter'
+            tmux attach-session -t Home
+            # update_clash
         fi
-    }
-    alias cdy='cd /mnt/share/racoon && pwd=${PWD} && sudo caddy -conf /usr/local/caddy/Caddyfile &; cd "$pwd" '
-    alias cby='calibre-server /mnt/share/racoon/Calibre_Library --userdb /home/carl/.config/calibre/user.sqlite --enable-auth &'
-    alias jpy='mount ~/wdh ; anaconda && jupyter notebook &'
-    ;;
-"WDH")
-    unsetopt BG_NICE
-    alias docker='docker.exe'
-    alias gvim='gvim.exe'
-    alias nvim-qt='nvim-qt.exe'
-    alias anaconda='export "PATH=/mnt/e/.anaconda3/bin:$PATH"'
-    alias host='sudo ~/kit/update_hosts.sh'
-    export set  home='/mnt/c/Users/Administrator'
-    alias CD="cd $home"
-    ZSH_THEME="ys"
-    # ZSH_THEME="spaceship"
-    function ssho(){
-        ssh $(nmblookup ${1} | awk '{print $1}')
-    }
-    ;;
-'iMac.wdh')
-    HOMEBREW_NO_AUTO_UPDATE=1
-    alias Jupyter="ssh  -f administrator@WDH 'activate ml & cd ml & jupyter notebook --no-browser'"
-    alias Ipython="ssh  administrator@WDH 'activate ml & cd ml & ipython'"
-    alias lizzie="java -jar ~/leela/Lizzie/lizzie.jar > /dev/null &"
-    # android emulator
-    function Emulator(){
-        cd /Volumes/Fourth/Android/sdk/tools
-        /Volumes/Fourth/Android/sdk/tools/emulator $@
-    }
-
-    function pipi(){
-        python3 -m pip install $@
-    }
-    export PATH=/Volumes/Fourth/Application/calibre.app/Contents/MacOS:/opt/local/bin:/opt/local/sbin:$PATH
-    export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles
-    ZSH_THEME='robbyrussell'
-    export ANDROID_HOME=/Volumes/Fourth/Android/sdk
-    export PATH=$PATH:$ANDROID_HOME/tools
-    export PATH=$PATH:$ANDROID_HOME/tools/bin
-    export PATH=$PATH/:$ANDROID_HOME/platform-tools
-    test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-    # export PATH="/Volumes/Fourth/Anaconda/anaconda3/bin:$PATH"  # commented out by conda initialize
-    # alias anaconda='export PATH="/Volumes/Fourth/Anaconda/anaconda3/bin:$PATH"'
-    ;;
-*)
-    ZSH_THEME="af-magic"
+        setproxy http 7890
+        ;;
+    *)
+        ;;
 esac
-# ==================END================================
-
-
 
 # ------------------BEGIN------------------------------
 #  ==>percol utilized alias
@@ -578,8 +589,8 @@ if exists percol; then
         zle -R -c               # refresh
     }
 
-zle -N percol_select_history
-bindkey '^R' percol_select_history
+    zle -N percol_select_history
+    bindkey '^R' percol_select_history
 fi
 
 function pattach() {
@@ -597,30 +608,6 @@ function pattach() {
         tmux att -t $session
     fi
 }
-# ==================END================================
-
-# ------------------BEGIN------------------------------
-#  ==>wsl specific
-
-# if grep -q Microsoft /proc/version; then
-#     [[ -z "$TMUX" && -n "$USE_TMUX" ]] && {
-#         [[ -n "$ATTACH_ONLY" ]] && {
-#         tmux a 2>/dev/null || {
-#         cd && exec tmux
-#     }
-#     exit
-# }
-
-# tmux new-window -c "$PWD" 2>/dev/null && exec tmux a
-#     exec tmux
-# }
-# else
-#     setxkbmap -option caps:ctrl_modifier
-# fi
-
-# ==================END================================
-
-
 
 # ------------------BEGIN------------------------------
 #  ==> minio-client
@@ -663,8 +650,9 @@ if type rg &> /dev/null; then
     export FZF_DEFAULT_COMMAND='rg --files --hidden'
 fi
 
-source /usr/share/fzf/key-bindings.zsh
-# source /usr/share/fzf/completion.zsh
+source $HOME/local/key-bindings.zsh
+source $HOME/local/completion.zsh
+
 
 export HISTTIMEFORMAT="%d/%m/%y %T "
 
@@ -746,43 +734,4 @@ rclonef () {
     done
 }
 
-# ==================END================================
-
-# ------------------BEGIN------------------------------
-#  ==> ripgrep
-
 export RIPGREP_CONFIG_PATH='~/.ripgreprc'
-
-# ==================END================================
-
-
-
-if command -v pyenv 1>/dev/null 2>&1; then
-    eval "$(pyenv init -)" 1>/dev/null 2>&1
-fi
-
-
-if [ -d  "$HOME/.nvm" ]; then
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-fi
-
-# export PATH="$HOME/.poetry/bin:/opt/miniconda/bin:$PATH"  # commented out by conda initialize
-stty stop undef 2>/dev/null; stty start undef 2>/dev/null
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/opt/miniconda/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/opt/miniconda/etc/profile.d/conda.sh" ]; then
-        . "/opt/miniconda/etc/profile.d/conda.sh"
-    else
-        export PATH="/opt/miniconda/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-

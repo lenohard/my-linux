@@ -1,65 +1,8 @@
-# ------------------BEGIN------------------------------
-#  ==>antigen
-source ~/.antigen.zsh
-
-# Load the oh-my-zsh's library.
-antigen use oh-my-zsh
-# Load the theme
-antigen theme candy
-# Bundles from the default repo (robbyrussell's oh-my-zsh).
-antigen bundle extract
-antigen bundle gitfast
-antigen bundle git-extras
-antigen bundle safe-paste
-antigen bundle vi-mode
-antigen bundle heroku
-antigen bundle pip
-antigen bundle incr
-antigen bundle lein
-antigen bundle command-not-found
-antigen bundle sublime
-antigen bundle common-aliases
-antigen bundle compleat
-antigen bundle git-extras
-antigen bundle zsh_reload
-antigen bundle git-flow
-antigen bundle npm
-antigen bundle z
-antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle zdharma/history-search-multi-word
-antigen bundle zsh-users/zsh-history-substring-search
-antigen bundle zsh-users/zsh-autosuggestions
-antigen bundle six-ddc/zsh-proxychains-ng #<esc> + p
-antigen bundle fasd
-antigen bundle Aloxaf/fzf-tab
-# antigen bundle hschne/fzf-git
-antigen bundle darvid/zsh-poetry
-antigen bundle aubreypwd/zsh-plugin-reload@1.0.0
-
-antigen apply
-
-# # ------------------BEGIN------------------------------
-# #  ==>oh my zsh
-# plugins=(zsh-reload zsh-history-substring-search)
-
-# # ==================END================================
-
-fpath=(/usr/local/share/zsh-completions $fpath)
-man() {
-    env LESS_TERMCAP_mb=$'\E[01;31m' \
-        LESS_TERMCAP_md=$'\E[01;38;5;74m' \
-        LESS_TERMCAP_me=$'\E[0m' \
-        LESS_TERMCAP_se=$'\E[0m' \
-        LESS_TERMCAP_so=$'\E[38;5;246m' \
-        LESS_TERMCAP_ue=$'\E[0m' \
-        LESS_TERMCAP_us=$'\E[04;38;5;146m' \
-        man "$@"
-    }
-
+# Fig pre block. Keep at the top of this file.
+[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
 
 # ------------------BEGIN-----------------------
 # os-specific
-
 if [[ -e /etc/os-release ]];
 then
     os=$(cat /etc/os-release | grep '^ID=' | cut -c4- | tr '[:upper:]' '[:lower:]')
@@ -85,68 +28,51 @@ fi
 
 # ==================END=========================
 
-setopt extended_glob
-source $HOME/kit/tools.sh
-export PATH="$HOME/local:/opt/homebrew/bin:/opt/homebrew/sbin:$HOME/.yarn/bin:$HOME/.elan/bin:$HOME/.cargo/bin:$HOME/.local/bin:$HOME/kit/ocr:$HOME/kit/ocr/tools/:$HOME/kit:$PATH"
-export EDITOR="nvim"
+# setopt extended_glob
+# export PATH="$HOME/local:/opt/homebrew/bin:/opt/homebrew/sbin:$HOME/.yarn/bin:$HOME/.elan/bin:$HOME/.cargo/bin:$HOME/kit/ocr:$HOME/kit/ocr/tools:$HOME/kit:$PATH"
+# export EDITOR="nvim"
 
-auto-ls () {
-emulate -L zsh;
-hash gls >/dev/null 2>&1 && CLICOLOR_FORCE=1 gls -aFh --color --group-directories-first || ls
-}
-chpwd_functions=( auto-ls $chpwd_functions )
-
-function cdd(){
-    cd $@ && ls
-}
-
-function showme()
-{
-    if which nvim > /dev/null 2>&1;
-    then
-        nvim "$(which $1)"
-    else
-        vim "$(which $1)"
-    fi
-}
-
-function findit()
-{
-    case $# in
-        0 )
-            echo "arguments required"
-            return 0
-            ;;
-        1 )
-            find "$PWD" -iname "*$1*"
-            ;;
-        2 )
-            find "$(realpath $2)" -iname "*$1*"
-            ;;
-        * )
-            echo ":find PARTEN [path]"
-            return 0
-    esac
-}
-# function findv()
-# {
-#     nvim "$(findit $@ | select.py)"
+# function cdd(){
+#     cd $@ && ls
 # }
-# function findc()
+
+# function showme()
 # {
-#     cd "$(dirname "$(findit $@ | select.py)")"
+#     if which nvim > /dev/null 2>&1;
+#     then
+#         nvim "$(which $1)"
+#     else
+#         vim "$(which $1)"
+#     fi
 # }
-# function findout()
+
+# function findit()
 # {
-#     findit $@ | select.py
+#     case $# in
+#         0 )
+#             echo "arguments required"
+#             return 0
+#             ;;
+#         1 )
+#             find "$PWD" -iname "*$1*"
+#             ;;
+#         2 )
+#             find "$(realpath $2)" -iname "*$1*"
+#             ;;
+#         * )
+#             echo ":find PARTEN [path]"
+#             return 0
+#     esac
 # }
-function swap()
-{
-    local TMPFILE=tmp.$$
-    mv "$1" $TMPFILE
-    mv "$2" "$1"
-    mv $TMPFILE "$2"
-}
+
+# function swap()
+# {
+#     local TMPFILE=tmp.$$
+#     mv "$1" $TMPFILE
+#     mv "$2" "$1"
+#     mv $TMPFILE "$2"
+# }
+
 # function pps(){
 #     ids=$(pgrep -f "$1")
 #     if [[ -z $ids ]];
@@ -161,10 +87,9 @@ function swap()
 #     pkill -f  "$1"
 # }
 
-#function to set or unset proxy in terminal
-function setproxy() {
-    export {http,https,ftp,all}_proxy="${1-http}://127.0.0.1:${2-7890}"
-}
+# function setproxy() {
+#     export {http,https,ftp,all}_proxy="${1-http}://127.0.0.1:${2-7890}"
+# }
 
 # function proxy_clash(){
 #     export https_proxy=http://127.0.0.1:7890;
@@ -172,34 +97,23 @@ function setproxy() {
 #     # export all_proxy=socks5://127.0.0.1:7891
 #     export ALL_PROXY=socks5://127.0.0.1:7891
 # }
-function unsetproxy() {
-    unset {http,https,ftp,all}_proxy
-}
-function help() {
-    bash -c "help $1"
-}
-function color(){
-    for i in {0..255} ; do
-        printf "\x1b[38;5;${i}m%3d " "${i}"
-        if (( $i == 15 )) || (( $i > 15 )) && (( ($i-15) % 12 == 0 )); then
-            echo;
-        fi
-    done
-}
 
-plugins+=(fasd)
-eval "$(fasd --init auto)"
-alias z='fasd_cd -d'     # cd, same functionality as j in autojump
-alias zz='fasd_cd -d -i' # cd with interactive selection
+# function unsetproxy() {
+#     unset {http,https,ftp,all}_proxy
+# }
 
-# alias a='fasd -a'        # any
-# alias s='fasd -si'       # show / search / select
-# alias d='fasd -d'        # directory
-# alias f='fasd -f'        # file
-# alias sd='fasd -sid'     # interactive directory selection
-# alias sf='fasd -sif'     # interactive file selection
-# alias vv='fasd -e vim'
+# function help() {
+#     bash -c "help $1"
+# }
 
+# function color(){
+#     for i in {0..255} ; do
+#         printf "\x1b[38;5;${i}m%3d " "${i}"
+#         if (( $i == 15 )) || (( $i > 15 )) && (( ($i-15) % 12 == 0 )); then
+#             echo;
+#         fi
+#     done
+# }
 
 export R_ENVIRON_USER='~/.config/r/.Renviron'
 
@@ -264,25 +178,30 @@ alias exp='less ~/kit/experience.sh'
 alias exp-add='nvim ~/kit/experience.sh'
 alias fixmode='find . -perm 000 -exec chmod 755 {} \;'
 
+# eval "$(fasd --init auto)"
+# alias a='fasd -a'        # any
+# alias s='fasd -si'       # show / search / select
+# alias d='fasd -d'        # directory
+# alias f='fasd -f'        # file
+# alias sd='fasd -sid'     # interactive directory selection
+# alias sf='fasd -sif'     # interactive file selection
+# alias z='fasd_cd -d'     # cd, same functionality as j in autojump
+# alias zz='fasd_cd -d -i' # cd with interactive selection
 
-#use beam style on start up
-printf '\033[5 q';
-alias ng="sudo npm list -g --depth=0 2>/dev/null"
-alias nl="npm list --depth=0 2>/dev/null"
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+##use beam style on start up
+#printf '\033[5 q';
+#alias ng="sudo npm list -g --depth=0 2>/dev/null"
+#alias nl="npm list --depth=0 2>/dev/null"
 
-
-# ------------------BEGIN------------------------------
-#  ==>tmux
-bindkey -s '^s^s' 'tmux set-option status'
-
-# ==================END================================
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # ------------------BEGIN------------------------------
 #  ==> zle bindkey
 #  alt+s to prepend 'sudo' to current command and move to EOL.
+bindkey -s '^s^s' 'tmux set-option status'
 bindkey -e
 bindkey -s '\es' 'sudo '
+# -----------------END--------------------
 
 
 # to viins with alt-e and from viminsert to emacs mode with alt-e too
@@ -359,46 +278,42 @@ zle -N edit-command-line
 bindkey -M vicmd '^V' edit-command-line
 # ==================END================================
 
-# ------------------BEGIN------------------------------
-#  ==>autosuggestions
-ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=30
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=32'
-# ==================END================================
+# # ------------------BEGIN------------------------------
+# #  ==>autosuggestions
+# ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=30
+# ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=32'
+# # ==================END================================
 
-# ------------------BEGIN------------------------------
-#  ==> ENV VAR
-ENABLE_CORRECTION="true"
-COMPLETION_WAITING_DOTS="true"
-
-
-# Save all history
-# # Incrementally write history to file
-setopt INC_APPEND_HISTORY
-# # Save timestamp to history file too
-setopt EXTENDED_HISTORY
-# # Import newly written commands from the history file
-setopt SHARE_HISTORY
-
-# ==================END================================
+# # ------------------BEGIN------------------------------
+# #  ==> ENV VAR
+# ENABLE_CORRECTION="true"
+# COMPLETION_WAITING_DOTS="true"
 
 
-# ------------------BEGIN------------------------------
-#  ==> autoenv or direnv
-if which direnv > /dev/null 2>&1;
-then
-    eval "$(direnv hook zsh)"
-fi
+# # Save all history
+# # # Incrementally write history to file
+# setopt INC_APPEND_HISTORY
+# # # Save timestamp to history file too
+# setopt EXTENDED_HISTORY
+# # # Import newly written commands from the history file
+# setopt SHARE_HISTORY
 
-if which activate.sh > /dev/null 2>&1;
-then
-    source `which activate.sh`
-fi
 # ==================END================================
 
 
-new_line() {
-    printf "\n>>"
-}
+# # ------------------BEGIN------------------------------
+# #  ==> autoenv or direnv
+# if which direnv > /dev/null 2>&1;
+# then
+#     eval "$(direnv hook zsh)"
+# fi
+
+# if which activate.sh > /dev/null 2>&1;
+# then
+#     source `which activate.sh`
+# fi
+# # ==================END================================
+
 
 # ------------------BEGIN------------------------------
 #  ==>Host
@@ -458,7 +373,6 @@ case "$(hostname)" in
         alias readbook='cd /mnt/galileo/BOOK && nohup evince "$(fzf)"'
         alias clash='sudo nohup /home/carl/local/clash-linux-amd64-v0.16.0  2>&1 > ~/clash.log &'
         alias yacd='cd /home/carl/local/clash-dashboard && nohup npm start > ~/nohup.out &'
-        export PATH="/home/carl/local:$PATH"
         if [ ! $TMUX ];
         then
             tmux new-session -s Home -n main -d
@@ -509,10 +423,9 @@ case "$(hostname)" in
         ;;
     'PlatoMac')
         echo "PlatoMac"
-        antigen theme candy
         HOMEBREW_NO_AUTO_UPDATE=1
-        alias Jupyter="ssh  -f administrator@WDH 'activate ml & cd ml & jupyter notebook --no-browser'"
-        alias Ipython="ssh  administrator@WDH 'activate ml & cd ml & ipython'"
+        # alias Jupyter="ssh  -f administrator@WDH 'activate ml & cd ml & jupyter notebook --no-browser'"
+        # alias Ipython="ssh  administrator@WDH 'activate ml & cd ml & ipython'"
         # alias lizzie="java -jar ~/leela/Lizzie/lizzie.jar > /dev/null &"
         # # android emulator
         # function Emulator(){
@@ -524,23 +437,17 @@ case "$(hostname)" in
             python3 -m pip install $@
         }
         test -e "${HOME}/.lterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-        # export PATH="/Volumes/Fourth/Anaconda/anaconda3/bin:$PATH"  # commented out by conda initialize
-        # alias anaconda='export PATH="/Volumes/Fourth/Anaconda/anaconda3/bin:$PATH"'
-        # HomeBrew
-        export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
-        export PATH="/usr/local/bin:$PATH"
-        export PATH="/usr/local/sbin:$PATH"
-        # HomeBrew END
-        #
-        export NVM_DIR="$HOME/.nvm"
-        [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-        [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+        # export NVM_DIR="$HOME/.nvm"
+        # [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+        # [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
         #alias for cnpm
         alias cnpm="npm --registry=https://registry.npmmirror.com \
             --cache=$HOME/.npm/.cache/cnpm \
             --disturl=https://npmmirror.com/mirrors/node \
             --userconfig=$HOME/.cnpmrc"
+
         if [ ! $TMUX ];
         then
             tmux new-session -s Home -n main -d
@@ -548,7 +455,6 @@ case "$(hostname)" in
             tmux attach-session -t Home
             # update_clash
         fi
-        setproxy http 7890
         ;;
     *)
         ;;
@@ -580,18 +486,18 @@ function ppkill() {
 
 function exists { which $1 &> /dev/null }
 
-if exists percol; then
-    function percol_select_history() {
-        local tac
-        exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
-        BUFFER=$(fc -l -n 1 | eval $tac | percol --query "$LBUFFER")
-        CURSOR=$#BUFFER         # move cursor
-        zle -R -c               # refresh
-    }
+# if exists percol; then
+#     function percol_select_history() {
+#         local tac
+#         exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
+#         BUFFER=$(fc -l -n 1 | eval $tac | percol --query "$LBUFFER")
+#         CURSOR=$#BUFFER         # move cursor
+#         zle -R -c               # refresh
+#     }
 
-    zle -N percol_select_history
-    bindkey '^R' percol_select_history
-fi
+#     zle -N percol_select_history
+#     bindkey '^R' percol_select_history
+# fi
 
 function pattach() {
     if [[ $1 == "" ]]; then
@@ -609,33 +515,28 @@ function pattach() {
     fi
 }
 
-# ------------------BEGIN------------------------------
-#  ==> minio-client
-autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /usr/bin/mcli mcli
-# ==================END================================
+## ------------------BEGIN------------------------------
+##  ==>fzf
+## tmux split
+#export FZF_TMUX=1
 
-# ------------------BEGIN------------------------------
-#  ==>fzf
-# tmux split
-export FZF_TMUX=1
+## Using highlight (http://www.andre-simon.de/doku/highlight/en/highlight.html)
+#export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
 
-# Using highlight (http://www.andre-simon.de/doku/highlight/en/highlight.html)
-export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
+##full screen mode
+## export FZF_DEFAULT_OPTS='--no-height --no-reverse'
 
-#full screen mode
-# export FZF_DEFAULT_OPTS='--no-height --no-reverse'
+##Commands that are too long are not fully visible on screen. We can use --preview option to display the full command on the preview window. In the following example, we bind ? key for toggling the preview window.
+#export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
 
-#Commands that are too long are not fully visible on screen. We can use --preview option to display the full command on the preview window. In the following example, we bind ? key for toggling the preview window.
-export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
+#fzf-history-widget-accept() {
+#fzf-history-widget
+#zle accept-line
+#}
+#zle     -N     fzf-history-widget-accept
+#bindkey '^X^R' fzf-history-widget-accept
 
-fzf-history-widget-accept() {
-fzf-history-widget
-zle accept-line
-}
-zle     -N     fzf-history-widget-accept
-bindkey '^X^R' fzf-history-widget-accept
-# ==================END================================
+## ==================END================================
 
 
 
@@ -650,30 +551,27 @@ if type rg &> /dev/null; then
     export FZF_DEFAULT_COMMAND='rg --files --hidden'
 fi
 
-source $HOME/local/key-bindings.zsh
-source $HOME/local/completion.zsh
 
-
-export HISTTIMEFORMAT="%d/%m/%y %T "
-
-export FZF_COMPLETION_TRIGGER=''
-bindkey '^T' fzf-completion
-bindkey '^I' $fzf_default_completion
 
 alias pdf_fzf='evince "$(fzf)"'
 alias dj_fzf='djview4 "$(fzf)"'
 alias efzf='ebook-viewer "$(fzf)"'
 
-pdfzf(){
-    name=$(fzf -m "$@")
-    if [[ -n "$name" && $name =~ .*\.pdf ]]; then
-        nohup okular "$name" &
-    elif [[ -n "$name" && $name =~ .*\.djvu ]]; then
-        nohup djview4 "$name" &
-    elif [[ -n "$name" && ($name =~ .*\.epub || $name =~ .*\.mobi) ]]; then
-        nohup ebook-viewer "$name" &
-    fi
-}
+# pdfzf(){
+#     if [[ $(uname) =~ "Darwin" ]]; then
+#         name=$(fzf -m "$@")
+#         /usr/bin/open "$name"
+#     else
+#         name=$(fzf -m "$@")
+#         if [[ -n "$name" && $name =~ .*\.pdf ]]; then
+#             nohup okular "$name" &
+#         elif [[ -n "$name" && $name =~ .*\.djvu ]]; then
+#             nohup djview4 "$name" &
+#         elif [[ -n "$name" && ($name =~ .*\.epub || $name =~ .*\.mobi) ]]; then
+#             nohup ebook-viewer "$name" &
+#         fi
+#     fi
+# }
 
 ctrlp() {
     dir="$(find -type d | grep -v .git | grep -v node_modules | fzf)";
@@ -686,11 +584,10 @@ bindkey ",cd" ctrlp
 
 
 ctrlp2() {
-    dir="$(find -type d | grep -v .git | grep -v node_modules | fzf)";
+    dir="$(fzf)";
     LBUFFER="${LBUFFER} $dir "
     zle reset-prompt  
 }
-
 zle -N ctrlp2
 bindkey ",j" ctrlp2
 
@@ -712,17 +609,16 @@ output2x() {
     LBUFFER="${LBUFFER} | tee /dev/tty | xclip -selection clipboard"
     zle reset-prompt  
 }
-
 zle -N output2x
 bindkey ",pp" output2x
 
-pc4() {
-    LBUFFER="proxychains4 ${LBUFFER}"
-    zle reset-prompt  
-}
+# pc4() {
+#     LBUFFER="proxychains4 ${LBUFFER}"
+#     zle reset-prompt  
+# }
 
-zle -N pc4
-bindkey ",px" pc4
+# zle -N pc4
+# bindkey ",px" pc4
 
 # eval-memoi caches the command in redis
 rclonef () {
@@ -735,3 +631,21 @@ rclonef () {
 }
 
 export RIPGREP_CONFIG_PATH='~/.ripgreprc'
+
+### Added by Zinit's installer
+if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
+    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
+    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
+        print -P "%F{33} %F{34}Installation successful.%f%b" || \
+        print -P "%F{160} The clone has failed.%f%b"
+fi
+
+source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+### End of Zinit's installer chunk
+
+# Fig post block. Keep at the bottom of this file.
+[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
+

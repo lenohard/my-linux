@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 while [[ 1 ]]
 do
     SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )

@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env bash
 set -e
 
 if [[ $# -lt 3 ]]; then

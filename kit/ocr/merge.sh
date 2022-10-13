@@ -1,4 +1,4 @@
-#!/bin/bash -
+#!/usr/bin/env bash
 set -o nounset                              # Treat unset variables as an error
 
 
@@ -24,12 +24,11 @@ H
 w tmp.info
 q
 EOF
-    mv tmp.info "${name^^}".info
-    pdftk "$1" update_info "${name^^}".info output "${name^^}".pdf
-    rm "${name}".pdf
-    mv "${name^^}".pdf "${name}".pdf
+    pdftk "$1" update_info tmp.info output "${name}"_ocr.pdf
+    # rm "${name}".pdf
+    # mv "${name^^}".pdf "${name}".pdf
 fi
 
 # rm *.info content tmp* *.png *.txt -f 2> /dev/null
 
-cp "$1" "/mnt/data/OneDrive - Ixsay/Libray/Front/galileo/BooksWithContentsByOCR"
+cp "${name}"_ocr.pdf "~/Greek/Front/galileo/BooksWithContentsByOCR"/${name}.pdf

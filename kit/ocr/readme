@@ -14,6 +14,8 @@ merge.sh filename.pdf/djvu
     than write this info file back into the origin pdf file
     it generate a new pdf with the capitized filename of origin name 
 
+# the pattern in file'content' will be overrided by following pattern in default, you can specifiy lines in 'result.txt' with :::1 to indicate force `continue`
+
 // dont need to use \. to mean literal . use [.] instead
 
 step 2 require dependency of fzf cmd if you want to use auto select previous archived regex, it will be activated when you run 'ocr_test' directly without a regex input

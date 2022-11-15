@@ -1,8 +1,8 @@
-#!/usr/bin/env bash
+#!env zsh
 set -e
 
 if [[ $# -lt 3 ]]; then
-    echo " ocr fileanme first last (please ;\) "
+    echo " ocr fileanme first last (please) "
     exit
 fi
 
@@ -13,7 +13,7 @@ file=$1
 if [[ $(file "$file") =~ "DjVu" ]]; then
     for i in {$f..$l}
     do
-        ddjvu --format=ppm -page=$i -size=2000x2000 "$file" > image${i}.ppm
+        ddjvu --format=ppm -page=$i -size=2000x2000 "$file" > image${(l:4::0:)i}.ppm
     done
 else
     pdftoppm "$file" -png -f $f -l $l image
@@ -22,7 +22,7 @@ fi
 
 for file in image*;
 do
-    n="${file:6:3}"
+    n=$(echo $file | perl -nle 'm/image(\d+).ppm/; print $1')
     if [[ $4 == "tc" ]];
     then
         output="${file%.*}".tiff
@@ -36,3 +36,4 @@ done
 
 cat tmp*.txt | tee -a result.txt
 
+}

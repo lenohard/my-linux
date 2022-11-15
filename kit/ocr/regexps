@@ -3,6 +3,10 @@
 ## no dots
 ^(.+?[^ .])[., ]*(-?\d+)\s*$
 
+
+## chapter start
+^(chapter.*?)[., ]*(-?\d+)\s*$
+
 ## Part start
 ^(part.*?)[., ]*(-?\d+)\s*$
 ## Exercises
@@ -38,3 +42,5 @@
 ## no dots
 ^\s*((?:[^.]|(?<=[\w][.]))+?[^ .])\s*([-\d]+)\s*$
 
+## all uppercase
+^([A-Z]+)\s*([-\d]+)\s*$:::1

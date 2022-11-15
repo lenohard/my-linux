@@ -38,6 +38,7 @@ Plug 'mileszs/ack.vim'
 Plug 'ap/vim-buftabline'
 Plug 'elihunter173/dirbuf.nvim'
 Plug 'JuliaEditorSupport/julia-vim'
+Plug 'tpope/vim-fugitive'
 
 Plug 'ctrlpvim/ctrlp.vim'
 "{{{
@@ -45,7 +46,6 @@ Plug 'ctrlpvim/ctrlp.vim'
 
     let g:ctrlp_map = ''
     map <leader>mm :CtrlPMRUFiles<cr>
-    " map <c-b> :CtrlPBuffer<cr>
     nnoremap <leader>j :CtrlPMixed<CR>
 
     let g:ctrlp_max_height = 20
@@ -76,7 +76,6 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'kana/vim-textobj-user'
 Plug 'amdt/vim-niji'
 Plug 'nanotech/jellybeans.vim'
-Plug 'Yggdroot/indentLine'
 Plug 'Shougo/echodoc.vim'
 Plug 'Shougo/neco-vim'
 Plug 'tpope/vim-obsession'
@@ -111,21 +110,24 @@ Plug 'jparise/vim-graphql'        " GraphQL syntax
 Plug 'neoclide/jsonc.vim'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-scriptease'
+Plug 'godlygeek/tabular' " tabular must come before vim-markdown
+Plug 'preservim/vim-markdown'
+Plug 'nanotee/zoxide.vim'
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " {{{
   let g:fzf_nvim_statusline = 0 " disable statusline overwriting
 
-  nnoremap <silent> <leader>p :Files<CR>
   nnoremap <silent> <c-p> :Files<CR>
-  nnoremap <silent> <leader>pp :GFiles<CR>
-  nnoremap <silent> <leader>bf :Buffers<CR>
+  nnoremap <silent> <c-[> :Buffers<CR>
+  nnoremap <silent> <c-]> :History<CR>
   nnoremap <silent> <leader>A :Windows<CR>
   nnoremap <silent> <leader>; :BLines<CR>
   nnoremap <silent> <leader>o :BTags<CR>
   nnoremap <silent> <leader>O :Tags<CR>
-  nnoremap <silent> <leader>? :History<CR>
+  nnoremap <silent> <leader>? :GFiles<CR>
   nnoremap <silent> <leader>/ :execute 'Ag ' . input('Ag/')<CR>
   nnoremap <silent> <leader>. :AgIn 
 
@@ -163,12 +165,18 @@ Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
 
 if has('nvim')
-    Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    " Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
+    " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     Plug 'Vigemus/iron.nvim'
+    Plug 'Yggdroot/indentLine'
+    " main one
+    Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
+    " 9000+ Snippets
+    Plug 'ms-jpq/coq.artifacts', {'branch': 'artifacts'}
+
 else
-    Plug 'Shougo/denite.nvim'
-    Plug 'Shougo/deoplete.nvim'
+    " Plug 'Shougo/denite.nvim'
+    " Plug 'Shougo/deoplete.nvim'
     Plug 'roxma/nvim-yarp'
     Plug 'roxma/vim-hug-neovim-rpc'
 endif
@@ -191,7 +199,7 @@ map <leader>es :so ~/.vimrc
 
 if has('gui_running')
     try
-        :set gfn=Ubuntu_Mono:h11:cANSI:qDRAFT
+        set transparency=25
     endtry
 endif
 
@@ -200,7 +208,6 @@ endif
 "---------------
 set background=dark
 set nohlsearch
-set number
 set number relativenumber
 set nowrap
 set fileencodings=gb2312,utf-8,gb18030,gbk,ucs-bom,cp936,latin1
@@ -289,6 +296,7 @@ inoremap kj <esc>
 inoremap <esc> <nop>
 nnoremap <leader>qw :bp<bar>sp<bar>bn<bar>bd<CR>
 nnoremap <leader>qq :wq<esc>
+nnoremap <leader>W :w!<esc>
 nnoremap <leader>qa :wqa<esc>
 nnoremap <leader>X :q!<esc>
 nnoremap <leader>bb :bd<esc>
@@ -310,7 +318,7 @@ nnoremap <Leader>9 :9b<CR>
 nnoremap <Leader>0 :10b<CR>
 nnoremap <cr> <esc>
 "enable y to copy/paste selected text
-set clipboard^=unnamed,unnamedplus
+set clipboard+=unnamed,unnamedplus
 
 nnoremap <c-6> :buffer #<CR>
 
@@ -332,10 +340,21 @@ augroup rainbow_lisp
     autocmd FileType lisp,clojure,scheme RainbowParentheses
 augroup END
 
-map <leader>ee :e! ~/.vim_runtime/vimrcs/basic.vim <cr>
-map <leader>e :e! ~/.vim_runtime/my_configs.vim <cr>
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Fast editing and reloading of vimrc configs
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+map <leader>ee :e! ~/.vim_runtime/my_configs.vim <cr>
+map <leader>er :e! ~/.zshrc <cr>
+map <leader>ea :e! ~/.vim_runtime/vimrcs/basic.vim <cr>
 map <leader>ex :e! ~/.vim_runtime/vimrcs/extended.vim <cr>
 map <leader>ep :e! ~/.vim_runtime/vimrcs/plugins_config.vim<cr>
+map <leader>em :e! ~/note.md<cr>
+" autocmd! bufwritepost ~/.vim_runtime/my_configs.vim source ~/.vim_runtime/my_configs.vim 
+" autocmd! bufwritepost ~/.vim_runtime/vimrcs/basic.vim source ~/.vim_runtime/basic.vim
+" autocmd! bufwritepost ~/.vim_runtime/vimrcs/extended.vim source ~/.vim_runtime/extended.vim
+" autocmd! bufwritepost ~/.vim_runtime/vimrcs/plugins_config.vim source ~/.vim_runtime/
+
+
 set ssop-=options    " do not store global and local values in a session
 set ssop-=folds      " do not store folds
 set ssop-=buffers
@@ -346,27 +365,25 @@ set wrap
 set statusline+=%#warningmsg#
 " set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
-
 set tags=./tags,tags;
 
 "remove trailing space
 noremap <leader>rm :%s/\([^ ]\) *$/\1/<cr>
 
-"Z - cd to recent / frequent directories
-"-------------------------------------------------------------------
-command! -nargs=* Z :call Z(<f-args>)
-function! Z(...)
-    let cmd = 'fasd -d -e printf'
-    for arg in a:000
-        let cmd = cmd . ' ' . arg
-    endfor
-    let path = system(cmd)
-    if isdirectory(path)
-        echo path
-        exec 'cd' fnameescape(path)
-    endif
-endfunction
-
+""Z - cd to recent / frequent directories
+""-------------------------------------------------------------------
+"command! -nargs=* Z :call Z(<f-args>)
+"function! Z(...)
+"    let cmd = 'fasd -d -e printf'
+"    for arg in a:000
+"        let cmd = cmd . ' ' . arg
+"    endfor
+"    let path = system(cmd)
+"    if isdirectory(path)
+"        echo path
+"        exec 'cd' fnameescape(path)
+"    endif
+"endfunction
 
 
 " ------------------BEGIN------------------------------
@@ -439,3 +456,9 @@ if executable(s:clip)
 
 endif
 
+nmap <F3> i<C-R>=strftime("### %d/%m")<CR><Esc>
+imap <F3> <C-R>=strftime("### %d/%m")<CR>
+nmap <F5> i<C-R>=strftime("### %I:%M %Y-%m-%d")<CR><Esc>
+imap <F5> <C-R>=strftime("### %I:%M %Y-%m-%d")<CR>
+
+set conceallevel=2

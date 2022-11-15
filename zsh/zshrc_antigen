@@ -1,5 +1,44 @@
-# Fig pre block. Keep at the top of this file.
-[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
+PATH="$HOME/local:/opt/homebrew/bin:/opt/homebrew/sbin:$HOME/kit/ocr:$HOME/kit:$HOME/kit/ocr/tools:$PATH"
+
+### Added by Zinit's installer
+if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
+    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
+    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
+        print -P "%F{33} %F{34}Installation successful.%f%b" || \
+        print -P "%F{160} The clone has failed.%f%b"
+fi
+
+source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+### End of Zinit's installer chunk
+
+
+
+# ------------------BEGIN------------------------------
+#  ==> zinit plugins
+
+# zinit snippet https://raw.githubusercontent.com/vifon/deer/master/deer
+# zle -N deer
+# bindkey '^y' deer
+zinit light zsh-users/zsh-completions
+zinit light zdharma-continuum/fast-syntax-highlighting
+zinit light zsh-users/zsh-autosuggestions
+zinit light unixorn/tumult.plugin.zsh 
+zinit light supercrabtree/k
+# zinit light wookayin/fzf-fasd
+# zinit light b4b4r07/enhancd
+
+zinit light marlonrichert/zsh-autocomplete 
+
+# # Load pure theme
+zinit ice pick"async.zsh" src"pure.zsh" # with zsh-async library that's bundled with it.
+zinit light sindresorhus/pure
+
+# ==================END================================
+
+eval "$(zoxide init zsh)"
 
 # ------------------BEGIN-----------------------
 # os-specific
@@ -26,105 +65,58 @@ then
     fi
 fi
 
-# ==================END=========================
+setopt extended_glob
+printf '\033[5 q'
+# Save all history
+# # Incrementally write history to file
+setopt INC_APPEND_HISTORY
+# # Save timestamp to history file too
+setopt EXTENDED_HISTORY
+# # Import newly written commands from the history file
+setopt SHARE_HISTORY
 
-# setopt extended_glob
-# export PATH="$HOME/local:/opt/homebrew/bin:/opt/homebrew/sbin:$HOME/.yarn/bin:$HOME/.elan/bin:$HOME/.cargo/bin:$HOME/kit/ocr:$HOME/kit/ocr/tools:$HOME/kit:$PATH"
-# export EDITOR="nvim"
+auto-ls () {
+emulate -L zsh;
+hash gls >/dev/null 2>&1 && CLICOLOR_FORCE=1 gls -aFh --color --group-directories-first || ls
+}
+chpwd_functions=( auto-ls $chpwd_functions )
 
-# function cdd(){
-#     cd $@ && ls
-# }
+man() {
+    env LESS_TERMCAP_mb=$'\E[01;31m' \
+        LESS_TERMCAP_md=$'\E[01;38;5;74m' \
+        LESS_TERMCAP_me=$'\E[0m' \
+        LESS_TERMCAP_se=$'\E[0m' \
+        LESS_TERMCAP_so=$'\E[38;5;246m' \
+        LESS_TERMCAP_ue=$'\E[0m' \
+        LESS_TERMCAP_us=$'\E[04;38;5;146m' \
+        man "$@"
+    }
 
-# function showme()
-# {
-#     if which nvim > /dev/null 2>&1;
-#     then
-#         nvim "$(which $1)"
-#     else
-#         vim "$(which $1)"
-#     fi
-# }
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+# [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
-# function findit()
-# {
-#     case $# in
-#         0 )
-#             echo "arguments required"
-#             return 0
-#             ;;
-#         1 )
-#             find "$PWD" -iname "*$1*"
-#             ;;
-#         2 )
-#             find "$(realpath $2)" -iname "*$1*"
-#             ;;
-#         * )
-#             echo ":find PARTEN [path]"
-#             return 0
-#     esac
-# }
 
-# function swap()
-# {
-#     local TMPFILE=tmp.$$
-#     mv "$1" $TMPFILE
-#     mv "$2" "$1"
-#     mv $TMPFILE "$2"
-# }
+alias matlab_cli="/Applications/MATLAB_R2022b.app/bin/matlab -nodesktop"
+alias ,e="vim ~/.zshrc"
+alias ng="sudo npm list -g --depth=0 2>/dev/null"
+alias nl="npm list --depth=0 2>/dev/null"
+# alias vim=nvim
 
-# function pps(){
-#     ids=$(pgrep -f "$1")
-#     if [[ -z $ids ]];
-#     then
-#         echo "there is no such process"
-#     else
-#         ps -pf "$ids"  
-#     fi
-# }
-# function ppkill(){
-#     ps -fp $(pgrep -f "$1")
-#     pkill -f  "$1"
-# }
-
-# function setproxy() {
-#     export {http,https,ftp,all}_proxy="${1-http}://127.0.0.1:${2-7890}"
-# }
-
-# function proxy_clash(){
-#     export https_proxy=http://127.0.0.1:7890;
-#     export http_proxy=http://127.0.0.1:7890;
-#     # export all_proxy=socks5://127.0.0.1:7891
-#     export ALL_PROXY=socks5://127.0.0.1:7891
-# }
-
-# function unsetproxy() {
-#     unset {http,https,ftp,all}_proxy
-# }
-
-# function help() {
-#     bash -c "help $1"
-# }
-
-# function color(){
-#     for i in {0..255} ; do
-#         printf "\x1b[38;5;${i}m%3d " "${i}"
-#         if (( $i == 15 )) || (( $i > 15 )) && (( ($i-15) % 12 == 0 )); then
-#             echo;
-#         fi
-#     done
-# }
-
+export EDITOR=vim
+export FZF_TMUX=1
+export PAGER=less
+export HISTTIMEFORMAT="%d%n%y %T"
+export SSH_AUTH_SOCK="$HOME/.sekey/ssh-agent.ssh"
+export NVM_DIR="SHOME/.nvm"
+export ENABLE_CORRECTION=true
+export COMPLETION_WAITING_DOTS=true
 export R_ENVIRON_USER='~/.config/r/.Renviron'
-
 export AURDEST='/var/cache/pacaur/pkg'
-
 #ssh log in to server hosted on vultr
 export set github="https://github.com/"
-
 #save $PS1 for restore
 export PS_="$PS1"
-
 # Aliases
 alias grep='grep --color=always'
 alias ssh='TERM=xterm-256color ssh'
@@ -142,17 +134,14 @@ alias pacsort='pacsize| sort -rhk 2| less'
 alias weixin='nohup vivaldi-stable -app=https://wx.qq.com >/dev/null 2>&1  &'
 alias navicate='nohup ~/local/navicat15-premium-cs-patched.AppImage >/dev/null 2>&1  &'
 alias webui='nohup vivaldi-stable -app=file:///home/carl/local/webui-aria2/index.html >/dev/null 2>&1  &'
-
 alias whatsmyip="wget -qO- http://ipecho.net/plain ; echo"
 alias localip="ip a | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'"
-
 alias radioabcnews="mplayer -playlist http://www.abc.net.au/res/streaming/audio/mp3/news_radio.pls" #
 alias radiobbcnews="mplayer -playlist http://minnesota.publicradio.org/tools/play/streams/news.pls" #
 alias radiorn="mplayer -playlist http://www.abc.net.au/res/streaming/audio/mp3/radio_national.pls" #
 alias radiojjj="mplayer -playlist  http://www.abc.net.au/res/streaming/audio/mp3/triplej.pls" #
 alias radiobbcnews="mplayer -playlist http://minnesota.publicradio.org/tools/play/streams/news.pls" #
 alias radiosleepbot="mplayer -playlist http://sleepbot.com/ambience/cgi/listen.cgi/listen.pls" # Sleepbot Environmental Broadcast 56K MP3
-
 alias ximalaya='nohup vivaldi-stable -app=https://www.ximalaya.com >/dev/null 2>&1  &'
 alias a2c='nohup aria2c --conf-path=/etc/aria2/aria2.conf > ~/aria2c.log 2>&1 & ' 
 alias yacc='nohup vivaldi-stable -app=http://127.0.0.1:3000 >/dev/null 2>&1 &'
@@ -171,12 +160,105 @@ alias rsynccl='rsync -rv --delete /home/carl/mounts/galileo/main/  /home/carl/mo
 alias mypublicip='drill +short myip.opendns.com @resolver1.opendns.com | grep IN | tac | cut -f5 -s'
 alias git-root='cd $(git rev-parse --show-toplevel)'
 alias du1='du -hd0'
-alias ,e='nvim ~/.zshrc'
+alias ,e='vim ~/.zshrc'
 alias prm=". ~/kit/prm.sh"
 # alias ssh='autossh'
 alias exp='less ~/kit/experience.sh'
-alias exp-add='nvim ~/kit/experience.sh'
+alias exp-add='vim ~/kit/experience.sh'
 alias fixmode='find . -perm 000 -exec chmod 755 {} \;'
+
+# ------------------BEGIN------------------------------
+#  ==> functioins
+function showme(){
+ if which vim > /dev/null 2>&1;
+    then
+        vim "$(which $1)"
+    else
+        nvim "$(which $1)"
+    fi
+}
+
+function findit(){
+case $# in
+        0 )
+            echo "arguments required"
+            return 0
+            ;;
+        1 )
+            find "$PWD" -iname "*$1*"
+            ;;
+        2 )
+            find "$(realpath $2)" -iname "*$1*"
+            ;;
+        * )
+            echo ":find PARTEN [path]"
+            return 0
+    esac
+}
+
+function setproxy(){
+export {http,https,ftp,all}_proxy="${1-http}://127.0.0.1:${2-7890}"
+}
+
+function unsetproxy(){
+unset {http,https,ftp,all}_proxy
+}
+
+function color(){
+  for i in {0..255} ; do
+        printf "\x1b[38;5;${i}m%3d " "${i}"
+        if (( $i == 15 )) || (( $i > 15 )) && (( ($i-15) % 12 == 0 )); then
+            echo;
+        fi
+    done
+}
+
+function help(){
+bash -c "help $1"
+}
+
+function swap(){
+local TMPFILE=tmp.$$
+mv "$1" $TMPFILE
+mv "$2" "$1"
+mv $TMPFILE "$2"
+}
+
+function cdd(){
+cd $@ && ls
+}
+
+function dus(){
+    if [[ ! -z $1 ]]
+    then
+        echo "-Parameter #1 is zero length"
+    else
+        # echo "-Parameter #1 is \"$1\""
+        du -xhd1 "$1" | sort -rh | less
+    fi
+}
+
+# ==================END================================
+
+# ------------------BEGIN------------------------------
+#  ==> autoenv or direnv
+if which direnv > /dev/null 2>&1;
+then
+    eval "$(direnv hook zsh)"
+fi
+
+if which activate.sh > /dev/null 2>&1;
+then
+    source `which activate.sh`
+fi
+# ==================END================================
+
+# ------------------BEGIN------------------------------
+#  ==>tmux
+bindkey -s '^s^s' 'tmux set-option status'
+
+# ==================END================================
+
 
 # eval "$(fasd --init auto)"
 # alias a='fasd -a'        # any
@@ -188,12 +270,6 @@ alias fixmode='find . -perm 000 -exec chmod 755 {} \;'
 # alias z='fasd_cd -d'     # cd, same functionality as j in autojump
 # alias zz='fasd_cd -d -i' # cd with interactive selection
 
-##use beam style on start up
-#printf '\033[5 q';
-#alias ng="sudo npm list -g --depth=0 2>/dev/null"
-#alias nl="npm list --depth=0 2>/dev/null"
-
-# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # ------------------BEGIN------------------------------
 #  ==> zle bindkey
@@ -203,6 +279,26 @@ bindkey -e
 bindkey -s '\es' 'sudo '
 # -----------------END--------------------
 
+
+# ------------------BEGIN------------------------------
+#  ==> function
+function setproxy {
+    export {http,https,ftp,all}_proxy="${1-http}://127.0.0.1:${2-7890}"
+}
+
+listening() {
+    if [ $# -eq 0 ]; then
+        sudo lsof -iTCP -sTCP:LISTEN -n -P
+    elif [ $# -eq 1 ]; then
+        sudo lsof -iTCP -sTCP:LISTEN -n -P | grep -i --color $1
+    else
+        echo "Usage: listening [pattern]"
+    fi
+}
+# ==================END================================
+
+# ------------------BEGIN------------------------------
+#  ==> toggle-keymap
 
 # to viins with alt-e and from viminsert to emacs mode with alt-e too
 function _toggle-keymap {
@@ -215,6 +311,8 @@ else
     bindkey -v
     printf '\033[3 q';
     bindkey "jk" vi-cmd-mode
+    bindkey "^P" up-line-or-history
+    bindkey "^N" down-line-or-history
     bindkey "\ee" _toggle-keymap
     zle -U ''
     RPROMPT='[vim]'
@@ -257,6 +355,105 @@ fi
 zle -N _toggle-keymap
 bindkey "\ee" _toggle-keymap
 
+# -----------------END--------------------
+
+
+
+# ------------------BEGIN------------------------------
+#  ==>percol utilized alias
+alias perps='ps aux | percol | awk "{ print $2 }"'
+alias perpkill='ps aux | percol | awk "{ print $2 }" | xargs kill'
+
+function ppgrep() {
+    if [[ $1 == "" ]]; then
+        PERCOL=percol
+    else
+        PERCOL="percol --query $1"
+    fi
+    ps aux | eval $PERCOL | awk '{ print $2 }'
+}
+
+function ppkill() {
+    if [[ $1 =~ "^-" ]]; then
+        QUERY=""            # options only
+    else
+        QUERY=$1            # with a query
+        [[ $# > 0 ]] && shift
+    fi
+    ppgrep $QUERY | xargs kill $*
+}
+
+function exists { which $1 &> /dev/null }
+
+if exists percol; then
+    function percol_select_history() {
+        local tac
+        exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
+        BUFFER=$(fc -l -n 1 | eval $tac | percol --query "$LBUFFER")
+        CURSOR=$#BUFFER         # move cursor
+        zle -R -c               # refresh
+    }
+
+    zle -N percol_select_history
+    bindkey '^R' percol_select_history
+fi
+
+function pattach() {
+    if [[ $1 == "" ]]; then
+        PERCOL=percol
+    else
+        PERCOL="percol --query $1"
+    fi
+
+    sessions=$(tmux ls)
+    [ $? -ne 0 ] && return
+
+    session=$(echo $sessions | eval $PERCOL | cut -d : -f 1)
+    if [[ -n "$session" ]]; then
+        tmux att -t $session
+    fi
+}
+# ------------------END-------------------------
+
+
+# ------------------BEGIN------------------------------
+#  ==>  current editor buffer tricks
+copy2x(){
+    echo "$BUFFER" | xclip -selection clipboard
+}
+zle -N copy2x
+bindkey ",p" copy2x
+
+
+output2x() {
+    LBUFFER="${LBUFFER} | tee /dev/tty | xclip -selection clipboard"
+    zle reset-prompt  
+}
+zle -N output2x
+bindkey ",pp" output2x
+
+pc4() {
+    LBUFFER="proxychains4 ${LBUFFER}"
+    zle reset-prompt  
+}
+zle -N pc4
+bindkey ",px" pc4
+
+# eval-memoi caches the command in redis
+rclonef () {
+    local paths=("${(@f)$(memoi_expire=${rfExpire:-$((3600*24))} eval-memoi rclone lsf --recursive "${1}:" | fzf)}")
+    local i
+    for i in $paths[@]
+    do
+        rclone copy "${1}:$i" "$2"
+    done
+}
+# ------------------END------------------------------
+
+
+export RIPGREP_CONFIG_PATH='~/.ripgreprc'
+
+# ------------------BEGIN------------------------------
 # Enable accepting autosuggestions
 bindkey '^O' forward-word
 # bindkey '^P' autosuggest-accept
@@ -278,46 +475,78 @@ zle -N edit-command-line
 bindkey -M vicmd '^V' edit-command-line
 # ==================END================================
 
-# # ------------------BEGIN------------------------------
-# #  ==>autosuggestions
-# ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=30
-# ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=32'
-# # ==================END================================
 
-# # ------------------BEGIN------------------------------
-# #  ==> ENV VAR
-# ENABLE_CORRECTION="true"
-# COMPLETION_WAITING_DOTS="true"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+# ------------------BEGIN------------------------------
+#  ==>fzf
 
-# # Save all history
-# # # Incrementally write history to file
-# setopt INC_APPEND_HISTORY
-# # # Save timestamp to history file too
-# setopt EXTENDED_HISTORY
-# # # Import newly written commands from the history file
-# setopt SHARE_HISTORY
+# Using highlight (http://www.andre-simon.de/doku/highlight/en/highlight.html)
+export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
 
+# open in tmux split
+export FZF_TMUX=1
+
+#full screen mode
+export FZF_DEFAULT_OPTS='--no-height --no-reverse'
+
+#Commands that are too long are not fully visible on screen. We can use --preview option to display the full command on the preview window. In the following example, we bind ? key for toggling the preview window.
+export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
+
+# --select-1 automatically selects the item if there's only one so that you don't have to press enter key. Likewise, --exit-0 automatically exits when the list is empty. These options are also useful in FZF_ALT_C_OPTS.
+# export FZF_CTRL_T_OPTS="--select-1 --exit-0"
+
+export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
+
+#determines search program for fzf
+if type ag &> /dev/null; then
+    export FZF_DEFAULT_COMMAND='ag -p ~/.gitignore -g ""'
+fi
+#refer rg over ag
+if type rg &> /dev/null; then
+    export FZF_DEFAULT_COMMAND='rg --files'
+fi
+
+# Directly Execute the Commands
+fzf-history-widget-accept() {
+fzf-history-widget
+zle accept-line
+}
+zle     -N     fzf-history-widget-accept
+bindkey '^X^R' fzf-history-widget-accept
+
+# The following example uses tree command to show the entries of the directory.
+export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
+
+pdfzf(){
+    if [[ $(uname) =~ "Darwin" ]]; then
+        name=$(fzf -m "$@")
+        /usr/bin/open "$name"
+    else
+        name=$(fzf -m "$@")
+        if [[ -n "$name" && $name =~ .*\.pdf ]]; then
+            nohup okular "$name" &
+        elif [[ -n "$name" && $name =~ .*\.djvu ]]; then
+            nohup djview4 "$name" &
+        elif [[ -n "$name" && ($name =~ .*\.epub || $name =~ .*\.mobi) ]]; then
+            nohup ebook-viewer "$name" &
+        fi
+    fi
+}
+
+ctrlp() {
+    dir="$(gfind -type d | grep -v .git | grep -v node_modules | fzf)";
+    [[ -d "$dir" ]] && cd $dir;
+    zle reset-prompt  
+}
+zle -N ctrlp
+bindkey ",cd" ctrlp
+
+alias pac="pacman -Slq | fzf --multi --preview 'pacman -Si {1}' | xargs -ro sudo pacman -S"
 # ==================END================================
-
-
-# # ------------------BEGIN------------------------------
-# #  ==> autoenv or direnv
-# if which direnv > /dev/null 2>&1;
-# then
-#     eval "$(direnv hook zsh)"
-# fi
-
-# if which activate.sh > /dev/null 2>&1;
-# then
-#     source `which activate.sh`
-# fi
-# # ==================END================================
-
 
 # ------------------BEGIN------------------------------
 #  ==>Host
-
 case "$(hostname)" in
     "Snow-Crash")
         alias admin='cd /mnt/c/Users/Admin/'
@@ -422,7 +651,6 @@ case "$(hostname)" in
         }
         ;;
     'PlatoMac')
-        echo "PlatoMac"
         HOMEBREW_NO_AUTO_UPDATE=1
         # alias Jupyter="ssh  -f administrator@WDH 'activate ml & cd ml & jupyter notebook --no-browser'"
         # alias Ipython="ssh  administrator@WDH 'activate ml & cd ml & ipython'"
@@ -438,16 +666,6 @@ case "$(hostname)" in
         }
         test -e "${HOME}/.lterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-        # export NVM_DIR="$HOME/.nvm"
-        # [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-        # [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-
-        #alias for cnpm
-        alias cnpm="npm --registry=https://registry.npmmirror.com \
-            --cache=$HOME/.npm/.cache/cnpm \
-            --disturl=https://npmmirror.com/mirrors/node \
-            --userconfig=$HOME/.cnpmrc"
-
         if [ ! $TMUX ];
         then
             tmux new-session -s Home -n main -d
@@ -455,197 +673,11 @@ case "$(hostname)" in
             tmux attach-session -t Home
             # update_clash
         fi
+        setproxy
+        alias cnpm='npm --registry=https://registry.npmmirror.com   --cache=$HOME/.npm/.cache/cnpm    --disturl=https://npmmirror.com/mirrors/node    --userconfig=$HOME/.cnpmrc'
+        export VISUAL=vim 
         ;;
     *)
         ;;
 esac
-
-# ------------------BEGIN------------------------------
-#  ==>percol utilized alias
-alias perps='ps aux | percol | awk "{ print $2 }"'
-alias perpkill='ps aux | percol | awk "{ print $2 }" | xargs kill'
-
-function ppgrep() {
-    if [[ $1 == "" ]]; then
-        PERCOL=percol
-    else
-        PERCOL="percol --query $1"
-    fi
-    ps aux | eval $PERCOL | awk '{ print $2 }'
-}
-
-function ppkill() {
-    if [[ $1 =~ "^-" ]]; then
-        QUERY=""            # options only
-    else
-        QUERY=$1            # with a query
-        [[ $# > 0 ]] && shift
-    fi
-    ppgrep $QUERY | xargs kill $*
-}
-
-function exists { which $1 &> /dev/null }
-
-# if exists percol; then
-#     function percol_select_history() {
-#         local tac
-#         exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
-#         BUFFER=$(fc -l -n 1 | eval $tac | percol --query "$LBUFFER")
-#         CURSOR=$#BUFFER         # move cursor
-#         zle -R -c               # refresh
-#     }
-
-#     zle -N percol_select_history
-#     bindkey '^R' percol_select_history
-# fi
-
-function pattach() {
-    if [[ $1 == "" ]]; then
-        PERCOL=percol
-    else
-        PERCOL="percol --query $1"
-    fi
-
-    sessions=$(tmux ls)
-    [ $? -ne 0 ] && return
-
-    session=$(echo $sessions | eval $PERCOL | cut -d : -f 1)
-    if [[ -n "$session" ]]; then
-        tmux att -t $session
-    fi
-}
-
-## ------------------BEGIN------------------------------
-##  ==>fzf
-## tmux split
-#export FZF_TMUX=1
-
-## Using highlight (http://www.andre-simon.de/doku/highlight/en/highlight.html)
-#export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
-
-##full screen mode
-## export FZF_DEFAULT_OPTS='--no-height --no-reverse'
-
-##Commands that are too long are not fully visible on screen. We can use --preview option to display the full command on the preview window. In the following example, we bind ? key for toggling the preview window.
-#export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
-
-#fzf-history-widget-accept() {
-#fzf-history-widget
-#zle accept-line
-#}
-#zle     -N     fzf-history-widget-accept
-#bindkey '^X^R' fzf-history-widget-accept
-
-## ==================END================================
-
-
-
-# ------------------BEGIN------------------------------
-#  ==> fzf
-#determines search program for fzf
-if type ag &> /dev/null; then
-    export FZF_DEFAULT_COMMAND='ag -p ~/.gitignore -g ""'
-fi
-#refer rg over ag
-if type rg &> /dev/null; then
-    export FZF_DEFAULT_COMMAND='rg --files --hidden'
-fi
-
-
-
-alias pdf_fzf='evince "$(fzf)"'
-alias dj_fzf='djview4 "$(fzf)"'
-alias efzf='ebook-viewer "$(fzf)"'
-
-# pdfzf(){
-#     if [[ $(uname) =~ "Darwin" ]]; then
-#         name=$(fzf -m "$@")
-#         /usr/bin/open "$name"
-#     else
-#         name=$(fzf -m "$@")
-#         if [[ -n "$name" && $name =~ .*\.pdf ]]; then
-#             nohup okular "$name" &
-#         elif [[ -n "$name" && $name =~ .*\.djvu ]]; then
-#             nohup djview4 "$name" &
-#         elif [[ -n "$name" && ($name =~ .*\.epub || $name =~ .*\.mobi) ]]; then
-#             nohup ebook-viewer "$name" &
-#         fi
-#     fi
-# }
-
-ctrlp() {
-    dir="$(find -type d | grep -v .git | grep -v node_modules | fzf)";
-    [[ -d "$dir" ]] && cd $dir;
-    zle reset-prompt  
-}
-
-zle -N ctrlp
-bindkey ",cd" ctrlp
-
-
-ctrlp2() {
-    dir="$(fzf)";
-    LBUFFER="${LBUFFER} $dir "
-    zle reset-prompt  
-}
-zle -N ctrlp2
-bindkey ",j" ctrlp2
-
-alias pac="pacman -Slq | fzf --multi --preview 'pacman -Si {1}' | xargs -ro sudo pacman -S"
 # ==================END================================
-
-
-
-# ------------------BEGIN------------------------------
-#  ==>  current editor buffer tricks
-copy2x(){
-    echo "$BUFFER" | xclip -selection clipboard
-}
-zle -N copy2x
-bindkey ",p" copy2x
-
-
-output2x() {
-    LBUFFER="${LBUFFER} | tee /dev/tty | xclip -selection clipboard"
-    zle reset-prompt  
-}
-zle -N output2x
-bindkey ",pp" output2x
-
-# pc4() {
-#     LBUFFER="proxychains4 ${LBUFFER}"
-#     zle reset-prompt  
-# }
-
-# zle -N pc4
-# bindkey ",px" pc4
-
-# eval-memoi caches the command in redis
-rclonef () {
-    local paths=("${(@f)$(memoi_expire=${rfExpire:-$((3600*24))} eval-memoi rclone lsf --recursive "${1}:" | fzf)}")
-    local i
-    for i in $paths[@]
-    do
-        rclone copy "${1}:$i" "$2"
-    done
-}
-
-export RIPGREP_CONFIG_PATH='~/.ripgreprc'
-
-### Added by Zinit's installer
-if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
-    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
-    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
-        print -P "%F{33} %F{34}Installation successful.%f%b" || \
-        print -P "%F{160} The clone has failed.%f%b"
-fi
-
-source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
-### End of Zinit's installer chunk
-
-# Fig post block. Keep at the bottom of this file.
-[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
-

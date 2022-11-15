@@ -11,7 +11,12 @@ def match(p, l):
     f = l.split(":::");
     global continuelevel
     # import ipdb; ipdb.set_trace()
-    gs = re.match(p[0].strip(), f[0].strip(), re.IGNORECASE)
+    pattern = p[0].strip().split(":::");
+    if len(pattern) > 1 and pattern[1]:
+        gs = re.match(pattern[0], f[0].strip())
+    else:
+        gs = re.match(pattern[0], f[0].strip(), re.IGNORECASE)
+
     if gs:
         gp = gs.groups()
         title = gp[0].strip()

@@ -7,7 +7,11 @@ with open(sys.argv[1], 'r') as file:
     lines = file.readlines()
     for line in lines:
         f = line.split(":::");
-        m = re.match(sys.argv[2].strip(), f[0].strip(), re.IGNORECASE)
+        pattern = sys.argv[2].strip().split(":::");
+        if len(pattern) > 1 and pattern[1]:
+            m = re.match(pattern[0], f[0].strip())
+        else:
+            m = re.match(pattern[0], f[0].strip(), re.IGNORECASE)
         if(m):
             print("{}   ,   {}".format(m[1], m[2]))
 

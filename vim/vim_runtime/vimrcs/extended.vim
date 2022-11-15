@@ -31,9 +31,10 @@ set guioptions-=L
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Fast editing and reloading of vimrc configs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <leader>e :e! ~/.vim_runtime/my_configs.vim<cr>
-autocmd! bufwritepost ~/.vim_runtime/my_configs.vim source ~/.vim_runtime/my_configs.vim
-
+autocmd! bufwritepost ~/.vim_runtime/my_configs.vim source ~/.vim_runtime/my_configs.vim 
+autocmd! bufwritepost ~/.vim_runtime/vimrcs/basic.vim source ~/.vim_runtime/my_configs.vim
+autocmd! bufwritepost ~/.vim_runtime/vimrcs/extended.vim source ~/.vim_runtime/my_configs.vim
+autocmd! bufwritepost ~/.vim_runtime/vimrcs/plugins_config.vim source ~/.vim_runtime/my_configs.vim
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Turn persistent undo on 

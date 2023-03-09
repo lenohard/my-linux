@@ -1,46 +1,33 @@
-## one level, title + number, with dots
-^((?:[^., :]|(?<=\w)[.,: ])+[^ .]).*?(-?\d+)$
-## no dots
-^(.+?[^ .])[., ]*(-?\d+)\s*$
+one level,title + number,with dots  :::^((?:[^., :]|(?<=\w)[.,: ])+[^ .]).*?(-?\d+)$
+no dots                             :::^(.+?[^ .])[., ]*(-?\d+)\s*$
 
+chapter starts                      :::^(chapter.*?)[., ]*(-?\d+)\s*$
 
-## chapter start
-^(chapter.*?)[., ]*(-?\d+)\s*$
+Part|Fore|Index|Pref|Content|Refe   :::^((?:part|foreword|index|preface|content|references).*?)[., ]*(-?\d+)\s*$
+Exercises                           :::^(exercise.*?)[., ]*(-?\d+)\s*$
+no part no exercise no number start :::^((?!part)(?!exercise)(?!\d).+?)[., ]*(-?\d+)\s*$
 
-## Part start
-^(part.*?)[., ]*(-?\d+)\s*$
-## Exercises
-^(exercise.*?)[., ]*(-?\d+)\s*$
-## no part no exercise no number as start
-^((?!part)(?!exercise)(?!\d).+?)[., ]*(-?\d+)\s*$
+number starts                       :::^(\d+.+?)(?:[., ]{3,}.*?|\s+)(-?\d+)\s*$
+non-number starts                   :::^((?![\d.]+\s).+?)(?:[., ]{3,}.*?|\s+)(-?\d+)\s*$
 
-## number starts
-^(\d+.+?)(?:[., ]{3,}.*?|\s+)(-?\d+)\s*$
-## non-number starts
-^((?![\d.]+\s).+?)(?:[., ]{3,}.*?|\s+)(-?\d+)\s*$
+Roman Start                         :::^([IVX]+\.?\s+.+?[^ .])(?:[., ]{3,}.*?|\s)(-?\d+)\s*$
+non-roman and non-number starts     :::^((?:[^ \d]*[^XVI \d]+[^ ]*|[^\d XVI][^ ]*)\s*.+?[^ .])(?:[., ]{3,}.*?|\s)(-?\d+)\s*$
 
-## Roman Start
-^([IVX]+\.?\s+.+?[^ .])(?:[., ]{3,}.*?|\s)(-?\d+)\s*$
-##  non-roman and non-number start
-^((?:[^ \d]*[^XVI \d]+[^ ]*|[^\d XVI][^ ]*)\s*.+?[^ .])(?:[., ]{3,}.*?|\s)(-?\d+)\s*$
+1 with dots                       :::^((?:\d+[.,]?[^\d.,])(?:[^.]|(?<=[\w][.]))+[^ .]).*?(-?\d+)\s*$
+1.n with dots                     :::^((?:\d+[.,]\d+[.,]?[^\d.,])(?:[^.]|(?<=[\w][.]))+[^ .]).*?(-?\d+)\s*$
+1.n.n with dots                   :::^((?:\d+[.,]\d+[.,]\d+[.,]?[^\d.,])(?:[^.]|(?<=[\w][.]))+[^ .]).*?(-?\d+)\s*$
 
-## 1.n 1.n.n 1.n.n.n with dots
-^((?:\d+[.,]?[^\d.,])(?:[^.]|(?<=[\w][.]))+[^ .]).*?(-?\d+)\s*$
-^((?:\d+[.,]\d+[.,]?[^\d.,])(?:[^.]|(?<=[\w][.]))+[^ .]).*?(-?\d+)\s*$
-^((?:\d+[.,]\d+[.,]\d+[.,]?[^\d.,])(?:[^.]|(?<=[\w][.]))+[^ .]).*?(-?\d+)\s*$
+1 without dots                    :::^((?:\d+[.,]?[^\d.,]).+?[^ .,])\s+?(-?\d+)\s*$
+1.n without dots                  :::^((?:\d+[.,]\d+[.,]?[^\d.,]).+?[^ .,])\s+?(-?\d+)\s*$
+1.n.n without dots                :::^((?:\d+[.,]\d+[.,]\d+[.,]?[^\d.,]).+?[^ .,])\s+?(-?\d+)\s*$
 
-## 1.n 1.n.n 1.n.n.n without dots
-^((?:\d+[.,]?[^\d.,]).+?[^ .,])\s+?(-?\d+)\s*$
-^((?:\d+[.,]\d+[.,]?[^\d.,]).+?[^ .,])\s+?(-?\d+)\s*$
-^((?:\d+[.,]\d+[.,]\d+[.,]?[^\d.,]).+?[^ .,])\s+?(-?\d+)\s*$
+number. start                       :::^((?:\d+[.,][^\d.,]).+?[^ .,])[ .,]+?(-?\d+)\s*$
+number start                        :::^((?:\d+\s).+?[^ .,])[ .,]+?(-?\d+)\s*$
 
-## 1. start
-^((?:\d+[.,][^\d.,]).+?[^ .,])[ .,]+?(-?\d+)\s*$
-## 1 start
-^((?:\d+\s).+?[^ .,])[ .,]+?(-?\d+)\s*$
+no dots                             :::^\s*((?:[^.]|(?<=[\w][.]))+?[^ .])\s*([-\d]+)\s*$
 
-## no dots
-^\s*((?:[^.]|(?<=[\w][.]))+?[^ .])\s*([-\d]+)\s*$
-
-## all uppercase
-^([A-Z]+)\s*([-\d]+)\s*$:::1
+all uppercase                       :::^([A-Z]+?)\s*(-?\d+)\s*$###1
+uppercase start                     :::^([A-Z].+?)\s*(-?\d+)\s*$###1
+symbol start                        :::^([^a-z0-9].+?)\s*(-?\d+)\s*$
+[custome]  starts                   :::^(custome.*?)[., ]*(-?\d+)\s*$###1
+[multiple custome]  starts          :::^((?:custome).*?)[., ]*(-?\d+)\s*$###1

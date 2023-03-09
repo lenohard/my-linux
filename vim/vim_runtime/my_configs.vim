@@ -462,3 +462,6 @@ nmap <F5> i<C-R>=strftime("### %I:%M %Y-%m-%d")<CR><Esc>
 imap <F5> <C-R>=strftime("### %I:%M %Y-%m-%d")<CR>
 
 set conceallevel=2
+
+" the cmd to change the 2 in the end of every line to 1
+" :%s/\(.\{-}\)2/\1 1/g

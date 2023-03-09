@@ -1,0 +1,44 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+from PIL import Image
+import os
+
+# Load all the images
+images = []
+for file in os.listdir(os.getcwd()):
+    if file.endswith(".png") or file.endswith(".jpg"):
+        images.append(Image.open(file))
+
+# sort the images by filename and prompt for confirmation
+# if it's not desired order then ask for the correct order
+images.sort(key=lambda x: x.filename)
+print("Is this the correct order?")
+for index, image in enumerate(images):
+    print("{}: {}".format(index, image.filename))
+if input("y/n: ") != "y":
+    print("Enter the order of the images")
+    images = [images[int(i)] for i in input().split()]
+
+# default output filename is "result.png"; ask for a different name if desired
+output_filename = "result.png"
+if input("Use default output filename (result.png)? y/n: ") != "y":
+    output_filename = input("Enter output filename: ")
+
+# Determine the width and height of the final image
+width = max(image.size[0] for image in images)
+height = sum(image.size[1] for image in images)
+
+# Create a blank image with the appropriate dimensions
+result = Image.new("RGB", (width, height))
+
+# Paste the images onto the blank image
+y = 0
+for image in images:
+    result.paste(image, (0, y))
+    y += image.size[1]
+
+
+# Save the result
+result.save(output_filename)
+

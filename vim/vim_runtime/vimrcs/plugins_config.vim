@@ -372,3 +372,11 @@ let g:matchup_matchparen_deferred = 1
 let g:livepreview_engine = 'xelatex' 
 let g:livepreview_use_biber = 1
 " ==================END================================
+
+
+" ------------------BEGIN------------------------------
+"   ==> Copilot
+
+let g:copilot_proxy = 'http://127.0.0.1:6152'
+" ==================END================================
+

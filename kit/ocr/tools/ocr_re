@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import re
 import sys
 import os
@@ -7,7 +7,7 @@ with open(sys.argv[1], 'r') as file:
     lines = file.readlines()
     for line in lines:
         f = line.split(":::");
-        pattern = sys.argv[2].strip().split(":::");
+        pattern = sys.argv[2].strip().split("###");
         if len(pattern) > 1 and pattern[1]:
             m = re.match(pattern[0], f[0].strip())
         else:

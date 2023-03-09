@@ -17,12 +17,12 @@ if [[ $(file "$file") =~ "DjVu" ]]; then
     done
 else
     pdftoppm "$file" -png -f $f -l $l image
-    pdftotext -layout -f $f -l $l "$file" result.txt
+    pdftotext -layout -f $f -l $l "$file" >> result.txt
 fi
 
 for file in image*;
 do
-    n=$(echo $file | perl -nle 'm/image(\d+).ppm/; print $1')
+    n=$(echo $file | perl -nle 'm/image(\d+).(ppm|png)/; print $1')
     if [[ $4 == "tc" ]];
     then
         output="${file%.*}".tiff
@@ -35,5 +35,3 @@ do
 done
 
 cat tmp*.txt | tee -a result.txt
-
-}

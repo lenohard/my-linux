@@ -1,0 +1,7 @@
+Credits words starts                :::^(Credits.*?)[., ]*(-?\d+)\s*$###1
+Mathematical words starts                :::^(Mathematical.*?)[., ]*(-?\d+)\s*$###1
+Exercises words starts                :::^(Exercises.*?)[., ]*(-?\d+)\s*$###1
+(?:Preface|A Note|About|Answers|Bibliography|Index|Notation|Subject) words starts                :::^((?:Preface|A Note|About|Answers|Bibliography|Index|Notation|Subject).*?)[., ]*(-?\d+)\s*$###1
+[Chapter]  starts                   :::^(Chapter.*?)[., ]*(-?\d+)\s*$###1
+[multiple Answer|Select]  starts          :::^((?:Answer|Select).*?)[., ]*(-?\d+)\s*$###1
+[multiple Preface|Bibli|Introduction by]  starts          :::^((?:Preface|Bibli|Introduction by).*?)[., ]*(-?\d+)\s*$###1

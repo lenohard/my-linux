@@ -32,6 +32,11 @@
                     "completionSnippetsOn": true
                 }
             }
+        },
+    "python": {
+          "command": "pylsp",
+          "args": ["--properties", "{\"pylsp.plugins.pyls_mypy.enabled\": true}"],
+          "filetypes": ["python"]
         }
     }
 }

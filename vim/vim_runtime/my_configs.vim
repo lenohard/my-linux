@@ -71,18 +71,17 @@ Plug 'yuttie/comfortable-motion.vim'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'wellle/targets.vim'
 Plug 'maxbrunsfeld/vim-yankstack'
-Plug 'amix/vim-zenroom2'
-Plug 'terryma/vim-multiple-cursors'
+" Plug 'amix/vim-zenroom2'
 Plug 'kana/vim-textobj-user'
-Plug 'amdt/vim-niji'
+" Plug 'amdt/vim-niji'
 Plug 'nanotech/jellybeans.vim'
 Plug 'Shougo/echodoc.vim'
-Plug 'Shougo/neco-vim'
+" Plug 'Shougo/neco-vim'
 Plug 'tpope/vim-obsession'
 Plug 'xolox/vim-session'
 Plug 'xolox/vim-misc'
 Plug 'Chiel92/vim-autoformat'
-Plug 'metakirby5/codi.vim'
+" Plug 'metakirby5/codi.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'guns/xterm-color-table.vim'
 Plug 'ap/vim-css-color'
@@ -98,7 +97,7 @@ Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'alx741/vim-hindent'
 Plug 'camspiers/animate.vim'
-Plug 'camspiers/lens.vim'
+" Plug 'camspiers/lens.vim'
 Plug 'morhetz/gruvbox'
 Plug 'yuezk/vim-js'
 Plug 'posva/vim-vue'
@@ -129,7 +128,7 @@ Plug 'junegunn/fzf.vim'
   nnoremap <silent> <leader>O :Tags<CR>
   nnoremap <silent> <leader>? :GFiles<CR>
   nnoremap <silent> <leader>/ :execute 'Ag ' . input('Ag/')<CR>
-  nnoremap <silent> <leader>. :AgIn 
+  " nnoremap <silent> <leader>. :AgIn 
 
   nnoremap <silent> K :call SearchWordWithAg()<CR>
   vnoremap <silent> K :call SearchVisualSelectionWithAg()<CR>
@@ -206,10 +205,15 @@ endif
 "---------------
 "UI
 "---------------
-set background=dark
+colorscheme jellybeans
+set sessionoptions+=buffers
+
 set nohlsearch
 set number relativenumber
 set nowrap
+
+hi Normal guibg=NONE ctermbg=NONE
+hi NonText guibg=NONE ctermbg=NONE
 set fileencodings=gb2312,utf-8,gb18030,gbk,ucs-bom,cp936,latin1
 set enc=utf8
 set fencs=utf8,gbk,gb2312,gb18030
@@ -296,7 +300,7 @@ inoremap kj <esc>
 inoremap <esc> <nop>
 nnoremap <leader>qw :bp<bar>sp<bar>bn<bar>bd<CR>
 nnoremap <leader>qq :wq<esc>
-nnoremap <leader>W :w!<esc>
+nnoremap <leader>W :wq!<esc>
 nnoremap <leader>qa :wqa<esc>
 nnoremap <leader>X :q!<esc>
 nnoremap <leader>bb :bd<esc>
@@ -386,13 +390,6 @@ noremap <leader>rm :%s/\([^ ]\) *$/\1/<cr>
 "endfunction
 
 
-" ------------------BEGIN------------------------------
-"  ==> pre
-set background=dark
-colorscheme jellybeans
-set sessionoptions+=buffers
-" ==================END================================
-
 
 " ------------------BEGIN------------------------------
 "   ==> Haskell-vim
@@ -408,6 +405,13 @@ let g:haskell_indent_if = 3
 let g:haskell_indent_do = 3
 " ==================END================================
 
+
+
+" ------------------BEGIN------------------------------
+"   ==> using ctrl-s to save file
+nmap <c-s> :w<cr>
+
+" ==================END================================
 
 
 " ------------------BEGIN------------------------------

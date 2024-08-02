@@ -15,13 +15,13 @@ else
     name=${1%.*}
     pdftk "$1" dump_data output "$name".info
     # extract the original bookmark part.
-    awk '/BookmarkBegin/,/BookmarkPageNumber/' "$name".info > original.bm
+    gawk '/BookmarkBegin/,/BookmarkPageNumber/' "$name".info > original.bm
     # the scanned bookmark is stored in 'tmp.bm'
     # if merge the original bookmark and scanned bookmark, ask for confirmation
     # if yes, merge the original bookmarks into the tmp.bm,otherwise, do nothing
     # default is no
     # remove the originl bookmark in info file using awk inplace
-    awk '!/Bookmark/' "$name".info > tmp && mv tmp "$name".info
+    gawk '!/Bookmark/' "$name".info > tmp && mv tmp "$name".info
     if [[ -f tmp.bm ]]; then
         echo "Do you want to merge the original bookmarks into the scanned bookmarks? (y/n)[n]"
         read -r answer

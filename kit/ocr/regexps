@@ -31,3 +31,4 @@ uppercase start                     :::^([A-Z].+?)\s*(-?\d+)\s*$###1
 symbol start                        :::^([^a-z0-9].+?)\s*(-?\d+)\s*$
 [custome]  starts                   :::^(custome.*?)[., ]*(-?\d+)\s*$###1
 [multiple custome]  starts          :::^((?:custome).*?)[., ]*(-?\d+)\s*$###1
+GPT                                 :::^(.+)\s*,,\s*(-?\d+)\s*,,\s*(-?\d+)\s*$

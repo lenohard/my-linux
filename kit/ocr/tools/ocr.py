@@ -14,15 +14,14 @@ continuelevel = 1
 leap=0
 
 def match(p, l):
-    f = l.split(":::");
+    f = l.split(":::")
     global continuelevel
     global leap
-    pattern = p[0].strip().split("###");
+    pattern = p[0].strip().split("###")
     if len(pattern) > 1 and pattern[1]:
         gs = re.match(pattern[0], f[0].strip())
     else:
         gs = re.match(pattern[0], f[0].strip(), re.IGNORECASE)
-
 
     if gs:
         gp = gs.groups()
@@ -34,7 +33,7 @@ def match(p, l):
             level = int(p[1])
 
         if len(f) == 2:
-            if f[1][0]=='#':
+            if f[1][0] == '#':
                 page = int(f[1][1:])
             elif f[1][0] == '+':
                 leap = leap + int(f[1][1:])
@@ -44,6 +43,9 @@ def match(p, l):
                 page = int(gp[1]) + offset+leap
         else:
             page = int(gp[1]) + offset+leap
+
+        if level == 0:
+            level = gp[2]
 
         return title, page, level, f
     else:

@@ -45,13 +45,13 @@ do
         echo "$REG:::$rank" >> content
         echo "current content:"
         cat content
-        awk -i inplace '!seen[$0]++' content            # remove duplicate lines
+        gawk -i inplace '!seen[$0]++' content            # remove duplicate lines
         if grep offset content >> /dev/null 2>&1;
         then
             echo "offset exist"
         else
             read -p "OFFSET ? : " offset
-            awk -i inplace -v ost="$offset" 'BEGINFILE{print "offset    "ost}{print}' content
+            gawk -i inplace -v ost="$offset" 'BEGINFILE{print "offset    "ost}{print}' content
         fi
 
         if grep ifCover content >> /dev/null 2>&1;
@@ -59,7 +59,7 @@ do
             echo "ifCover exist"
         else
             read -p "IFCOVER(0:none; n:actual number) ? : " ifCover
-            awk -i inplace -v ost="$ifCover" 'BEGINFILE{print "ifCover    "ost}{print}' content
+            gawk -i inplace -v ost="$ifCover" 'BEGINFILE{print "ifCover    "ost}{print}' content
         fi
 
         if grep "$REG" ~/kit/ocr/regexps -F >> /dev/null 2>&1;

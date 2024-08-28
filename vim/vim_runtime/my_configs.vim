@@ -22,8 +22,8 @@ Plug 'wesQ3/vim-windowswap'
 Plug 'lervag/vimtex'
 Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
 Plug 'vim-scripts/paredit.vim'
-Plug 'dense-analysis/ale'
-Plug 'jpalardy/vim-slime'
+" Plug 'dense-analysis/ale'
+" Plug 'jpalardy/vim-slime'
 Plug 'junegunn/vim-easy-align'
 Plug 'mattn/emmet-vim'
 Plug 'vim-airline/vim-airline'
@@ -39,6 +39,7 @@ Plug 'ap/vim-buftabline'
 Plug 'elihunter173/dirbuf.nvim'
 Plug 'JuliaEditorSupport/julia-vim'
 Plug 'tpope/vim-fugitive'
+" Plug 'yetone/avante.nvim'
 
 Plug 'ctrlpvim/ctrlp.vim'
 "{{{
@@ -113,9 +114,25 @@ Plug 'tpope/vim-scriptease'
 Plug 'godlygeek/tabular' " tabular must come before vim-markdown
 Plug 'preservim/vim-markdown'
 Plug 'nanotee/zoxide.vim'
+Plug 'joshuavial/aider.nvim'
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'neovim/nvim-lspconfig'
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'L3MON4D3/LuaSnip'
+Plug 'saadparwaiz1/cmp_luasnip'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+" null-ls
+Plug 'jose-elias-alvarez/null-ls.nvim'
+
+
 " {{{
   let g:fzf_nvim_statusline = 0 " disable statusline overwriting
 
@@ -130,8 +147,8 @@ Plug 'junegunn/fzf.vim'
   nnoremap <silent> <leader>/ :execute 'Ag ' . input('Ag/')<CR>
   " nnoremap <silent> <leader>. :AgIn 
 
-  nnoremap <silent> K :call SearchWordWithAg()<CR>
-  vnoremap <silent> K :call SearchVisualSelectionWithAg()<CR>
+  nnoremap <silent> L :call SearchWordWithAg()<CR>
+  vnoremap <silent> L :call SearchVisualSelectionWithAg()<CR>
   nnoremap <silent> <leader>gl :Commits<CR>
   nnoremap <silent> <leader>ga :BCommits<CR>
   nnoremap <silent> <leader>ft :Filetypes<CR>
@@ -161,7 +178,7 @@ Plug 'junegunn/fzf.vim'
   command! -nargs=+ -complete=dir AgIn call SearchWithAgInDirectory(<f-args>)
 " }}}
 
-Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
+" Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
 
 if has('nvim')
     " Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -366,7 +383,7 @@ set ssop-=buffers
 set switchbuf-=newtab
 
 set wrap
-set statusline+=%#warningmsg#
+" set statusline+=%#warningmsg#
 " set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 set tags=./tags,tags;
@@ -467,5 +484,23 @@ imap <F5> <C-R>=strftime("### %I:%M %Y-%m-%d")<CR>
 
 set conceallevel=2
 
-" the cmd to change the 2 in the end of every line to 1
-" :%s/\(.\{-}\)2/\1 1/g
+
+" Custom command for Gvsplit with branch/commit
+command! -nargs=1 Gvs execute 'Gvsplit ' . <q-args> . ':%'
+
+" LSP keybindings
+nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> <leader>rn <cmd>lua vim.lsp.buf.rename()<CR>
+nnoremap <silent> <leader>ca <cmd>lua vim.lsp.buf.code_action()<CR>
+nnoremap <silent> [g <cmd>lua vim.diagnostic.goto_prev()<CR>
+nnoremap <silent> ]g <cmd>lua vim.diagnostic.goto_next()<CR>
+
+" Telescope keybindings
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+

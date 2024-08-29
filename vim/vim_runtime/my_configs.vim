@@ -40,27 +40,8 @@ Plug 'elihunter173/dirbuf.nvim'
 Plug 'JuliaEditorSupport/julia-vim'
 Plug 'tpope/vim-fugitive'
 " Plug 'yetone/avante.nvim'
-
 Plug 'ctrlpvim/ctrlp.vim'
 "{{{
-    let g:ctrlp_working_path_mode = 0
-
-    let g:ctrlp_map = ''
-    map <leader>mm :CtrlPMRUFiles<cr>
-    nnoremap <leader>j :CtrlPMixed<CR>
-
-    let g:ctrlp_max_height = 20
-    let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
-
-    if executable('ag')
-        " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-        " HatTip: http://robots.thoughtbot.com/faster-grepping-in-vim and
-        " @ethanmuller
-        " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-
-        " ag is fast enough that CtrlP doesn't need to cache
-        let g:ctrlp_use_caching = 0
-    endif
 "}}}
 
 " Plug 'codota/tabnine-vim'
@@ -133,52 +114,6 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'jose-elias-alvarez/null-ls.nvim'
 
 
-" {{{
-  let g:fzf_nvim_statusline = 0 " disable statusline overwriting
-
-  nnoremap <silent> <c-p> :Files<CR>
-  nnoremap <silent> <c-[> :Buffers<CR>
-  nnoremap <silent> <c-]> :History<CR>
-  nnoremap <silent> <leader>A :Windows<CR>
-  nnoremap <silent> <leader>; :BLines<CR>
-  nnoremap <silent> <leader>o :BTags<CR>
-  nnoremap <silent> <leader>O :Tags<CR>
-  nnoremap <silent> <leader>? :GFiles<CR>
-  nnoremap <silent> <leader>/ :execute 'Ag ' . input('Ag/')<CR>
-  " nnoremap <silent> <leader>. :AgIn 
-
-  nnoremap <silent> L :call SearchWordWithAg()<CR>
-  vnoremap <silent> L :call SearchVisualSelectionWithAg()<CR>
-  nnoremap <silent> <leader>gl :Commits<CR>
-  nnoremap <silent> <leader>ga :BCommits<CR>
-  nnoremap <silent> <leader>ft :Filetypes<CR>
-
-  imap <C-x><C-f> <plug>(fzf-complete-file-ag)
-  imap <C-x><C-l> <plug>(fzf-complete-line)
-
-  function! SearchWordWithAg()
-    execute 'Ag' expand('<cword>')
-  endfunction
-
-  function! SearchVisualSelectionWithAg() range
-    let old_reg = getreg('"')
-    let old_regtype = getregtype('"')
-    let old_clipboard = &clipboard
-    set clipboard&
-    normal! ""gvy
-    let selection = getreg('"')
-    call setreg('"', old_reg, old_regtype)
-    let &clipboard = old_clipboard
-    execute 'Ag' selection
-  endfunction
-
-  function! SearchWithAgInDirectory(...)
-    call fzf#vim#ag(join(a:000[1:], ' '), extend({'dir': a:1}, g:fzf#vim#default_layout))
-  endfunction
-  command! -nargs=+ -complete=dir AgIn call SearchWithAgInDirectory(<f-args>)
-" }}}
-
-" Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
 
 if has('nvim')
     " Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -477,6 +412,22 @@ if executable(s:clip)
 
 endif
 
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_map = ''
+map <leader>mm :CtrlPMRUFiles<cr>
+nnoremap <leader>j :CtrlPMixed<CR>
+let g:ctrlp_max_height = 20
+let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
+if executable('ag')
+    " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+    " HatTip: http://robots.thoughtbot.com/faster-grepping-in-vim and
+    " @ethanmuller
+    " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+    " ag is fast enough that CtrlP doesn't need to cache
+    let g:ctrlp_use_caching = 0
+endif
+
 nmap <F3> i<C-R>=strftime("### %d/%m")<CR><Esc>
 imap <F3> <C-R>=strftime("### %d/%m")<CR>
 nmap <F5> i<C-R>=strftime("### %I:%M %Y-%m-%d")<CR><Esc>
@@ -484,7 +435,51 @@ imap <F5> <C-R>=strftime("### %I:%M %Y-%m-%d")<CR>
 
 set conceallevel=2
 
+let g:fzf_nvim_statusline = 0 " disable statusline overwriting
 
+nnoremap <silent> <c-p> :Files<CR>
+nnoremap <silent> <c-[> :Buffers<CR>
+nnoremap <silent> <c-]> :History<CR>
+nnoremap <silent> <leader>A :Windows<CR>
+nnoremap <silent> <leader>; :BLines<CR>
+nnoremap <silent> <leader>o :BTags<CR>
+nnoremap <silent> <leader>O :Tags<CR>
+nnoremap <silent> <leader>? :GFiles<CR>
+nnoremap <silent> <leader>/ :execute 'Ag ' . input('Ag/')<CR>
+" nnoremap <silent> <leader>. :AgIn 
+
+nnoremap <silent> L :call SearchWordWithAg()<CR>
+vnoremap <silent> L :call SearchVisualSelectionWithAg()<CR>
+nnoremap <silent> <leader>gl :Commits<CR>
+nnoremap <silent> <leader>ga :BCommits<CR>
+nnoremap <silent> <leader>ft :Filetypes<CR>
+
+imap <C-x><C-f> <plug>(fzf-complete-file-ag)
+imap <C-x><C-l> <plug>(fzf-complete-line)
+
+function! SearchWordWithAg()
+    execute 'Ag' expand('<cword>')
+endfunction
+
+function! SearchVisualSelectionWithAg() range
+    let old_reg = getreg('"')
+    let old_regtype = getregtype('"')
+    let old_clipboard = &clipboard
+    set clipboard&
+    normal! ""gvy
+    let selection = getreg('"')
+    call setreg('"', old_reg, old_regtype)
+    let &clipboard = old_clipboard
+    execute 'Ag' selection
+endfunction
+
+function! SearchWithAgInDirectory(...)
+    call fzf#vim#ag(join(a:000[1:], ' '), extend({'dir': a:1}, g:fzf#vim#default_layout))
+endfunction
+command! -nargs=+ -complete=dir AgIn call SearchWithAgInDirectory(<f-args>)
+" }}}
+
+" Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
 " Custom command for Gvsplit with branch/commit
 command! -nargs=1 Gvs execute 'Gvsplit ' . <q-args> . ':%'
 

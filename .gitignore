@@ -7,3 +7,4 @@ Session.vim
 .session.vim
 *.cache
 
+.aider*

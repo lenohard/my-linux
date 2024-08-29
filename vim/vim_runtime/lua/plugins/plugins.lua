@@ -134,6 +134,14 @@ return {
 	{ "Chiel92/vim-autoformat" },
 	{ "nanotee/zoxide.vim" },
 
+	-- Smooth Scrolling
+	{
+		"karb94/neoscroll.nvim",
+		config = function()
+			require('neoscroll').setup()
+		end,
+	},
+
 	-- Neovim-specific plugins
 	{
 		"Vigemus/iron.nvim",

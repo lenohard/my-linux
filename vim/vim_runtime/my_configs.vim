@@ -138,6 +138,7 @@ nnoremap <leader>cd :cd %:h<cr>
 nnoremap <leader>so gg=G<c-o>
 nnoremap <leader>M :<C-u>marks<CR>
 nnoremap <silent> <F8> :let mycurf=expand("<cfile>")<cr><c-w>p:execute("e ".mycurf)<cr>
+nmap <c-s> :w<cr>
 
 " Insert mode mappings
 inoremap jk <esc>
@@ -155,9 +156,7 @@ nnoremap <A-k> <C-w>k
 nnoremap <A-l> <C-w>l
 inoremap <A-h> <C-\><C-N><C-w>h
 inoremap <A-j> <C-\><C-N><C-w>j
-in
-
-oremap <A-k> <C-\><C-N><C-w>k
+inoremap <A-k> <C-\><C-N><C-w>k
 inoremap <A-l> <C-\><C-N><C-w>l
 tnoremap <A-h> <C-\><C-N><C-w>h
 tnoremap <A-j> <C-\><C-N><C-w>j
@@ -194,14 +193,6 @@ map <leader>nn :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark<Space>
 map <leader>nf :NERDTreeFind<cr>
 
-" CtrlP
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_map = ''
-map <leader>mm :CtrlPMRUFiles<cr>
-nnoremap <leader>j :CtrlPMixed<CR>
-let g:ctrlp_max_height = 20
-let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
-
 " FZF
 nnoremap <silent> <c-p> :Files<CR>
 nnoremap <silent> <c-[> :Buffers<CR>
@@ -233,17 +224,6 @@ nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-
-" Haskell-vim
-let g:haskell_enable_quantification = 1
-let g:haskell_enable_recursivedo = 1
-let g:haskell_enable_arrowsyntax = 1
-let g:haskell_enable_pattern_synonyms = 1
-let g:haskell_enable_typeroles = 1
-let g:haskell_enable_static_pointers = 1
-let g:haskell_backpack = 1
-let g:haskell_indent_if = 3
-let g:haskell_indent_do = 3
 
 " Rainbow Parentheses
 augroup rainbow_lisp
@@ -333,4 +313,3 @@ if has('gui_running')
     catch
     endtry
 endif
-

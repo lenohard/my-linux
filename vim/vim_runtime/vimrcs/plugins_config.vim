@@ -24,7 +24,7 @@ set grepprg=/bin/grep\ -nH
 " => Nerd Tree
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:NERDTreeWinPos = "left"
-let NERDTreeShowHidden=0
+let g:NERDTreeShowHidden=1
 let g:NERDTreeMinmalUI=1
 let g:NERDTreeHightCursorline=0
 let g:NERDTreeChDirMode=1
@@ -32,15 +32,12 @@ let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 let g:NERDTreeShowLineNumbers=0
-let NERDTreeShowHidden=1
-" let g:NERDTreeWinSize=35
 map <leader>nn :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark<Space>
 map <leader>nf :NERDTreeFind<cr>
 map <leader>nc :NERDTreeCWD<cr>
 autocmd FileType nerdtree setlocal nocursorline
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType")
-            \&& b:NERDTreeType == "primary") | q | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -70,18 +67,11 @@ let g:go_fmt_command = "goimports"
 " airline config
 " -----------------------------------------------------
 let g:airline#extensions#tabline#enabled = 0
-" let g:airline#extensions#tabline#left_sep = ' '
-" let g:airline#extensions#tabline#formatter='unique_tail_improved'
-" let g:airline#extensions#tabline#overflow_marker='...'
-" let g:airline#extensions#tabline#buffer_idx_mode = 1
-" let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'default'
 let g:airline#extensions#tabline#buffer_nr_show = 1
 " let g:airline#extensions#tabline#tabs_label = 't'
 " let g:airline#extensions#tabline#buffers_label = 'b'
 
-" let g:airline#extensions#coc#enabled = 1
-" let airline#extensions#coc#error_symbol = 'E:'
 " -----------------------------------------------------
 
 

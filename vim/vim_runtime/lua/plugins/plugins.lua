@@ -58,8 +58,6 @@ return {
 			},
 		},
 	},
-}
-return {
   -- UI and Themes
   { "vim-airline/vim-airline" },
   { "vim-airline/vim-airline-themes" },

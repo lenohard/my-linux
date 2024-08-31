@@ -94,11 +94,10 @@ nnoremap <c-6> :buffer #<CR>
 
 " Fast editing of vimrc
 map <leader>ee :e! ~/.vim_runtime/my_configs.vim <cr>
-map <leader>er :e! ~/.zshrc <cr>
 map <leader>ea :e! ~/.vim_runtime/vimrcs/basic.vim <cr>
 map <leader>ex :e! ~/.vim_runtime/vimrcs/extended.vim <cr>
-map <leader>ep :e! ~/.vim_runtime/vimrcs/plugins_config.vim<cr>
-map <leader>em :e! ~/note.md<cr>
+map <leader>ep :e! ~/.vim_runtime/lua/plugins/plugins.lua <cr>
+" map <leader>em :e! ~/note.md<cr>
 
 " ============================================================================
 " Plugin Configurations

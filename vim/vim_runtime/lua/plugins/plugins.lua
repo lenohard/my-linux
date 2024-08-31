@@ -5,6 +5,7 @@ return {
 		build = "make", -- This is Optional, only if you want to use tiktoken_core to calculate tokens count
 		opts = {
 			-- add any opts here
+			provider = "openai",
 		},
 		dependencies = {
 			"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
@@ -19,6 +20,18 @@ return {
 				},
 				ft = { "markdown", "Avante" },
 			},
+		},
+	},
+	{
+		"HakonHarnes/img-clip.nvim",
+		event = "VeryLazy",
+		opts = {
+			-- add options here
+			-- or leave it empty to use the default settings
+		},
+		keys = {
+			-- suggested keymap
+			{ "<leader>p", "<cmd>PasteImage<cr>", desc = "Paste image from system clipboard" },
 		},
 	},
 	{
@@ -138,7 +151,7 @@ return {
 	{
 		"karb94/neoscroll.nvim",
 		config = function()
-			require('neoscroll').setup()
+			require("neoscroll").setup()
 		end,
 	},
 

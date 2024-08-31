@@ -161,6 +161,9 @@ nnoremap <leader>ft :CtrlSFToggle<CR>
 inoremap <leader>ft <Esc>:CtrlSFToggle<CR>
 " ==================END================================
 
+
+" ------------------BEGIN------------------------------
+"   ==>CtrlP
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_map = ''
 map <leader>mm :CtrlPMRUFiles<cr>
@@ -176,6 +179,7 @@ if executable('ag')
     " ag is fast enough that CtrlP doesn't need to cache
     let g:ctrlp_use_caching = 0
 endif
+" ==================END================================
 
 " ------------------BEGIN------------------------------
 "   ==>vim-mma

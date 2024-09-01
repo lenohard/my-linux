@@ -66,7 +66,7 @@ let g:go_fmt_command = "goimports"
 
 " airline config
 " -----------------------------------------------------
-let g:airline#extensions#tabline#enabled = 0
+let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'default'
 let g:airline#extensions#tabline#buffer_nr_show = 1
 " let g:airline#extensions#tabline#tabs_label = 't'
@@ -83,15 +83,6 @@ augroup python
     au FileType python iabbrev pdb import ipdb;ipdb.set_trace()
 augroup END
 
-" ==================END================================
-
-
-" ------------------BEGIN------------------------------
-"  ==> buftabline
-let g:buftabline_show =1
-let g:buftabline_numbers=1
-let g:buftabline_indicators= 1
-" let g:buftabline_separators= off
 " ==================END================================
 
 " ------------------BEGIN------------------------------

@@ -140,6 +140,10 @@ nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
+" Fugitive
+nnoremap <leader>ge :Gvsplit HEAD:%<CR>
+nnoremap <leader>gs :Gedit HEAD:% \| vert diffsplit %<CR>
+
 " Rainbow Parentheses
 augroup rainbow_lisp
     autocmd!

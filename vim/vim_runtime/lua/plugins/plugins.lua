@@ -461,7 +461,27 @@ return {
 	-- { "vim-airline/vim-airline-themes" },
 	{
 		"nvim-lualine/lualine.nvim",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
+		dependencies = { 
+			"nvim-tree/nvim-web-devicons",
+			"SmiteshP/nvim-navic",
+		},
+		config = function()
+			require("lualine").setup({
+				sections = {
+					lualine_c = {
+						{ "filename" },
+						{
+							function()
+								return require("nvim-navic").get_location()
+							end,
+							cond = function()
+								return require("nvim-navic").is_available()
+							end,
+						},
+					},
+				},
+			})
+		end,
 	},
 	{
 		-- nightfox

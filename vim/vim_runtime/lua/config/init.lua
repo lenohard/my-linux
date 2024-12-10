@@ -75,7 +75,7 @@ lspconfig.pyright.setup({
 	},
 })
 
-local servers = { "pyright", "tsserver", "jsonls", "gopls", "sqls", "lua_ls" }
+local servers = { "pyright", "typescript-language-server", "jsonls", "gopls", "sqls", "lua_ls" }
 for _, lsp in ipairs(servers) do
     lspconfig[lsp].setup({
         on_attach = on_attach,

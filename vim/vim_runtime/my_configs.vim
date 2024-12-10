@@ -15,7 +15,8 @@ set number relativenumber
 set nowrap
 set cursorline
 set smartcase
-set ignorecase
+" set ignorecase
+set noignorecase
 set clipboard+=unnamed,unnamedplus
 set scrolloff=2
 set conceallevel=2
@@ -32,7 +33,7 @@ set enc=utf8
 set fencs=utf8,gbk,gb2312,gb18030
 
 " Color scheme
-colorscheme jellybeans
+colorscheme nightfox
 hi Normal guibg=NONE ctermbg=NONE
 hi NonText guibg=NONE ctermbg=NONE
 
@@ -92,13 +93,6 @@ nnoremap <Leader>9 :9b<CR>
 nnoremap <Leader>0 :10b<CR>
 nnoremap <c-6> :buffer #<CR>
 
-" Fast editing of vimrc
-map <leader>ee :e! ~/.vim_runtime/my_configs.vim <cr>
-map <leader>ea :e! ~/.vim_runtime/vimrcs/basic.vim <cr>
-map <leader>ex :e! ~/.vim_runtime/vimrcs/extended.vim <cr>
-map <leader>ep :e! ~/.vim_runtime/lua/plugins/plugins.lua <cr>
-" map <leader>em :e! ~/note.md<cr>
-
 " ============================================================================
 " Plugin Configurations
 " ============================================================================
@@ -116,8 +110,9 @@ nnoremap <silent> <leader>A :Windows<CR>
 nnoremap <silent> <leader>; :BLines<CR>
 nnoremap <silent> <leader>o :BTags<CR>
 nnoremap <silent> <leader>O :Tags<CR>
-nnoremap <silent> <leader>? :GFiles<CR>
 nnoremap <silent> <leader>/ :execute 'Ag ' . input('Ag/')<CR>
+" search files in the directory of the current buffer
+nnoremap <silent> <leader>? :execute 'Files ' . expand('%:p:h')<CR>
 
 " Ag (Silver Searcher)
 if executable('ag')
@@ -176,6 +171,15 @@ function! SearchWithAgInDirectory(...)
 endfunction
 command! -nargs=+ -complete=dir AgIn call SearchWithAgInDirectory(<f-args>)
 
+" Key mappings for search functions
+vnoremap <silent> <leader>ag :<C-u>call SearchVisualSelectionWithAg()<CR>
+nnoremap <silent> <leader>ag :call SearchWordWithAg()<CR>
+
+" Usage:
+" <leader>ag in normal mode: Search for word under cursor
+" <leader>ag in visual mode: Search for selected text
+" :AgIn [directory] [search_term]: Search in specific directory
+
 " Hpack function for Haskell
 function! Hpack()
     let err = system('hpack ' . expand('%'))
@@ -217,6 +221,9 @@ if executable(s:clip)
     augroup END
 endif
 
+nnoremap <leader>cp :let @+ = expand("%:p")<CR>:echo "Absolute path copied: " . expand("%:p")<CR>
+nnoremap <leader>cq :let @+ = expand("%")<CR>:echo "Relative path copied: " . expand("%")<CR>
+
 " ============================================================================
 " Platform Specific Settings
 " ============================================================================
@@ -232,3 +239,35 @@ if has('gui_running')
     catch
     endtry
 endif
+
+
+function! SelectAndRunGenericCommand(options, prompt, action_func)
+  call fzf#run({
+        \ 'source': a:options,
+        \ 'sink': a:action_func,
+        \ 'window': { 'width': 0.5, 'height': 0.3 },
+        \ 'options': '--prompt "' . a:prompt . ': "'
+        \ })
+endfunction
+
+function! SwitchAIProvider(selected)
+  execute ':AvanteSwitchProvide ' . a:selected
+endfunction
+
+function! OpenConfigFile(selected)
+  execute ':e! ~/.vim_runtime/' . a:selected
+endfunction
+
+function! SelectAIProvider()
+  let l:options = ['gemini', 'openai', 'claude', 'groq', 'perplexity', 'deepseek', 'openrouter', "unity"]
+  call SelectAndRunGenericCommand(l:options, "Select AI provider", function('SwitchAIProvider'))
+endfunction
+
+function! SelectConfigFile()
+  let l:options = ['my_configs.vim', 'lua/config/init.lua', 'lua/plugins/plugins.lua', 'vimrcs/basic.vim', 'vimrcs/extended.vim', 'vimrcs/filetypes.vim', 'vimrcs/plugins_config.vim']
+  call SelectAndRunGenericCommand(l:options, "Select config file", function('OpenConfigFile'))
+endfunction
+
+" Map the custom functions to their respective keybindings
+nnoremap <leader>ap :call SelectAIProvider()<CR>
+nnoremap <leader>ee :call SelectConfigFile()<CR>

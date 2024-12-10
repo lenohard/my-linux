@@ -1,3 +1,20 @@
+-- lualine
+require("lualine").setup({
+	options = {
+		theme = "nightfox",
+		section_separators = { "", "" },
+		component_separators = { "", "" },
+	},
+	sections = {
+		lualine_a = { "mode" },
+		lualine_b = { "branch" },
+		lualine_c = { "filename" },
+		lualine_x = { "encoding", "fileformat", "filetype" },
+		lualine_y = { "progress" },
+		lualine_z = { "location" },
+	},
+})
+
 require("mason").setup({})
 require("mason-lspconfig").setup({})
 -- use pyright for python
@@ -14,20 +31,36 @@ lspconfig.pyright.setup({
 			".git"
 		)(fname) or vim.fn.fnamemodify(fname, ":p:h")
 	end,
+	on_attach = function(client, bufnr)
+		local opts = { noremap = true, silent = true }
+		local buf_set_keymap = vim.api.nvim_buf_set_keymap
+
+		-- Key mappings
+		buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+		buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+		buf_set_keymap(bufnr, "n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+	end,
 	settings = {
 		python = {
 			analysis = {
 				autoSearchPaths = true,
 				useLibraryCodeForTypes = true,
+				diagnosticSeverityOverrides = {
+					reportUnknownMemberType = "none",
+					reportUnknownParameterType = "none",
+					reportUnknownVariableType = "none",
+					reportUnknownArgumentType = "none",
+				},
 			},
 		},
 	},
 })
 
-local servers = { "pyright", "tsserver", "jsonls", "gopls" }
+local servers = { "pyright", "ts_ls", "jsonls", "gopls", "sqls" }
 for _, lsp in ipairs(servers) do
 	lspconfig[lsp].setup({})
 end
+
 -- Set up nvim-cmp.
 local cmp = require("cmp")
 cmp.setup({
@@ -68,8 +101,174 @@ null_ls.setup({
 	end,
 	sources = {
 		null_ls.builtins.formatting.stylua,
-		null_ls.builtins.formatting.black.with({
+		null_ls.builtins.formatting.ruff.with({
 			extra_args = { "--line-length", "79" },
 		}),
+		null_ls.builtins.diagnostics.ruff,
 	},
+})
+-- toggle autoformatting --
+local format_enabled = true
+
+function ToggleAutoFormat()
+	format_enabled = not format_enabled
+	if format_enabled then
+		print("Autoformat enabled")
+	else
+		vim.api.nvim_clear_autocmds({ group = "LspFormatting" })
+		print("Autoformat disabled")
+	end
+end
+
+vim.api.nvim_set_keymap("n", "<leader>tf", "<cmd>lua ToggleAutoFormat()<CR>", { noremap = true, silent = true })
+--
+
+-- set termguicolors
+vim.o.termguicolors = true
+
+-- setup for nvim-colorizer
+require("colorizer").setup({
+	"*", -- Highlight all files, but you can also restrict to specific file types
+}, {
+	RGB = true, -- #RGB hex codes
+	RRGGBB = true, -- #RRGGBB hex codes
+	names = false, -- Disable "Name" colors like Blue or Green
+	RRGGBBAA = true, -- #RRGGBBAA hex codes
+	rgb_fn = false, -- Disable CSS rgb() and rgba() functions
+	hsl_fn = false, -- Disable CSS hsl() and hsla() functions
+	css = true, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+	css_fn = true, -- Enable all CSS *functions*: rgb_fn, hsl_fn
+})
+
+require("nightfox").setup({
+	options = {
+		transparent = false,
+		dim_inactive = false,
+		styles = {
+			comments = "italic",
+			keywords = "bold",
+		},
+	},
+})
+
+vim.api.nvim_set_keymap("n", "<leader>ta", ":$tabnew<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>tc", ":tabclose<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>to", ":tabonly<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>tn", ":tabn<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>tp", ":tabp<CR>", { noremap = true })
+-- move current tab to previous position
+vim.api.nvim_set_keymap("n", "<leader>tmp", ":-tabmove<CR>", { noremap = true })
+-- move current tab to next position
+vim.api.nvim_set_keymap("n", "<leader>tmn", ":+tabmove<CR>", { noremap = true })
+
+vim.o.showtabline = 2 -- 2 means show tabline only when there are more than one tab
+
+-- Tabby: Handle Tabs
+require("tabby").setup({
+	preset = "active_wins_at_tail",
+	option = {
+		theme = {
+			fill = "TabLineFill",
+			head = "TabLine",
+			current_tab = "TabLineSel",
+			tab = "TabLine",
+			win = "TabLine",
+			tail = "TabLine",
+		},
+		nerdfont = true,
+		lualine_theme = nil,
+		tab_name = {
+			name_fallback = function(tabid)
+				return "Tab " .. tabid
+			end,
+		},
+		buf_name = {
+			mode = "tail",
+		},
+	},
+})
+
+-- Bufferline: Focus on Buffers and Avoid Showing Tabs
+require("bufferline").setup({
+	options = {
+		numbers = "ordinal",
+		show_buffer_close_icons = false,
+		show_close_icon = false,
+		show_tab_indicators = false, -- Disable tab indicators to prevent confusion with Tabby
+		always_show_bufferline = true, -- Show bufferline even with single buffer
+		diagnostics = "nvim_lsp", -- Optional: Show LSP diagnostics on bufferline
+		max_name_length = 15,
+		max_prefix_length = 15,
+	},
+})
+
+vim.cmd([[
+  augroup diagnostics
+    autocmd!
+    autocmd BufEnter * lua vim.diagnostic.open_float(nil, {focus=true})
+  augroup END
+]])
+-- bind <leader>da to open float diagnostics
+vim.api.nvim_set_keymap("n", "<leader>da", ":lua vim.diagnostic.open_float(nil, {focus=true})<CR>", { noremap = true })
+
+-- key for hop.nvim
+vim.api.nvim_set_keymap("n", "s", ":HopWord<CR>", { silent = true })
+
+-- In your init.lua or a dedicated keymaps file
+local wk = require("which-key")
+wk.add({
+	{ "<space>z", "<cmd>e ~/.zshrc<CR>", desc = "Open Zsh configuration" },
+	{ "<leader>jq", "<cmd>%!jq .<CR>", desc = "Format" },
+	{ "<leader>c", group = "ChatGPT" },
+	{ "<leader>cc", "<cmd>ChatGPT<CR>", desc = "ChatGPT" },
+	{
+		mode = { "n", "v" },
+		{ "<leader>ca", "<cmd>ChatGPTRun add_tests<CR>", desc = "Add Tests" },
+		{ "<leader>cd", "<cmd>ChatGPTRun docstring<CR>", desc = "Docstring" },
+		{ "<leader>ce", "<cmd>ChatGPTEditWithInstruction<CR>", desc = "Edit with instruction" },
+		{ "<leader>cf", "<cmd>ChatGPTRun fix_bugs<CR>", desc = "Fix Bugs" },
+		{ "<leader>cg", "<cmd>ChatGPTRun grammar_correction<CR>", desc = "Grammar Correction" },
+		{ "<leader>ck", "<cmd>ChatGPTRun keywords<CR>", desc = "Keywords" },
+		{ "<leader>cl", "<cmd>ChatGPTRun code_readability_analysis<CR>", desc = "Code Readability Analysis" },
+		{ "<leader>co", "<cmd>ChatGPTRun optimize_code<CR>", desc = "Optimize Code" },
+		{ "<leader>cr", "<cmd>ChatGPTRun roxygen_edit<CR>", desc = "Roxygen Edit" },
+		{ "<leader>cs", "<cmd>ChatGPTRun summarize<CR>", desc = "Summarize" },
+		{ "<leader>ct", "<cmd>ChatGPTRun translate<CR>", desc = "Translate" },
+		{ "<leader>cx", "<cmd>ChatGPTRun explain_code<CR>", desc = "Explain Code" },
+	},
+	{
+		mode = { "v" },
+		{ "<leader>c", group = "ChatGPT" },
+		{ "<leader>ca", "<cmd>ChatGPTRun add_tests<CR>", desc = "Add Tests" },
+		{ "<leader>cd", "<cmd>ChatGPTRun docstring<CR>", desc = "Docstring" },
+		{ "<leader>ce", "<cmd>ChatGPTEditWithInstruction<CR>", desc = "Edit with instruction" },
+		{ "<leader>cf", "<cmd>ChatGPTRun fix_bugs<CR>", desc = "Fix Bugs" },
+		{ "<leader>cg", "<cmd>ChatGPTRun grammar_correction<CR>", desc = "Grammar Correction" },
+		{ "<leader>ck", "<cmd>ChatGPTRun keywords<CR>", desc = "Keywords" },
+		{ "<leader>cl", "<cmd>ChatGPTRun code_readability_analysis<CR>", desc = "Code Readability Analysis" },
+		{ "<leader>co", "<cmd>ChatGPTRun optimize_code<CR>", desc = "Optimize Code" },
+		{ "<leader>cr", "<cmd>ChatGPTRun roxygen_edit<CR>", desc = "Roxygen Edit" },
+		{ "<leader>cs", "<cmd>ChatGPTRun summarize<CR>", desc = "Summarize" },
+		{ "<leader>ct", "<cmd>ChatGPTRun translate<CR>", desc = "Translate" },
+		{ "<leader>cx", "<cmd>ChatGPTRun explain_code<CR>", desc = "Explain Code" },
+	},
+})
+
+vim.opt.number = true
+vim.opt.relativenumber = true
+
+-- Set up luasnip
+local ls = require("luasnip")
+local s = ls.snippet
+local t = ls.text_node
+local i = ls.insert_node
+vim.keymap.set({ "i", "s" }, "<C-k>", function()
+	if ls.expand_or_jumpable() then
+		ls.expand_or_jump()
+	end
+end, { silent = true })
+ls.add_snippets("python", {
+	s("ipdb", {
+		t("import ipdb; ipdb.set_trace()"),
+	}),
 })

@@ -153,24 +153,24 @@ inoremap <leader>ft <Esc>:CtrlSFToggle<CR>
 " ==================END================================
 
 
-" ------------------BEGIN------------------------------
-"   ==>CtrlP
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_map = ''
-map <leader>mm :CtrlPMRUFiles<cr>
-nnoremap <leader>j :CtrlPMixed<CR>
-let g:ctrlp_max_height = 20
-let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
-if executable('ag')
-    " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-    " HatTip: http://robots.thoughtbot.com/faster-grepping-in-vim and
-    " @ethanmuller
-    " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+" " ------------------BEGIN------------------------------
+" "   ==>CtrlP
+" let g:ctrlp_working_path_mode = 0
+" let g:ctrlp_map = ''
+" map <leader>mm :CtrlPMRUFiles<cr>
+" nnoremap <leader>j :CtrlPMixed<CR>
+" let g:ctrlp_max_height = 20
+" let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
+" if executable('ag')
+"     " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+"     " HatTip: http://robots.thoughtbot.com/faster-grepping-in-vim and
+"     " @ethanmuller
+"     " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 
-    " ag is fast enough that CtrlP doesn't need to cache
-    let g:ctrlp_use_caching = 0
-endif
-" ==================END================================
+"     " ag is fast enough that CtrlP doesn't need to cache
+"     let g:ctrlp_use_caching = 0
+" endif
+" " ==================END================================
 
 " ------------------BEGIN------------------------------
 "   ==>vim-mma

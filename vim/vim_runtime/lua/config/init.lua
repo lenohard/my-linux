@@ -15,12 +15,31 @@ require("lualine").setup({
 	},
 })
 
+-- LSP Configuration
+local navic = require("nvim-navic")
 require("mason").setup({})
 require("mason-lspconfig").setup({})
--- use pyright for python
-require("lspconfig").pyright.setup({})
+
+local on_attach = function(client, bufnr)
+    if client.server_capabilities.documentSymbolProvider then
+        navic.attach(client, bufnr)
+    end
+    
+    local opts = { noremap = true, silent = true }
+    local buf_set_keymap = vim.api.nvim_buf_set_keymap
+
+    -- Key mappings
+    buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+    buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+    buf_set_keymap(bufnr, "n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+end
+
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
 local lspconfig = require("lspconfig")
 lspconfig.pyright.setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
 	root_dir = function(fname)
 		-- Use the directory containing the file as the root if no project root is found
 		return require("lspconfig").util.root_pattern(
@@ -56,9 +75,12 @@ lspconfig.pyright.setup({
 	},
 })
 
-local servers = { "pyright", "ts_ls", "jsonls", "gopls", "sqls" }
+local servers = { "pyright", "tsserver", "jsonls", "gopls", "sqls", "lua_ls" }
 for _, lsp in ipairs(servers) do
-	lspconfig[lsp].setup({})
+    lspconfig[lsp].setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+    })
 end
 
 -- Set up nvim-cmp.

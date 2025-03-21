@@ -134,10 +134,12 @@ z() {
   z "$@"
 }
 
-zi() {
+# 使用不同的函数名避免与别名冲突
+zoxide_interactive() {
   _zoxide_init
   zi "$@"
 }
+alias zi=zoxide_interactive
 
 zz() {
   _zoxide_init
@@ -296,7 +298,16 @@ anthropic() {
   command anthropic "$@"
 }
 
-# 其他AI相关命令可以按需添加
+# 添加更多AI相关命令的懒加载
+ollama() {
+  _maybe_load_env
+  command ollama "$@"
+}
+
+groq() {
+  _maybe_load_env
+  command groq "$@"
+}
 
 
 # Custom Functions and Aliases
@@ -495,17 +506,16 @@ bindkey ',cc' compute
 export ATUIN_NOBIND="true"
 _atuin_init() {
   eval "$(atuin init zsh)"
-  bindkey '^R' atuin-search
+  bindkey '^R' _atuin_search_widget
 }
 # 在第一次按Ctrl+R时加载atuin
-atuin-search() {
+_atuin_search_widget() {
   _atuin_init
-  # 重新绑定键位并执行搜索
-  bindkey '^R' atuin-search
+  # 执行搜索
   zle atuin-search
 }
-zle -N atuin-search
-bindkey '^R' atuin-search
+zle -N _atuin_search_widget
+bindkey '^R' _atuin_search_widget
 
 # treat each non-alphanumeric character as word boundary in backward-kill-word
 WORDCHARS=''
@@ -558,13 +568,34 @@ export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
 
 # ------ Terminal Buddy Mify ------
 setopt interactivecomments
-source /Users/senaca/.shell_plugins/cmd_complete/zsh_cmd_complete_mify.zsh
+# 延迟加载 Terminal Buddy
+_load_mify() {
+  source /Users/senaca/.shell_plugins/cmd_complete/zsh_cmd_complete_mify.zsh
+}
+
+get_cmd_from_mify_comment() {
+  if [[ ! -v MIFY_LOADED ]]; then
+    _load_mify
+    export MIFY_LOADED=1
+  fi
+  zle get_cmd_from_mify_comment
+}
+zle -N get_cmd_from_mify_comment
 bindkey '^K' get_cmd_from_mify_comment
-# ....... Terminal Buddy ....... 
 
 # ------ Terminal Buddy Litellm ------
-setopt interactivecomments
-source /Users/senaca/.shell_plugins/cmd_complete/zsh_cmd_complete.zsh
+_load_litellm() {
+  source /Users/senaca/.shell_plugins/cmd_complete/zsh_cmd_complete.zsh
+}
+
+get_cmd_from_comment() {
+  if [[ ! -v LITELLM_LOADED ]]; then
+    _load_litellm
+    export LITELLM_LOADED=1
+  fi
+  zle get_cmd_from_comment
+}
+zle -N get_cmd_from_comment
 bindkey '^J' get_cmd_from_comment
 # ....... Terminal Buddy ....... 
 

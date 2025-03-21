@@ -208,17 +208,11 @@ fi
 
 # load the environment variables from the .env file which include the API keys
 if [ -f ~/.env ]; then
-    # Read .env file line by line
-    while IFS= read -r line || [[ -n "$line" ]]; do
-        # Trim leading and trailing whitespace
-        line=$(echo "$line" | xargs)
-        
-        # Skip empty lines and comments
-        if [[ -n "$line" && ! "$line" =~ ^\# ]]; then
-            # Export the environment variable
-            export "$line"
-        fi
-    done < ~/.env
+    # Use set -a to automatically export all variables
+    set -a
+    # Source the env file directly - much faster than line-by-line processing
+    source <(grep -v '^#' ~/.env | sed '/^$/d')
+    set +a
     echo "Successfully loaded AI Keys"
 fi
 

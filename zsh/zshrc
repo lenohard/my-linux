@@ -1,4 +1,4 @@
-START_TIME=$(date +%s.%N)
+START_TIME=$(($(gdate +%s%N)/1000000))
 
 # == Added on 2025-02-08 21:09:06 ==
 export PATH="/Users/senaca/.cargo/bin:$PATH"
@@ -452,6 +452,6 @@ bindkey '^J' get_cmd_from_comment
 
 # create a alias for git graph log
 alias git-graph='git log --all --decorate --oneline --graph'
-END_TIME=$(date +%s.%N)
-ELAPSED=$(echo "$END_TIME - $START_TIME" | bc)
-echo "ZSH loaded in $ELAPSED seconds"
+END_TIME=$(($(gdate +%s%N)/1000000))
+ELAPSED=$((END_TIME - START_TIME))
+echo "ZSH loaded in $ELAPSED ms"

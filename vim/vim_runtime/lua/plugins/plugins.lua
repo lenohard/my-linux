@@ -1,144 +1,58 @@
 return {
 	{
+		"sindrets/diffview.nvim",
+		event = "BufRead",
+		config = function()
+			require("diffview").setup()
+		end,
+	},
+	{
+		"nvim-treesitter/nvim-treesitter",
+		build = ":TSUpdate", -- Important: This runs the update command after installation
+		config = function()
+			require("nvim-treesitter.configs").setup({
+				-- A list of parser names, or "all" (the five listed parsers should always be installed)
+				ensure_installed = {
+					"c",
+					"lua",
+					"vim",
+					"vimdoc",
+					"query",
+					"python",
+					"javascript",
+					"typescript",
+					"html",
+					"css",
+					"json",
+				},
+				-- Install parsers synchronously (only applied to `ensure_installed`)
+				sync_install = false,
+				-- Automatically install missing parsers when entering buffer
+				-- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+				auto_install = true,
+				highlight = {
+					enable = true,
+					-- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+					-- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+					-- Using this option may slow down your editor, and you may see some duplicate highlights.
+					-- Instead of true it can also be a list of languages
+					additional_vim_regex_highlighting = false,
+				},
+			})
+		end,
+	},
+	{
+		"sindrets/diffview.nvim",
+		event = "BufRead",
+		config = function()
+			require("diffview").setup()
+		end,
+	},
+	{
 		"SmiteshP/nvim-navic",
 		dependencies = "neovim/nvim-lspconfig",
 		config = function()
 			require("nvim-navic").setup()
-		end,
-	},
-	-- nvim-dap-python
-	{
-		"mfussenegger/nvim-dap-python",
-		event = "BufRead",
-		config = function()
-			require("dap-python").setup("python3")
-		end,
-	},
-	{
-		"folke/lazydev.nvim",
-		ft = "lua", -- only load on lua files
-		opts = {
-			library = {
-				-- See the configuration section for more details
-				-- Load luvit types when the `vim.uv` word is found
-				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
-				{ plugins = { "nvim-dap-ui" }, types = true },
-			},
-		},
-	},
-	{
-		"mfussenegger/nvim-dap",
-		event = "BufRead",
-		config = function()
-			require("dap").adapters.cpp = {
-				type = "executable",
-				attach = { pidProperty = "pid", pidSelect = "ask" },
-				command = "lldb-vscode",
-				name = "lldb",
-			}
-			require("dap").configurations.cpp = {
-				{
-					name = "Launch",
-					type = "lldb",
-					request = "launch",
-					program = function()
-						return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
-					end,
-					cwd = "${workspaceFolder}",
-					stopOnEntry = true,
-					args = {},
-					runInTerminal = false,
-				},
-			}
-		end,
-	},
-	-- nvim-treesitter
-	{
-		"nvim-treesitter/nvim-treesitter",
-		run = ":TSUpdate",
-		keys = {
-			{ "<leader>ts", "<cmd>Telescope treesitter<CR>", desc = "Telescope Treesitter" },
-			{ "<leader>tq", "<cmd>TSQuickfix<CR>", desc = "Treesitter Quickfix" },
-			{ "<leader>tb", "<cmd>TSBufToggle highlight<CR>", desc = "Toggle Treesitter Highlight" },
-		},
-	},
-	-- nvim-dap-virtual-text
-	{
-		"theHamsta/nvim-dap-virtual-text",
-		event = "BufRead",
-		dependencies = {
-			"mfussenegger/nvim-dap",
-			"nvim-treesitter/nvim-treesitter",
-		},
-		config = function()
-			require("nvim-dap-virtual-text").setup()
-		end,
-	},
-	-- nvim-dap-ui
-	{
-		"rcarriga/nvim-dap-ui",
-		dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
-		keys = {
-			-- 现有的 UI 控制快捷键
-			{ "<leader>dd", "<cmd>lua require('dapui').toggle()<CR>", desc = "Toggle DAP UI" },
-			{ "<leader>dc", "<cmd>lua require('dapui').close()<CR>", desc = "Close DAP UI" },
-			{ "<leader>dh", "<cmd>lua require('dapui').float_element()<CR>", desc = "Float DAP UI" },
-			{ "<leader>de", "<cmd>lua require('dapui').eval()<CR>", desc = "Evaluate DAP UI" },
-			{ "<leader>ds", "<cmd>lua require('dapui').scopes()<CR>", desc = "Scopes DAP UI" },
-			{ "<leader>dv", "<cmd>lua require('dapui').variables()<CR>", desc = "Variables DAP UI" },
-			{ "<leader>dt", "<cmd>lua require('dapui').test()<CR>", desc = "Test DAP UI" },
-			{ "<leader>dr", "<cmd>lua require('dapui').repl.toggle()<CR>", desc = "Toggle DAP REPL" },
-			{ "<leader>dl", "<cmd>lua require('dapui').repl.run_last()<CR>", desc = "Run last DAP REPL" },
-
-			-- 添加调试控制快捷键
-			{ "<F5>", "<cmd>lua require('dap').continue()<CR>", desc = "Debug: Continue" },
-			{ "<F10>", "<cmd>lua require('dap').step_over()<CR>", desc = "Debug: Step Over" },
-			{ "<F11>", "<cmd>lua require('dap').step_into()<CR>", desc = "Debug: Step Into" },
-			{ "<F12>", "<cmd>lua require('dap').step_out()<CR>", desc = "Debug: Step Out" },
-			{ "<leader>db", "<cmd>lua require('dap').toggle_breakpoint()<CR>", desc = "Debug: Toggle Breakpoint" },
-			-- {
-			-- 	"<leader>dB",
-			-- 	"<cmd>lua require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
-			-- 	desc("Debug: Set Conditional Breakpoint"),
-			-- },
-		},
-		config = function()
-			local dap, dapui = require("dap"), require("dapui")
-
-			-- 设置 dapui
-			dapui.setup({
-				layouts = {
-					{
-						elements = {
-							{ id = "scopes", size = 0.25 },
-							{ id = "breakpoints", size = 0.25 },
-							{ id = "stacks", size = 0.25 },
-							{ id = "watches", size = 0.25 },
-						},
-						position = "left",
-						size = 40,
-					},
-					{
-						elements = {
-							{ id = "repl", size = 0.5 },
-							{ id = "console", size = 0.5 },
-						},
-						position = "bottom",
-						size = 10,
-					},
-				},
-			})
-
-			-- 当开始/结束调试会话时自动打开/关闭 dapui
-			dap.listeners.after.event_initialized["dapui_config"] = function()
-				dapui.open()
-			end
-			dap.listeners.before.event_terminated["dapui_config"] = function()
-				dapui.close()
-			end
-			dap.listeners.before.event_exited["dapui_config"] = function()
-				dapui.close()
-			end
 		end,
 	},
 	{
@@ -216,17 +130,22 @@ return {
 		build = "make", -- This is Optional, only if you want to use tiktoken_core to calculate tokens count
 		opts = {
 			["openai"] = {
-				model = "claude-3.5-haiku@anthropic",
+				model = "claude-3.7-sonnet@anthropic",
 				endpoint = "https://api.unify.ai/v0",
 				api_key_name = "OPENAI_API_KEY",
 			},
 			["gemini"] = {
-				model = "gemini-1.5-pro-exp-0827",
+				model = "gemini-2.0-pro-exp",
 				api_key_name = "GEMINI_API_KEY",
 				proxy = "http://127.0.0.1:6152",
 			},
 			["claude"] = {
 				proxy = "http://127.0.0.1:6152",
+			},
+			windows = {
+				position = "bottom",
+				width = 100,
+				height = 40,
 			},
 			-- add any opts here
 			provider = "openai",
@@ -298,7 +217,7 @@ return {
 				},
 				unity = {
 					endpoint = "https://api.unify.ai/v0/chat/completions",
-					model = "claude-3.5-sonnet@anthropic->aws-bedrock",
+					model = "claude-3.7-sonnet@anthropic->aws-bedrock",
 					api_key_name = "UNIFY_KEY",
 					parse_curl_args = function(opts, code_opts)
 						return {
@@ -461,7 +380,7 @@ return {
 	-- { "vim-airline/vim-airline-themes" },
 	{
 		"nvim-lualine/lualine.nvim",
-		dependencies = { 
+		dependencies = {
 			"nvim-tree/nvim-web-devicons",
 			"SmiteshP/nvim-navic",
 		},
@@ -527,8 +446,16 @@ return {
 		end,
 	},
 	{ "junegunn/fzf.vim", dependencies = { "junegunn/fzf" } },
+	{
+		"ibhagwan/fzf-lua",
+		-- optional for icon support
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		-- or if using mini.icons/mini.nvim
+		-- dependencies = { "echasnovski/mini.icons" },
+		opts = {},
+	},
 	{ "mileszs/ack.vim" },
-	{ "dyng/ctrlsf.vim" },
+	-- { "dyng/ctrlsf.vim" },
 
 	-- Code Editing and Navigation
 	{ "tpope/vim-surround" },
@@ -561,7 +488,6 @@ return {
 	{ "leafgarland/typescript-vim" },
 	{ "maxmellon/vim-jsx-pretty" },
 	{ "jparise/vim-graphql" },
-	{ "neoclide/jsonc.vim" },
 	{ "posva/vim-vue" },
 	{ "lervag/vimtex" },
 	{ "JuliaEditorSupport/julia-vim" },
@@ -625,4 +551,16 @@ return {
 	{ dir = "~/.vim_runtime/sources_forked/peaksea" },
 	{ dir = "~/.vim_runtime/sources_forked/vim-peepopen" },
 	{ dir = "~/.vim_runtime/sources_forked/vim-irblack-forked" },
+	{
+		"elzr/vim-json",
+		ft = { "json", "jsonc" }, -- 仅在打开 json 或 jsonc 文件时加载
+		config = function()
+			-- 可选的配置 (根据你的需要调整)
+			vim.g.vim_json_syntax_conceal = 0 -- 禁用隐藏字符，更容易看到引号等
+		end,
+	},
+	{
+		"othree/yajs.vim",
+		ft = { "json", "jsonc" },
+	},
 }

@@ -15,11 +15,10 @@ set number relativenumber
 set nowrap
 set cursorline
 set smartcase
-" set ignorecase
-set noignorecase
+set ignorecase
+" set noignorecase
 set clipboard+=unnamed,unnamedplus
 set scrolloff=2
-set conceallevel=2
 set ssop-=options
 set ssop-=folds
 set ssop-=buffers
@@ -102,15 +101,17 @@ map <leader>nn :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark<Space>
 map <leader>nf :NERDTreeFind<cr>
 
-" FZF
-nnoremap <silent> <c-p> :Files<CR>
-nnoremap <silent> <c-[> :Buffers<CR>
-nnoremap <silent> <c-]> :History<CR>
+" require fzflua.vim
+nnoremap <silent> <c-p> :FzfLua files<CR>
+nnoremap <silent> <c-[> :FzfLua buffers<CR>
+nnoremap <silent> <c-]> :FzfLua oldfiles<CR>
+nnoremap <silent> <leader>fs :FzfLua treesitter<CR>
+
+" require fzf.vim
 nnoremap <silent> <leader>A :Windows<CR>
 nnoremap <silent> <leader>; :BLines<CR>
 nnoremap <silent> <leader>o :BTags<CR>
 nnoremap <silent> <leader>O :Tags<CR>
-nnoremap <silent> <leader>/ :execute 'Ag ' . input('Ag/')<CR>
 " search files in the directory of the current buffer
 nnoremap <silent> <leader>? :execute 'Files ' . expand('%:p:h')<CR>
 
@@ -131,7 +132,6 @@ nnoremap <silent> ]g <cmd>lua vim.diagnostic.goto_next()<CR>
 
 " Telescope keybindings
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
@@ -223,6 +223,8 @@ endif
 
 nnoremap <leader>cp :let @+ = expand("%:p")<CR>:echo "Absolute path copied: " . expand("%:p")<CR>
 nnoremap <leader>cq :let @+ = expand("%")<CR>:echo "Relative path copied: " . expand("%")<CR>
+" use <leader>c[ to copy the file name
+nnoremap <leader>c[ :let @+ = expand("%:t")<CR>:echo "File name copied: " . expand("%:t")<CR>
 
 " ============================================================================
 " Platform Specific Settings
@@ -240,34 +242,5 @@ if has('gui_running')
     endtry
 endif
 
-
-function! SelectAndRunGenericCommand(options, prompt, action_func)
-  call fzf#run({
-        \ 'source': a:options,
-        \ 'sink': a:action_func,
-        \ 'window': { 'width': 0.5, 'height': 0.3 },
-        \ 'options': '--prompt "' . a:prompt . ': "'
-        \ })
-endfunction
-
-function! SwitchAIProvider(selected)
-  execute ':AvanteSwitchProvide ' . a:selected
-endfunction
-
-function! OpenConfigFile(selected)
-  execute ':e! ~/.vim_runtime/' . a:selected
-endfunction
-
-function! SelectAIProvider()
-  let l:options = ['gemini', 'openai', 'claude', 'groq', 'perplexity', 'deepseek', 'openrouter', "unity"]
-  call SelectAndRunGenericCommand(l:options, "Select AI provider", function('SwitchAIProvider'))
-endfunction
-
-function! SelectConfigFile()
-  let l:options = ['my_configs.vim', 'lua/config/init.lua', 'lua/plugins/plugins.lua', 'vimrcs/basic.vim', 'vimrcs/extended.vim', 'vimrcs/filetypes.vim', 'vimrcs/plugins_config.vim']
-  call SelectAndRunGenericCommand(l:options, "Select config file", function('OpenConfigFile'))
-endfunction
-
-" Map the custom functions to their respective keybindings
-nnoremap <leader>ap :call SelectAIProvider()<CR>
-nnoremap <leader>ee :call SelectConfigFile()<CR>
+" set conceallevel=0 for json file
+autocmd FileType json setlocal conceallevel=0

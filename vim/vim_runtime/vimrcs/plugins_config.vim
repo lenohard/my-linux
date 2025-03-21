@@ -140,18 +140,6 @@ let g:ale_linters = {
             \}
 " ==================END================================
 
-" ------------------BEGIN------------------------------
-"   ==>CtrlSF
-nmap     <leader>ff <Plug>CtrlSFPrompt
-vmap     <leader>ff <Plug>CtrlSFVwordPath
-vmap     <leader>fF <Plug>CtrlSFVwordExec
-nmap     <leader>fn <Plug>CtrlSFCwordPath
-nmap     <leader>fp <Plug>CtrlSFPwordPath
-nnoremap <leader>fo :CtrlSFOpen<CR>
-nnoremap <leader>ft :CtrlSFToggle<CR>
-inoremap <leader>ft <Esc>:CtrlSFToggle<CR>
-" ==================END================================
-
 
 " " ------------------BEGIN------------------------------
 " "   ==>CtrlP

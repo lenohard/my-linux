@@ -35,6 +35,8 @@ alias wifion='nmcli radio wifi on'
 alias suspendw='nmcli radio wifi off && systemctl suspend'
 
 # Tmux
+alias unblock_service="node /Users/senaca/code/music_download/unblock.js"
+alias netease_service="npx NeteaseCloudMusicApi@latest" 
 alias kill_wan='tmux kill-window -t wan_music'
 alias kill_sub2sub='tmux kill-window -t sub2sub'
 

@@ -1,3 +1,24 @@
+zmodload zsh/zprof
+START_TIME=$(date +%s.%N)
+
+# == Added on 2025-02-08 21:09:06 ==
+export PATH="/Users/senaca/.cargo/bin:$PATH"
+
+# Configured Shortcuts:
+# Ctrl-]: zoxide-fzf-path
+# Ctrl-T: fzf-file-widget
+# Ctrl-R: atuin-search (Atuin history search)
+# Alt-C: fzf-cd-widget
+# ,gg: fzf_git_files
+# ,cc: compute (Python inline calculation)
+# ,px: pc4 (Proxychains4)
+# ,mm: output2x (Output to clipboard)
+# ,p: copy2x (Copy to clipboard)
+# Ctrl-K: create_completion 
+# Option-W set keympa to vim
+# Option-E set keymap to emacs
+# **<Tab> Fzf-completion
+
 # Core ZSH Configuration
 HISTFILE=$HOME/zsh_history/history
 HISTSIZE=50000
@@ -11,7 +32,7 @@ unsetopt HIST_VERIFY
 export LANG="zh_CN.UTF-8"
 export LC_ALL="zh_CN.UTF-8"
 export EDITOR=nvim
-export VISUAL=vim
+export VISUAL=nvim
 export PAGER=less
 export CRASH_REPORTER_DISABLE=1
 export RUNEWIDTH_EASTASIAN=0
@@ -65,6 +86,8 @@ autoload -Uz _zinit
 
 # Zinit Plugins
 zinit light zsh-users/zsh-completions
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*' menu select
 zinit light zdharma-continuum/fast-syntax-highlighting
 zinit light zsh-users/zsh-autosuggestions
 zinit light unixorn/tumult.plugin.zsh 
@@ -77,6 +100,10 @@ zinit light sindresorhus/pure
 
 # Zoxide
 eval "$(zoxide init zsh)"
+zz (){
+  __zoxide_zi "$@"
+}
+
 
 # FZF Configuration
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -117,6 +144,37 @@ export NVM_DIR="$HOME/.nvm"
 export ALIYUNPAN_CONFIG_DIR=~/.config
 
 
+# ------------------BEGIN------------------------------
+#  ==> autoenv or direnv
+if which direnv > /dev/null 2>&1;
+then
+  eval "$(direnv hook zsh)"
+fi
+
+if which activate.sh > /dev/null 2>&1;
+then
+  source `which activate.sh`
+fi
+# ==================END================================
+
+
+# load the environment variables from the .env file which include the API keys
+if [ -f ~/.env ]; then
+    # Read .env file line by line
+    while IFS= read -r line || [[ -n "$line" ]]; do
+        # Trim leading and trailing whitespace
+        line=$(echo "$line" | xargs)
+        
+        # Skip empty lines and comments
+        if [[ -n "$line" && ! "$line" =~ ^\# ]]; then
+            # Export the environment variable
+            export "$line"
+        fi
+    done < ~/.env
+    echo "Successfully loaded AI Keys"
+fi
+
+
 # Custom Functions and Aliases
 source ~/custom_function.zsh
 source ~/custom_alias.zsh
@@ -131,7 +189,7 @@ source ~/.venv/bin/activate
 eval "$(gh copilot alias -- zsh)"
 
 # beam cursor by using ANSI escape code
-echo -ne '\e[6 q'
+echo -ne '[6 q'
 
 # key bindings
 # ------------------BEGIN------------------------------
@@ -142,14 +200,14 @@ if ! bindkey | grep 'vi-join' > /dev/null 3>&1; then
   bindkey -e
   RPROMPT='[emacs]'
   zle reset-prompt
-  printf '\033[5 q';
+  printf '[5 q';
 else
   bindkey -v
-  printf '\033[3 q';
+  printf '[3 q';
   bindkey "jk" vi-cmd-mode
   bindkey "^P" up-line-or-history
   bindkey "^N" down-line-or-history
-  bindkey "\ee" _toggle-keymap
+  bindkey "e" _toggle-keymap
   zle -U ''
   RPROMPT='[vim]'
   zle reset-prompt
@@ -160,13 +218,13 @@ function _toggle-keymap2 {
 bindkey -e
 RPROMPT='[emacs]'
 zle reset-prompt
-printf '\033[5 q';
+printf '[5 q';
 }
 zle -N emacs _toggle-keymap2
 bindkey -M vicmd '^[e' emacs
 
-cursor_block="\e[2 q"
-cursor_line="\e[6 q"
+cursor_block="[2 q"
+cursor_line="[6 q"
 
 if [[ ! -z "$cursor_block" && ! -z "$cursor_line" ]]; then
   # Change cursor shape when vi mode changes
@@ -189,7 +247,7 @@ if [[ ! -z "$cursor_block" && ! -z "$cursor_line" ]]; then
 fi
 
 zle -N _toggle-keymap
-bindkey "\ew" _toggle-keymap
+bindkey "w" _toggle-keymap
 # -----------------END--------------------
 
 zoxide-fzf-path() {
@@ -294,13 +352,6 @@ fzf_git_files() {
 zle -N fzf_git_files
 bindkey ',gg' fzf_git_files
 
-### Codex CLI setup - start
-export CODEX_CLI_PATH=/Users/senaca/code/CLI-Copilot
-source "$CODEX_CLI_PATH/scripts/zsh_plugin.zsh"
-bindkey '^K' create_completion
-### Codex CLI setup - end
-
-
 # Inline Python calculation
 function compute(){
     local cmd=$(echo $LBUFFER)
@@ -315,13 +366,72 @@ export ATUIN_NOBIND="true"
 eval "$(atuin init zsh)"
 bindkey '^R' atuin-search
 
+# treat each non-alphanumeric character as word boundary in backward-kill-word
+WORDCHARS=''
+
+# backward-kill-path-component() {
+#     # Delete until the previous slash, dot, or hyphen
+#     if [[ $LBUFFER =~ .*[/.-][^/.-]*$ ]]; then
+#         LBUFFER=${LBUFFER%[/.-]*}
+#     else
+#         zle backward-kill-word
+#     fi
+# }
+
+# # Bind this function to Ctrl+w
+# zle -N backward-kill-path-component
+# bindkey '^w' backward-kill-path-component
 
 
-# Configured Shortcuts:
-# Ctrl-]: zoxide-fzf-path
-# Ctrl-T: fzf-file-widget
-# Ctrl-R: atuin-search (Atuin history search)
-# Alt-C: fzf-cd-widget
-# ,gg: fzf_git_files
-# ,cc: compute (Python inline calculation)
-# Ctrl-K: create_completion (Codex CLI)
+
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+function mcs {
+  model_prompt="$*"
+  magic-cli suggest "$model_prompt"
+}
+
+function mcf {
+  model_prompt="$*"
+  magic-cli search "$model_prompt"
+}
+
+function mca {
+  model_prompt="$*"
+  magic-cli ask "$model_prompt"
+}
+
+alias tree='tree -C --sort=size'
+alias mipip_install='pip install -i https://pkgs.d.xiaomi.net/artifactory/api/pypi/pypi-virtual/simple'
+
+
+bindkey '^F' forward-word
+
+alias or_balance='curl -X GET "https://openrouter.ai/api/v1/auth/key"  -H "Authorization: Bearer $OPENROUTER_API_KEY" | jq .data.limit_remaining'
+
+alias uni_balance='curl -X GET "https://api.unify.ai/v0/credits" -H "accept: application/json" -H "Authorization: Bearer $UNIFY_KEY" | jq .credits'
+
+
+export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
+
+# ------ Terminal Buddy Mify ------
+setopt interactivecomments
+source /Users/senaca/.shell_plugins/cmd_complete/zsh_cmd_complete_mify.zsh
+bindkey '^K' get_cmd_from_mify_comment
+# ....... Terminal Buddy ....... 
+
+# ------ Terminal Buddy Litellm ------
+setopt interactivecomments
+source /Users/senaca/.shell_plugins/cmd_complete/zsh_cmd_complete.zsh
+bindkey '^J' get_cmd_from_comment
+# ....... Terminal Buddy ....... 
+
+
+# create a alias for git graph log
+alias git-graph='git log --all --decorate --oneline --graph'
+
+END_TIME=$(date +%s.%N)
+ELAPSED=$(echo "$END_TIME - $START_TIME" | bc)
+echo "ZSH loaded in $ELAPSED seconds"
+zprof

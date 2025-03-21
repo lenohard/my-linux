@@ -43,6 +43,33 @@ function download_music(){
     cd - || return 1
 }
 
+# Check siliconflow API balance
+function sf_balance() {
+    local api_key=${SILICONFLOW_API_KEY}
+    if [[ -z "$api_key" ]]; then
+        echo "Error: SILICONFLOW_API_KEY environment variable is not set."
+        return 1
+    fi
+
+    local response=$(curl -s -L -X GET 'https://api.siliconflow.cn/v1/user/info' \
+        -H 'Accept: application/json' \
+        -H "Authorization: Bearer $api_key")
+
+    if [[ $? -ne 0 ]]; then
+        echo "Error: Failed to fetch userInfo."
+        return 1
+    fi
+
+    local total_balance=$(echo "$response" | jq -r '.data.totalBalance')
+
+    if [[ -z "$total_balance" ]]; then
+        echo "Error: Failed to parse total balance from response."
+        return 1
+    fi
+
+    echo "Total Balance: $total_balance"
+}
+
 # Check DeepSeek API balance
 function dsk_balance() {
     local api_key=${DEEPSEEK_API_KEY}
@@ -176,3 +203,26 @@ function img_gpt() {
     echo ~/everything/ai-images/dalle2-"$rand_num".png | pbcopy
     echo "image path copied to clipboard"
 }
+
+# unset proxy
+function unset_proxy() {
+    unset http_proxy
+    unset https_proxy
+    unset HTTP_PROXY
+    unset HTTPS_PROXY
+}
+# List of Functions and Descriptions
+# 1. addpath: Adds a new PATH entry with a timestamp.
+# 2. cdp: Changes directory and lists contents.
+# 3. download_music: Downloads music from a URL using yt-dlp.
+# 4. dsk_balance: Checks DeepSeek API balance.
+# 5. checkout_file_from_branch: Checks out a file from another branch.
+# 6. remove_duplicates_from_path: Removes duplicates from PATH.
+# 7. wan_music: Sets up Wan Music environment in tmux.
+# 8. sub2sub: Sets up sub2sub environment in tmux.
+# 9. usd2cny: Fetches the latest USD/CNY exchange rate.
+# 10. eth: Fetches the latest ETH price and 24h change.
+# 11. rawUrl: Gets the raw GitHub URL for the current repo.
+# 12. data_gpt: Processes data using GPT-3.
+# 13. img_gpt: Generates an image using DALL-E.
+# 14. unset_proxy: Unsets proxy settings.

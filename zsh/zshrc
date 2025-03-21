@@ -1,8 +1,4 @@
-# 只在需要时启用性能分析
-if [[ "$PROFILE_ZSH" == "1" ]]; then
-  zmodload zsh/zprof
-  START_TIME=$(date +%s.%N)
-fi
+START_TIME=$(date +%s.%N)
 
 # == Added on 2025-02-08 21:09:06 ==
 export PATH="/Users/senaca/.cargo/bin:$PATH"
@@ -70,17 +66,9 @@ export ANDROID_HOME=~/local/android-sdk
 export ANDROID_SDK_ROOT=~/local/android-sdk
 export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$PATH
 
-# Java Configuration - 懒加载
-export JAVA_HOME="/opt/homebrew/opt/openjdk@17"
+# Java Configuration
+export JAVA_HOME="$(brew --prefix)/opt/openjdk@17"
 export PATH="$JAVA_HOME/bin:$PATH"
-
-# 创建java懒加载函数
-java() {
-  unset -f java
-  export JAVA_HOME="/opt/homebrew/opt/openjdk@17"
-  export PATH="$JAVA_HOME/bin:$PATH"
-  java "$@"
-}
 
 # Zinit Plugin Manager
 if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
@@ -100,86 +88,43 @@ zinit light zsh-users/zsh-completions
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*' menu select
 
-# 延迟加载语法高亮和自动建议插件 - 增加延迟时间
-zinit ice wait"0.2" lucid
+# 延迟加载语法高亮和自动建议插件
+zinit ice wait lucid
 zinit light zdharma-continuum/fast-syntax-highlighting
 
-zinit ice wait"0.1" lucid
+zinit ice wait lucid
 zinit light zsh-users/zsh-autosuggestions
 
-zinit ice wait"1" lucid
+zinit ice wait lucid
 zinit light unixorn/tumult.plugin.zsh 
 
-zinit ice wait"1" lucid
+zinit ice wait lucid
 zinit light supercrabtree/k
 
-zinit ice wait"1" lucid
+zinit ice wait lucid
 zinit load zdharma-continuum/history-search-multi-word
 
-zinit ice wait"1" lucid
+zinit ice wait lucid
 zinit light olets/zsh-abbr
 
-# Pure提示符 - 使用turbo模式加载
-zinit ice wait"0" lucid atload'!prompt_pure_precmd' pick"async.zsh" src"pure.zsh"
+# Pure提示符是交互必需的，不延迟加载
+zinit ice pick"async.zsh" src"pure.zsh"
 zinit light sindresorhus/pure
 
-# Zoxide - 懒加载
-_zoxide_init() {
-  eval "$(zoxide init zsh)"
-}
-
-# 首次使用时初始化
-z() {
-  _zoxide_init
-  z "$@"
-}
-
-# 使用不同的函数名避免与别名冲突
-zoxide_interactive() {
-  _zoxide_init
-  zi "$@"
-}
-alias zi=zoxide_interactive
-
-zz() {
-  _zoxide_init
+# Zoxide
+eval "$(zoxide init zsh)"
+zz (){
   __zoxide_zi "$@"
 }
 
 
-# FZF Configuration - 延迟加载
+# FZF Configuration
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_TMUX=1
 export FZF_DEFAULT_OPTS='--no-height --no-reverse'
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
 export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
 export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
-
-# 延迟加载FZF
-_load_fzf() {
-  [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-}
-
-# 创建fzf相关命令的懒加载函数
-fzf() {
-  _load_fzf
-  fzf "$@"
-}
-
-# 为fzf-file-widget和fzf-cd-widget创建懒加载
-fzf-file-widget() {
-  _load_fzf
-  zle fzf-file-widget
-}
-
-fzf-cd-widget() {
-  _load_fzf
-  zle fzf-cd-widget
-}
-
-zle -N fzf-file-widget
-zle -N fzf-cd-widget
-bindkey '^T' fzf-file-widget
-bindkey '\ec' fzf-cd-widget
 
 # Ripgrep Configuration
 export RIPGREP_CONFIG_PATH='~/.ripgreprc'
@@ -248,66 +193,34 @@ export ALIYUNPAN_CONFIG_DIR=~/.config
 
 
 # ------------------BEGIN------------------------------
-#  ==> autoenv or direnv - 懒加载
-direnv() {
-  unset -f direnv
-  if which direnv > /dev/null 2>&1; then
-    eval "$(direnv hook zsh)"
-  fi
-  direnv "$@"
-}
+#  ==> autoenv or direnv
+if which direnv > /dev/null 2>&1;
+then
+  eval "$(direnv hook zsh)"
+fi
 
-# 只在第一次使用时加载activate.sh
-activate() {
-  unset -f activate
-  if which activate.sh > /dev/null 2>&1; then
-    source `which activate.sh`
-  fi
-  activate "$@"
-}
+if which activate.sh > /dev/null 2>&1;
+then
+  source `which activate.sh`
+fi
 # ==================END================================
 
 
-# 延迟加载环境变量
-_load_env_vars() {
-  if [ -f ~/.env ]; then
-    # 使用source命令更高效地加载环境变量
-    set -a
-    source ~/.env
-    set +a
+# load the environment variables from the .env file which include the API keys
+if [ -f ~/.env ]; then
+    # Read .env file line by line
+    while IFS= read -r line || [[ -n "$line" ]]; do
+        # Trim leading and trailing whitespace
+        line=$(echo "$line" | xargs)
+        
+        # Skip empty lines and comments
+        if [[ -n "$line" && ! "$line" =~ ^\# ]]; then
+            # Export the environment variable
+            export "$line"
+        fi
+    done < ~/.env
     echo "Successfully loaded AI Keys"
-  fi
-}
-
-# 创建一个触发函数，在首次使用AI相关命令时加载环境变量
-_maybe_load_env() {
-  if [[ ! -v ENV_LOADED ]]; then
-    _load_env_vars
-    export ENV_LOADED=1
-  fi
-}
-
-# 为常用的AI命令创建包装函数
-openai() {
-  _maybe_load_env
-  command openai "$@"
-}
-
-anthropic() {
-  _maybe_load_env
-  command anthropic "$@"
-}
-
-# 添加更多AI相关命令的懒加载
-ollama() {
-  _maybe_load_env
-  command ollama "$@"
-}
-
-groq() {
-  _maybe_load_env
-  command groq "$@"
-}
+fi
 
 
 # Custom Functions and Aliases
@@ -506,16 +419,17 @@ bindkey ',cc' compute
 export ATUIN_NOBIND="true"
 _atuin_init() {
   eval "$(atuin init zsh)"
-  bindkey '^R' _atuin_search_widget
+  bindkey '^R' atuin-search
 }
 # 在第一次按Ctrl+R时加载atuin
-_atuin_search_widget() {
+atuin-search() {
   _atuin_init
-  # 执行搜索
+  # 重新绑定键位并执行搜索
+  bindkey '^R' atuin-search
   zle atuin-search
 }
-zle -N _atuin_search_widget
-bindkey '^R' _atuin_search_widget
+zle -N atuin-search
+bindkey '^R' atuin-search
 
 # treat each non-alphanumeric character as word boundary in backward-kill-word
 WORDCHARS=''
@@ -568,34 +482,13 @@ export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
 
 # ------ Terminal Buddy Mify ------
 setopt interactivecomments
-# 延迟加载 Terminal Buddy
-_load_mify() {
-  source /Users/senaca/.shell_plugins/cmd_complete/zsh_cmd_complete_mify.zsh
-}
-
-get_cmd_from_mify_comment() {
-  if [[ ! -v MIFY_LOADED ]]; then
-    _load_mify
-    export MIFY_LOADED=1
-  fi
-  zle get_cmd_from_mify_comment
-}
-zle -N get_cmd_from_mify_comment
+source /Users/senaca/.shell_plugins/cmd_complete/zsh_cmd_complete_mify.zsh
 bindkey '^K' get_cmd_from_mify_comment
+# ....... Terminal Buddy ....... 
 
 # ------ Terminal Buddy Litellm ------
-_load_litellm() {
-  source /Users/senaca/.shell_plugins/cmd_complete/zsh_cmd_complete.zsh
-}
-
-get_cmd_from_comment() {
-  if [[ ! -v LITELLM_LOADED ]]; then
-    _load_litellm
-    export LITELLM_LOADED=1
-  fi
-  zle get_cmd_from_comment
-}
-zle -N get_cmd_from_comment
+setopt interactivecomments
+source /Users/senaca/.shell_plugins/cmd_complete/zsh_cmd_complete.zsh
 bindkey '^J' get_cmd_from_comment
 # ....... Terminal Buddy ....... 
 
@@ -603,10 +496,6 @@ bindkey '^J' get_cmd_from_comment
 # create a alias for git graph log
 alias git-graph='git log --all --decorate --oneline --graph'
 
-# 只在启用性能分析时显示加载时间
-if [[ "$PROFILE_ZSH" == "1" ]]; then
-  END_TIME=$(date +%s.%N)
-  ELAPSED=$(echo "$END_TIME - $START_TIME" | bc)
-  echo "ZSH loaded in $ELAPSED seconds"
-  zprof
-fi
+END_TIME=$(date +%s.%N)
+ELAPSED=$(echo "$END_TIME - $START_TIME" | bc)
+echo "ZSH loaded in $ELAPSED seconds"

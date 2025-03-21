@@ -129,9 +129,38 @@ alias pip10='python3.10 -m pip'
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
-# Node Version Manager
+# Node Version Manager - Lazy loading
 export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+# Create placeholder functions for nvm, node, npm, etc.
+function nvm() {
+  unset -f nvm node npm npx yarn
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+  nvm "$@"
+}
+
+function node() {
+  unset -f nvm node npm npx yarn
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+  node "$@"
+}
+
+function npm() {
+  unset -f nvm node npm npx yarn
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+  npm "$@"
+}
+
+function npx() {
+  unset -f nvm node npm npx yarn
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+  npx "$@"
+}
+
+function yarn() {
+  unset -f nvm node npm npx yarn
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+  yarn "$@"
+}
 
 # Go Version Manager
 [[ -s "/Users/senaca/.gvm/scripts/gvm" ]] && source "/Users/senaca/.gvm/scripts/gvm"

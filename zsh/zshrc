@@ -84,17 +84,31 @@ source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
-# Zinit Plugins
+# Zinit Plugins - 使用wait参数延迟加载非必要插件
 zinit light zsh-users/zsh-completions
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*' menu select
+
+# 延迟加载语法高亮和自动建议插件
+zinit ice wait lucid
 zinit light zdharma-continuum/fast-syntax-highlighting
+
+zinit ice wait lucid
 zinit light zsh-users/zsh-autosuggestions
+
+zinit ice wait lucid
 zinit light unixorn/tumult.plugin.zsh 
+
+zinit ice wait lucid
 zinit light supercrabtree/k
+
+zinit ice wait lucid
 zinit load zdharma-continuum/history-search-multi-word
+
 zinit ice wait lucid
 zinit light olets/zsh-abbr
+
+# Pure提示符是交互必需的，不延迟加载
 zinit ice pick"async.zsh" src"pure.zsh"
 zinit light sindresorhus/pure
 
@@ -127,18 +141,53 @@ export HOMEBREW_PIP_INDEX_URL="https://pypi.tuna.tsinghua.edu.cn/simple"
 alias pip='python -m pip'
 alias pip11='python3.11 -m pip'
 alias pip10='python3.10 -m pip'
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
 
-# Node Version Manager
+# 延迟加载pyenv
+pyenv() {
+  unset -f pyenv
+  eval "$(command pyenv init -)"
+  eval "$(command pyenv virtualenv-init -)"
+  pyenv "$@"
+}
+
+# Node Version Manager - Lazy loading
 export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+# 创建nvm懒加载函数
+nvm() {
+  unset -f nvm
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+  nvm "$@"
+}
+# 创建node和npm懒加载函数
+node() {
+  unset -f node
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+  node "$@"
+}
+npm() {
+  unset -f npm
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+  npm "$@"
+}
 
-# Go Version Manager
-[[ -s "/Users/senaca/.gvm/scripts/gvm" ]] && source "/Users/senaca/.gvm/scripts/gvm"
+# Go Version Manager - 懒加载
+gvm() {
+  unset -f gvm
+  [[ -s "/Users/senaca/.gvm/scripts/gvm" ]] && source "/Users/senaca/.gvm/scripts/gvm"
+  gvm "$@"
+}
 
-# Haskell Configuration
-[ -f "/Users/senaca/.ghcup/env" ] && source "/Users/senaca/.ghcup/env"
+# Haskell Configuration - 懒加载
+ghc() {
+  unset -f ghc
+  [ -f "/Users/senaca/.ghcup/env" ] && source "/Users/senaca/.ghcup/env"
+  ghc "$@"
+}
+cabal() {
+  unset -f cabal
+  [ -f "/Users/senaca/.ghcup/env" ] && source "/Users/senaca/.ghcup/env"
+  cabal "$@"
+}
 
 # Aliyun Pan CLI Configuration
 export ALIYUNPAN_CONFIG_DIR=~/.config
@@ -182,11 +231,17 @@ source ~/custom_alias.zsh
 # Remove Duplicates from PATH
 remove_duplicates_from_path
 
-# Activate Virtual Environment
-source ~/.venv/bin/activate
+# 只在需要时激活虚拟环境
+if [[ -f ~/.venv/bin/activate && -z "$VIRTUAL_ENV" ]]; then
+  source ~/.venv/bin/activate
+fi
 
-# GitHub Copilot CLI
-eval "$(gh copilot alias -- zsh)"
+# GitHub Copilot CLI - 懒加载
+gh() {
+  unset -f gh
+  eval "$(command gh copilot alias -- zsh)"
+  gh "$@"
+}
 
 # beam cursor by using ANSI escape code
 echo -ne '[6 q'
@@ -361,9 +416,20 @@ function compute(){
 zle -N compute
 bindkey ',cc' compute
 
-# Atuin Configuration
+# Atuin Configuration - 延迟加载
 export ATUIN_NOBIND="true"
-eval "$(atuin init zsh)"
+_atuin_init() {
+  eval "$(atuin init zsh)"
+  bindkey '^R' atuin-search
+}
+# 在第一次按Ctrl+R时加载atuin
+atuin-search() {
+  _atuin_init
+  # 重新绑定键位并执行搜索
+  bindkey '^R' atuin-search
+  zle atuin-search
+}
+zle -N atuin-search
 bindkey '^R' atuin-search
 
 # treat each non-alphanumeric character as word boundary in backward-kill-word

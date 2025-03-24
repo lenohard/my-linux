@@ -501,8 +501,8 @@ function SelectConcealLevel()
 		actions = {
 			["default"] = function(selected)
 				local level = tonumber(selected[1]:match("^(%d+)"))
-				-- set the conceallevel
-				vim.cmd("setlocal conceallevel=" .. level)
+				-- 使用vim.opt直接设置全局conceallevel
+				vim.opt.conceallevel = level
 				print("Conceal level set to: " .. level .. " - " .. selected[1]:match("- (.+)"))
 			end,
 		},

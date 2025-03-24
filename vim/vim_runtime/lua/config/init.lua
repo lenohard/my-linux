@@ -484,3 +484,8 @@ vim.keymap.set("n", "<leader>gv", checkout_file_version, {
 
 -- set conceallevel to 0 for json
 vim.cmd("autocmd FileType json setlocal conceallevel=0")
+
+-- 减少键映射的等待时间
+vim.opt.timeout = true
+vim.opt.timeoutlen = 300 -- 映射等待时间
+vim.opt.ttimeoutlen = 50 -- 键码等待时间

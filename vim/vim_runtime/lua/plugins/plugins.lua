@@ -151,39 +151,6 @@ return {
 			provider = "openai",
 			vendors = {
 				---@type AvanteProvider
-				perplexity = {
-					endpoint = "https://api.perplexity.ai/chat/completions",
-					model = "llama-3.1-sonar-large-128k-online",
-					api_key_name = "PERPLEXITY_API_KEY",
-					parse_curl_args = function(opts, code_opts)
-						return {
-							url = opts.endpoint,
-							headers = {
-								["Accept"] = "application/json",
-								["Content-Type"] = "application/json",
-								["Authorization"] = "Bearer " .. os.getenv(opts.api_key_name),
-							},
-							body = {
-								model = opts.model,
-								messages = { -- you can make your own message, but this is very advanced
-									{ role = "system", content = code_opts.system_prompt },
-									{
-										role = "user",
-										content = require("avante.providers.openai").get_user_message(code_opts),
-									},
-								},
-								temperature = 0,
-								max_tokens = 8192,
-								stream = true, -- this will be set by default.
-							},
-						}
-					end,
-					-- The below function is used if the vendors has specific SSE spec that is not claude or openai.
-					parse_response_data = function(data_stream, event_state, opts)
-						require("avante.providers").openai.parse_response(data_stream, event_state, opts)
-					end,
-				},
-				---@type AvanteProvider
 				groq = {
 					endpoint = "https://api.groq.com/openai/v1/chat/completions",
 					model = "llama-3.1-70b-versatile",
@@ -215,6 +182,7 @@ return {
 						require("avante.providers").openai.parse_response(data_stream, event_state, opts)
 					end,
 				},
+				---@type AvanteProvider
 				unity = {
 					endpoint = "https://api.unify.ai/v0/chat/completions",
 					model = "claude-3.7-sonnet@anthropic->aws-bedrock",
@@ -244,6 +212,35 @@ return {
 					end,
 					parse_response_data = function(data_stream, event_state, opts)
 						require("avante.providers").openai.parse_response(data_stream, event_state, opts)
+					end,
+				},
+				---@type AvanteProvider
+				mify = {
+					endpoint = "http://m2o.staging.xiaomi.srv/v1/chat/completions",
+					model = "claude-3.7-sonne",
+					api_key_name = "MIFY_KEY",
+					parse_curl_args = function(opts, code_opts)
+						return {
+							url = opts.endpoint,
+							headers = {
+								["Accept"] = "application/json",
+								["Content-Type"] = "application/json",
+								["Authorization"] = "Bearer " .. os.getenv(opts.api_key_name),
+							},
+							body = {
+								model = opts.model,
+								messages = { -- you can make your own message, but this is very advanced
+									{ role = "system", content = code_opts.system_prompt },
+									{
+										role = "user",
+										content = require("avante.providers.openai").get_user_message(code_opts),
+									},
+								},
+								temperature = 0,
+								max_tokens = 8096,
+								stream = true, -- this will be set by default.
+							},
+						}
 					end,
 				},
 				---@type AvanteProvider

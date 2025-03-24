@@ -485,27 +485,35 @@ vim.keymap.set("n", "<leader>gv", checkout_file_version, {
 -- set conceallevel to 0 for json
 vim.cmd("autocmd FileType json setlocal conceallevel=0")
 
--- Function to toggle conceallevel between 0, 1, and 2
-function ToggleConcealLevel()
-	local current_level = vim.o.conceallevel
-	if current_level == 0 then
-		vim.o.conceallevel = 1
-		print("Conceal level: 1 - Conceal text with one-character placeholder")
-	elseif current_level == 1 then
-		vim.o.conceallevel = 2
-		print("Conceal level: 2 - Completely hide concealed text")
-	else
-		vim.o.conceallevel = 0
-		print("Conceal level: 0 - No concealing")
-	end
+-- Function to select conceallevel from 0, 1, 2, 3
+function SelectConcealLevel()
+	local fzf = require("fzf-lua")
+	local options = {
+		"0 - No concealing",
+		"1 - Conceal text with one-character placeholder",
+		"2 - Completely hide concealed text",
+		"3 - Completely hide concealed text (including hl-Conceal)",
+	}
+	
+	fzf.fzf_exec(options, {
+		prompt = "Select conceal level: ",
+		winopts = { width = 0.5, height = 0.3 },
+		actions = {
+			["default"] = function(selected)
+				local level = tonumber(selected[1]:match("^(%d+)"))
+				vim.o.conceallevel = level
+				print("Conceal level set to: " .. level .. " - " .. selected[1]:match("- (.+)"))
+			end,
+		},
+	})
 end
 
--- Map the toggle function to <leader>tc
+-- Map the select function to <leader>ts
 vim.api.nvim_set_keymap(
 	"n",
 	"<leader>ts",
-	"<cmd>lua ToggleConcealLevel()<CR>",
-	{ noremap = true, silent = true, desc = "Toggle conceal level" }
+	"<cmd>lua SelectConcealLevel()<CR>",
+	{ noremap = true, silent = true, desc = "Select conceal level" }
 )
 
 -- 减少键映射的等待时间

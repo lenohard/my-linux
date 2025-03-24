@@ -485,6 +485,24 @@ vim.keymap.set("n", "<leader>gv", checkout_file_version, {
 -- set conceallevel to 0 for json
 vim.cmd("autocmd FileType json setlocal conceallevel=0")
 
+-- Function to toggle conceallevel between 0, 1, and 2
+function ToggleConcealLevel()
+    local current_level = vim.o.conceallevel
+    if current_level == 0 then
+        vim.o.conceallevel = 1
+        print("Conceal level: 1 - Conceal text with one-character placeholder")
+    elseif current_level == 1 then
+        vim.o.conceallevel = 2
+        print("Conceal level: 2 - Completely hide concealed text")
+    else
+        vim.o.conceallevel = 0
+        print("Conceal level: 0 - No concealing")
+    end
+end
+
+-- Map the toggle function to <leader>tc
+vim.api.nvim_set_keymap("n", "<leader>tc", "<cmd>lua ToggleConcealLevel()<CR>", { noremap = true, silent = true, desc = "Toggle conceal level" })
+
 -- 减少键映射的等待时间
 vim.opt.timeout = true
 vim.opt.timeoutlen = 300 -- 映射等待时间

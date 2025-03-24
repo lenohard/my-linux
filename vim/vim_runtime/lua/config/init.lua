@@ -494,14 +494,15 @@ function SelectConcealLevel()
 		"2 - Completely hide concealed text",
 		"3 - Completely hide concealed text (including hl-Conceal)",
 	}
-	
+
 	fzf.fzf_exec(options, {
 		prompt = "Select conceal level: ",
 		winopts = { width = 0.5, height = 0.3 },
 		actions = {
 			["default"] = function(selected)
 				local level = tonumber(selected[1]:match("^(%d+)"))
-				vim.o.conceallevel = level
+				-- set the conceallevel
+				vim.cmd("setlocal conceallevel=" .. level)
 				print("Conceal level set to: " .. level .. " - " .. selected[1]:match("- (.+)"))
 			end,
 		},

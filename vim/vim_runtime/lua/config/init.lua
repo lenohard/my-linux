@@ -106,29 +106,29 @@ cmp.setup({
 	}),
 })
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-local null_ls = require("null-ls")
-null_ls.setup({
-	on_attach = function(client, bufnr)
-		if client.supports_method("textDocument/formatting") then
-			vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-			vim.api.nvim_create_autocmd("BufWritePre", {
-				group = augroup,
-				buffer = bufnr,
-				callback = function()
-					-- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
-					vim.lsp.buf.format({ bufnr = bufnr })
-				end,
-			})
-		end
-	end,
-	sources = {
-		null_ls.builtins.formatting.stylua,
-		null_ls.builtins.formatting.ruff.with({
-			extra_args = { "--line-length", "79" },
-		}),
-		null_ls.builtins.diagnostics.ruff,
-	},
-})
+-- local null_ls = require("null-ls")
+-- null_ls.setup({
+-- 	on_attach = function(client, bufnr)
+-- 		if client.supports_method("textDocument/formatting") then
+-- 			vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+-- 			vim.api.nvim_create_autocmd("BufWritePre", {
+-- 				group = augroup,
+-- 				buffer = bufnr,
+-- 				callback = function()
+-- 					-- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
+-- 					vim.lsp.buf.format({ bufnr = bufnr })
+-- 				end,
+-- 			})
+-- 		end
+-- 	end,
+-- 	sources = {
+-- 		null_ls.builtins.formatting.stylua,
+-- 		null_ls.builtins.formatting.ruff.with({
+-- 			extra_args = { "--line-length", "79" },
+-- 		}),
+-- 		null_ls.builtins.diagnostics.ruff,
+-- 	},
+-- })
 -- toggle autoformatting --
 local format_enabled = true
 
@@ -501,8 +501,7 @@ function SelectConcealLevel()
 		actions = {
 			["default"] = function(selected)
 				local level = tonumber(selected[1]:match("^(%d+)"))
-				-- 使用vim.opt直接设置全局conceallevel
-				vim.opt.conceallevel = level
+				vim.o.conceallevel = level
 				print("Conceal level set to: " .. level .. " - " .. selected[1]:match("- (.+)"))
 			end,
 		},
